@@ -1,26 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<title>Insert title here</title>
-</head>
-<body>
-
-<div style="width:70%;margin:auto">
-	<div>
+<div style="width:1400px;margin:auto;margin-top:80px">
+	<div style="margin-bottom:30px;text-align:center;">
 	<h2>게시판</h2>
 	</div>
 	<hr/>
 
-<table class="table table-striped">
+<table class="table table-striped" 
+		style="margin-top:50px;margin-bottom:50px;
+				width:1000px;margin-left:auto;margin-right:auto">
 	<thead>
 	<tr>
 		<th>번호</th>
@@ -31,25 +19,24 @@
 	</tr>
 	</thead>
 	<tbody>
+	<%
+	for(int i=0 ; i<10 ; i++) {
+	%>
 		<tr>
-		<td>3</td>
-		<td>안녕하세요2</td>
-		<td>유저3</td>
+		<td><%=i %></td>
+		<td>안녕하세요<%=i+1 %></td>
+		<td>유저<%=i+1 %></td>
 		<td>2017.1.1</td>
-		<td>10</td>
+		<td><%=i*10 %></td>
 	</tr>
-	<tr>
-		<td>2</td>
-		<td>안녕하세요</td>
-		<td>유저1</td>
-		<td>2016.1.1</td>
-		<td>3</td>
-	</tr>
+	<%
+		}
+	%>
 	</tbody>
 </table>
 <hr/>
 
-<a class="btn btn-default pull-right">글쓰기</a>
+<a class="btn btn-default pull-right" href="writeform.jsp">글쓰기</a>
 
 <div class="text-center">
 	<ul class="pagination">
@@ -61,5 +48,3 @@
 	</ul>
 </div>
 </div>
-</body>
-</html>

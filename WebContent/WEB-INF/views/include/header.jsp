@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <nav class="navbar navbar-default">
@@ -10,31 +11,10 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Home</a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Home</a>
 		</div>
 
 
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
-			<form id="signin" class="navbar-form navbar-right" role="form">
-				<div class="input-group">
-					<span class="input-group-addon"><i
-						class="glyphicon glyphicon-user"></i></span> <input id="email"
-						type="email" class="form-control" name="email" value=""
-						placeholder="Email Address">
-				</div>
-
-				<div class="input-group">
-					<span class="input-group-addon"><i
-						class="glyphicon glyphicon-lock"></i></span> <input id="password"
-						type="password" class="form-control" name="password" value=""
-						placeholder="Password">
-				</div>
-
-				<button type="submit" class="btn btn-primary">Login</button>
-				<button type="submit" class="btn btn-primary">Register</button>
-			</form>
-
-		</div>
+		<c:import url="/WEB-INF/views/user/loginform.jsp"></c:import>
 	</div>
 </nav>

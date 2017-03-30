@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Home</title>
 </head>
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -21,9 +21,7 @@
 <body>
 
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
-	<div>
-		<c:import url="/WEB-INF/views/board/board.jsp"></c:import>
-	</div>
+	<c:import url="/WEB-INF/views/board/board.jsp"></c:import>
 
     <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
