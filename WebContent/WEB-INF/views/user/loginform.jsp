@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<div class="collapse navbar-collapse"
+
+		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<form id="signin" class="navbar-form navbar-right" role="form">
 				<div class="input-group">
@@ -18,7 +19,7 @@
 				</div>
 
 				<button type="submit" class="btn btn-primary">Login</button>
-				<button type="submit" class="btn btn-primary">Join</button>
+				<button type="submit" class="btn btn-primary">Register</button>
 			</form>
 
 		</div>
