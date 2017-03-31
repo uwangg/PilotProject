@@ -1,12 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 
-</body>
-</html>
+<!-- 		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
+			<form id="signin" class="navbar-form navbar-right" role="form">
+				<div class="input-group">
+					<span class="input-group-addon"><i
+						class="glyphicon glyphicon-user"></i></span> <input id="email"
+						type="email" class="form-control" name="email" value=""
+						placeholder="Email Address">
+				</div>
+
+				<div class="input-group">
+					<span class="input-group-addon"><i
+						class="glyphicon glyphicon-lock"></i></span> <input id="password"
+						type="password" class="form-control" name="password" value=""
+						placeholder="Password">
+				</div>
+
+				<button type="submit" class="btn btn-primary">로그인</button>
+				<button type="submit" class="btn btn-primary">회원가입</button>
+			</form>
+
+		</div> -->
+<div class="navbar-form navbar-right">
+test님 환영합니다~
+<a class="btn btn-primary" href="writeform.jsp" style="padding:">로그아웃</a>
+<a class="btn btn-primary" href="writeform.jsp" style="padding:">회원수정</a>
+<a class="btn btn-primary" href="writeform.jsp" style="padding:">회원탈퇴</a>
+</div>

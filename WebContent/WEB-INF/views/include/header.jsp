@@ -15,6 +15,6 @@
 		</div>
 
 
-		<c:import url="/WEB-INF/views/user/loginform.jsp"></c:import>
+		<c:import url="/WEB-INF/views/user/loginsuccess.jsp"></c:import>
 	</div>
 </nav>

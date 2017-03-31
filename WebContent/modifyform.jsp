@@ -29,7 +29,7 @@
 			<div class="row main">
 				<div class="panel-heading">
 	               <div class="panel-title text-center">
-	               		<h1 class="title">회원가입</h1>
+	               		<h1 class="title">회원수정</h1>
 	               		<hr />
 	               	</div>
 	            </div> 
@@ -41,37 +41,37 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="name" id="name"  placeholder="김은진"/>
+									<input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name"/>
 								</div>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="email" class="cols-sm-2 control-label">이메일</label>
-							<div class="cols-sm-10">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="email" id="email"  placeholder="example@example.com"/>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label for="password" class="cols-sm-2 control-label">패스워드</label>
+							<label for="password" class="cols-sm-2 control-label">현재 비밀번호</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" class="form-control" name="password" id="password"  placeholder="********"/>
+									<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">바꿀 비밀번호</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
 								</div>
 							</div>
 						</div>
 
 						<div class="form-group" style="margin-bottom:40px;">
-							<label for="confirm" class="cols-sm-2 control-label">패스워드 확인</label>
+							<label for="confirm" class="cols-sm-2 control-label">비밀번호 확인</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" class="form-control" name="confirm" id="confirm"  placeholder="********"/>
+									<input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
 								</div>
 							</div>
 						</div>
