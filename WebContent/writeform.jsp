@@ -12,14 +12,15 @@
 <body>
 <c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 <form 
-	style="width:650px;margin:auto;margin-top:100px;
+	style="width:650px;margin:auto;margin-top:80px;
 			border:1px double;border-radius:10px;
 			border-color:#dcdcdc;
 			padding:30px;">
-	<div style="margin-bottom:30px;text-align:center;">
-		<h3>글쓰기</h3>
+	<div class="panel-title text-center" style="padding:10px;">
+		<h2 class="title">글쓰기</h2>
+		<hr/>
 	</div>
-
+	
    <div class="form-group">
     <label for="exampleTextarea">제목</label>
     <input class="form-control" type="text" value="제목" id="title">
@@ -35,8 +36,8 @@
   </div>
   
   <div class="text-center">
-  	<button type="submit" class="btn btn-default">확인</button>
-  	<button type="submit" class="btn btn-default">취소</button>
+  	<button type="submit" class="btn btn-primary" style="padding-left:20px;padding-right:20px;margin:5px">확인</button>
+  	<button type="submit" class="btn btn-primary" style="padding-left:20px;padding-right:20px;margin:5px">취소</button>
   </div>
 </form>
 </body>

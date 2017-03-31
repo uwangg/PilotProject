@@ -21,12 +21,15 @@
 		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
 		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
 <body>
-	<c:import url="/header.jsp"></c:import>
-	<div style="width:20%;margin:auto" class="container">
+	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
+	<div style="width:400px;margin:auto;margin-top:100px;
+				border:1px solid;border-radius:10px;
+				border-color:#dcdcdc;padding:60px;padding-top:40px" 
+		class="container">
 			<div class="row main">
 				<div class="panel-heading">
 	               <div class="panel-title text-center">
-	               		<h1 class="title">Register Form</h1>
+	               		<h1 class="title">회원가입</h1>
 	               		<hr />
 	               	</div>
 	            </div> 
@@ -63,7 +66,7 @@
 							</div>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group" style="margin-bottom:40px;">
 							<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
@@ -74,7 +77,7 @@
 						</div>
 
 						<div class="form-group ">
-							<button type="button" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+							<button type="button" class="btn btn-default btn-lg btn-block login-button">등록하기</button>
 						</div>
 					</form>
 				</div>

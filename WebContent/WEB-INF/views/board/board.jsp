@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <div style="width:1400px;margin:auto;margin-top:80px">
 	<div style="margin-bottom:30px;text-align:center;">
-	<h2>게시판</h2>
+	<h1 class="title">게시판</h1>
 	</div>
 	<hr/>
 
@@ -36,15 +36,17 @@
 </table>
 <hr/>
 
-<a class="btn btn-default pull-right" href="writeform.jsp">글쓰기</a>
+<a class="btn btn-primary pull-right" href="writeform.jsp" style="padding:">글쓰기</a>
 
 <div class="text-center">
 	<ul class="pagination">
+		<li><a href="#">&laquo;</a></li>
 		<li><a href="#">1</a></li>
 		<li><a href="#">2</a></li>
-		<li><a href="#">3</a></li>
+		<li class="active"><a href="#">3</a></li>
 		<li><a href="#">4</a></li>
 		<li><a href="#">5</a></li>
+		<li><a href="#">&raquo;</a></li>
 	</ul>
 </div>
 </div>

@@ -18,8 +18,8 @@
 						placeholder="Password">
 				</div>
 
-				<button type="submit" class="btn btn-primary">Login</button>
-				<button type="submit" class="btn btn-primary">Register</button>
+				<button type="submit" class="btn btn-primary">로그인</button>
+				<button type="submit" class="btn btn-primary">회원가입</button>
 			</form>
 
 		</div>
