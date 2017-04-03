@@ -14,7 +14,7 @@
 			<a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Home</a>
 		</div>
 
-
-		<c:import url="/WEB-INF/views/user/loginsuccess.jsp"></c:import>
+		<c:import url="/WEB-INF/views/user/loginform.jsp"></c:import>
+		<%-- <c:import url="/WEB-INF/views/user/loginsuccess.jsp"></c:import> --%>
 	</div>
 </nav>
