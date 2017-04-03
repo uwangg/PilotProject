@@ -36,6 +36,7 @@
 				<div class="main-login main-center">
 					<form class="form-horizontal" method="post" action="#">
 						
+						<!-- 닉네임 폼 -->
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">닉네임</label>
 							<div class="cols-sm-10">
@@ -46,6 +47,7 @@
 							</div>
 						</div>
 
+						<!-- 이메일 -->
 						<div class="form-group">
 							<label for="email" class="cols-sm-2 control-label">이메일</label>
 							<div class="cols-sm-10">
@@ -56,6 +58,7 @@
 							</div>
 						</div>
 
+						<!-- 패스워드 폼 -->
 						<div class="form-group">
 							<label for="password" class="cols-sm-2 control-label">패스워드</label>
 							<div class="cols-sm-10">
@@ -66,6 +69,7 @@
 							</div>
 						</div>
 
+						<!-- 패스워드 확인 폼 -->
 						<div class="form-group" style="margin-bottom:40px;">
 							<label for="confirm" class="cols-sm-2 control-label">패스워드 확인</label>
 							<div class="cols-sm-10">

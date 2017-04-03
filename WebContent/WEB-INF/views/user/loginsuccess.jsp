@@ -1,3 +1,8 @@
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="com.zum.db.MySQLConnection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -24,7 +29,36 @@
 
 		</div> -->
 <div class="navbar-form navbar-right">
-test님 환영합니다~
+<%!
+	Connection connection;
+	Statement statement;
+	ResultSet resultSet;
+	
+	String driver = "com.mysql.jdbc.Driver";
+	String url = "jdbc:mysql://localhost:3306/pilot";
+	String query = "select * from user";
+%>
+<% 
+	try {
+		// 1단계 - jdbc 드라이버 Load
+		Class.forName("com.mysql.jdbc.Driver");
+		
+		connection = DriverManager.getConnection(url, "pilot", "pilot");
+		statement = connection.createStatement();
+		resultSet = statement.executeQuery(query);
+	} catch (ClassNotFoundException e) {
+		System.out.println("드라이버를 찾을 수 없습니다." + e);
+	} finally {
+		try{
+			if(resultSet != null) resultSet.close();
+			if(statement != null) statement.close();
+			if(connection != null) connection.close();
+		} catch(Exception e2){
+			e2.printStackTrace();
+		}
+	}
+%>
+<%=resultSet.getString("name") %>님 환영합니다~
 <a class="btn btn-primary" href="writeform.jsp" style="padding:">로그아웃</a>
 <a class="btn btn-primary" href="writeform.jsp" style="padding:">회원수정</a>
 <a class="btn btn-primary" href="writeform.jsp" style="padding:">회원탈퇴</a>
