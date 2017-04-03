@@ -34,7 +34,7 @@
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="#">
+					<form class="form-horizontal" method="post" action="/pilot-project/user">
 						
 						<!-- 닉네임 폼 -->
 						<div class="form-group">
