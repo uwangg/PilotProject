@@ -8,6 +8,13 @@ public class UserActionFactory extends ActionFactory {
 	@Override
 	public Action getAction(String actionName) {
 		Action action = null;
+		if(actionName.equals("joinform")) {
+			action = new JoinFormAction();
+		} else if(actionName.equals("join")) {
+			action = new JoinAction();
+		} else if(actionName.equals("joinsuccess")) {
+			action = new JoinSuccessAction();
+		}
 		return action;
 	}
 

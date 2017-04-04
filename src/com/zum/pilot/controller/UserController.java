@@ -16,7 +16,7 @@ import com.zum.pilot.action.user.UserActionFactory;
  * Servlet implementation class UserServlet
  */
 @WebServlet("/user")
-public class UserServlet extends HttpServlet {
+public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 

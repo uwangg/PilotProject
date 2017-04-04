@@ -11,7 +11,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Home</a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/main">Home</a>
 		</div>
 
 		<c:import url="/WEB-INF/views/user/loginform.jsp"></c:import>

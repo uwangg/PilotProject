@@ -14,13 +14,13 @@ import com.zum.pilot.WebUtil;
  * Servlet implementation class MainServlet
  */
 @WebServlet("/main")
-public class MainServlet extends HttpServlet {
+public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MainServlet() {
+    public MainController() {
         super();
     }
 

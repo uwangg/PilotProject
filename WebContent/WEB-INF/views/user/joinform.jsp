@@ -34,8 +34,8 @@
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="join">
-						
+					<form class="form-horizontal" method="post" action="/pilot-project/user">
+						<input type="hidden" name="a" value="join">
 						<!-- 닉네임 폼 -->
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">닉네임</label>
