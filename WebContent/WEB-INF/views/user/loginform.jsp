@@ -19,7 +19,7 @@
 				</div>
 
 				<button type="submit" class="btn btn-primary">로그인</button>
-				<button type="submit" class="btn btn-primary">회원가입</button>
+				<a class="btn btn-primary" href="joinform.jsp">회원가입</a>
 			</form>
 
 		</div>

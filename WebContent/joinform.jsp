@@ -34,7 +34,7 @@
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="/pilot-project/user">
+					<form class="form-horizontal" method="post" action="join">
 						
 						<!-- 닉네임 폼 -->
 						<div class="form-group">
@@ -81,7 +81,7 @@
 						</div>
 
 						<div class="form-group ">
-							<button type="button" class="btn btn-primary btn-lg btn-block login-button">등록하기</button>
+							<button type="submit" class="btn btn-primary btn-lg btn-block login-button">등록하기</button>
 						</div>
 					</form>
 				</div>

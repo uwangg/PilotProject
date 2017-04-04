@@ -8,6 +8,14 @@ public class UserVo {
 	private String create_time;	// 가입일
 	private String update_time;	// 회원수정일
 	
+	public UserVo() {}
+	
+	public UserVo(String email, String name, String password) {
+		super();
+		this.email = email;
+		this.name = name;
+		this.password = password;
+	}
 	public Long getId() {
 		return id;
 	}
