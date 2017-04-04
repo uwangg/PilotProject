@@ -17,6 +17,7 @@ public class UserDao {
 	
 	// id를 이용해 user 정보 가져오기
 	public UserVo get(Long number) {
+
 		UserVo userVo = null;
 		
 		Connection con = null;
@@ -138,7 +139,4 @@ public class UserDao {
 		}
 		
 	}
-	
-	// 회원탈퇴시
-	
 }
