@@ -1,12 +1,13 @@
 package com.zum.pilot.vo;
 
 public class UserVo {
-	private int id;
-	private String email;
-	private String name;
-	private String password;
-	private String create_time;
-	private String update_time;
+	private int id;	// 유저 id
+	private String email;	// 유저 이메일
+	private String name;	// 유저 닉네임
+	private String password;	// 유저 비밀번호
+	private String create_time;	// 가입일
+	private String update_time;	// 회원수정일
+	
 	public int getId() {
 		return id;
 	}
