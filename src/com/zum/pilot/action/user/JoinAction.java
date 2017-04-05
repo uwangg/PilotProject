@@ -25,8 +25,24 @@ public class JoinAction implements Action {
 		String password = SecurityUtil.encryptSHA256(request.getParameter("password"));
 		
 		System.out.println("join: name="+name+",email="+email+",password="+password);
-		UserVo userVo = new UserVo(email, name, password);
+		
 		UserDao userDao = new UserDao(new MySQLConnection());
+		// 닉네임 중복체크
+		if(userDao.checkName(name))
+		{
+			WebUtil.redirect(request, response, "/pilot-project/user?a=joinform");
+			System.out.println("닉네임 중복");
+			return;
+		}
+		// 이메일 중복체크
+		if(userDao.checkEmail(email))
+		{
+			WebUtil.redirect(request, response, "/pilot-project/user?a=joinform");
+			System.out.println("이메일 중복");
+			return;
+		}
+		
+		UserVo userVo = new UserVo(email, name, password);
 		userDao.insert(userVo);
 		WebUtil.redirect(request, response, "/pilot-project/user?a=joinsuccess");
 	}

@@ -1,19 +1,53 @@
 package com.zum.pilot.action.user;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.zum.db.MySQLConnection;
+import com.zum.pilot.SecurityUtil;
+import com.zum.pilot.WebUtil;
 import com.zum.pilot.action.Action;
+import com.zum.pilot.dao.UserDao;
+import com.zum.pilot.vo.UserVo;
 
 public class WithdrawalAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		HttpSession session = request.getSession();
+		
+		if(session == null){
+			WebUtil.redirect(request, response, "/pilot-project/main");
+			return;
+		}
+		
+		// db에서 회원정보 삭제
+		UserVo userVo = (UserVo)session.getAttribute("authUser");
+		String password = SecurityUtil.encryptSHA256(request.getParameter("password"));
+		userVo.setPassword(password);
+		System.out.println("withdrawal:authUser:email="+userVo.getEmail()+",password="+password);
+		UserDao userDao = new UserDao(new MySQLConnection());
+		userDao.delete(userVo);
+		
+		//로그아웃 처리
+		session.removeAttribute("authUser");	// 세션 삭제
+		session.invalidate();	// 세션 종료
+		
+//		WebUtil.redirect(request, response, "/pilot-project/main");
+		
+		PrintWriter out = response.getWriter();
+		out.println("<script language=\"javascript\">");
+		out.println("alert('회원탈퇴가 완료되었습니다.'); location.href=\"/pilot-project/main\"");
+		out.println("</script>");
+		out.close();
 	}
 
 }

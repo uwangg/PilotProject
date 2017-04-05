@@ -28,29 +28,39 @@
 	rel='stylesheet' type='text/css'>
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
-	<div
-		style="width: 400px; margin: auto; margin-top: 100px; border: 1px solid; border-radius: 10px; border-color: #dcdcdc; padding: 60px; padding-top: 40px"
+	<div style="width:400px;margin:auto;margin-top:100px;
+				border:1px solid;border-radius:10px;
+				border-color:#dcdcdc;padding:60px;padding-top:40px" 
 		class="container">
+			<div class="row main">
+				<div class="panel-heading">
+	               <div class="panel-title text-center">
+	               		<h1 class="title">회원탈퇴</h1>
+	               		<hr />
+	               	</div>
+	            </div> 
+				<div class="main-login main-center">
+					<form class="form-horizontal" method="post" action="/pilot-project/user">
+						<input type="hidden" name="a" value="withdrawal">
 
-<div class="row main">
-		<div class="panel-heading">
-			<div class="panel-title text-center">
-				<h1 class="title">회원탈퇴</h1>
-				<hr />
+						<!-- 패스워드 폼 -->
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">패스워드</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="password" id="password"  placeholder="패스워드를입력해주세요"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<button type="submit" class="btn btn-primary btn-lg btn-block login-button">회원탈퇴하기</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-		<div class="form-group" style="margin-bottom:30px;">
-			<label for="exampleInputPassword1">패스워드</label> <input
-				type="password" class="form-control" id="exampleInputPassword1"
-				placeholder="패스워드를 입력해주세요">
-		</div>
-
-		<div class="form-group ">
-			<button type="button"
-				class="btn btn-primary btn-lg btn-block login-button">회원탈퇴하기</button>
-		</div>
-		</div>
-
 	</div>
 
 	<script type="text/javascript" src="assets/js/bootstrap.js"></script>
