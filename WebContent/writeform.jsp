@@ -37,7 +37,7 @@
   
   <div class="text-center">
   	<button type="submit" class="btn btn-primary" style="padding-left:30px;padding-right:30px;margin:5px">확인</button>
-  	<button type="submit" class="btn btn-primary" style="padding-left:30px;padding-right:30px;margin:5px">취소</button>
+  	<a href="/pilot-project/main" class="btn btn-primary" style="padding-left:30px;padding-right:30px;margin:5px">취소</a>
   </div>
 </form>
 </body>

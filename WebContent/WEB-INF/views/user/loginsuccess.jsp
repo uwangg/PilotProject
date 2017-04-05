@@ -29,7 +29,7 @@
 
 		</div> -->
 <div class="navbar-form navbar-right">
-<%!
+<%-- <%!
 	Connection connection;
 	Statement statement;
 	ResultSet resultSet;
@@ -58,7 +58,8 @@
 		}
 	}
 %>
-<%=resultSet.getString("name") %>님 환영합니다~
+<%=resultSet.getString("name") %>님 환영합니다~ --%>
+${sessionScope.authUser.name }님 환영합니다.
 <a class="btn btn-primary" href="writeform.jsp" style="padding:">로그아웃</a>
 <a class="btn btn-primary" href="writeform.jsp" style="padding:">회원수정</a>
 <a class="btn btn-primary" href="writeform.jsp" style="padding:">회원탈퇴</a>

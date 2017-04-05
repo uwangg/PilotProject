@@ -3,7 +3,9 @@
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
-			<form id="signin" class="navbar-form navbar-right" role="form">
+			<form id="signin" class="navbar-form navbar-right" role="form"
+					action="/pilot-project/user">
+				<input type="hidden" name="a" value="login">
 				<div class="input-group">
 					<span class="input-group-addon"><i
 						class="glyphicon glyphicon-user"></i></span> <input id="email"

@@ -14,7 +14,14 @@
 			<a class="navbar-brand" href="${pageContext.request.contextPath}/main">Home</a>
 		</div>
 
-		<c:import url="/WEB-INF/views/user/loginform.jsp"></c:import>
+		<c:choose>
+			<c:when test="${sessionScope.authUser == null }">
+				<c:import url="/WEB-INF/views/user/loginform.jsp"></c:import>
+			</c:when>
+			<c:otherwise>
+				<c:import url="/WEB-INF/views/user/loginsuccess.jsp"></c:import>
+			</c:otherwise>
+		</c:choose>
 		<%-- <c:import url="/WEB-INF/views/user/loginsuccess.jsp"></c:import> --%>
 	</div>
 </nav>
