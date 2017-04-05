@@ -53,7 +53,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="email" id="email"  placeholder="example@example.com"/>
+									<input type="email" class="form-control" name="email" id="email"  placeholder="example@example.com"/>
 								</div>
 							</div>
 						</div>

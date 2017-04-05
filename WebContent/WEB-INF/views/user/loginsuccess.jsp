@@ -60,7 +60,7 @@
 %>
 <%=resultSet.getString("name") %>님 환영합니다~ --%>
 ${sessionScope.authUser.name }님 환영합니다.
-<a class="btn btn-primary" href="writeform.jsp" style="padding:">로그아웃</a>
-<a class="btn btn-primary" href="writeform.jsp" style="padding:">회원수정</a>
-<a class="btn btn-primary" href="writeform.jsp" style="padding:">회원탈퇴</a>
+<a class="btn btn-primary" href="/pilot-project/user?a=logout" style="padding:">로그아웃</a>
+<a class="btn btn-primary" href="/pilot-project/user?a=modifyform" style="padding:">회원수정</a>
+<a class="btn btn-primary" href="/pilot-project/user?a=withdrawalform" style="padding:">회원탈퇴</a>
 </div>

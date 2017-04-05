@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.zum.db.DBConnection;
-import com.zum.pilot.SecurityUtil;
 import com.zum.pilot.vo.UserVo;
 
 public class UserDao {
@@ -73,11 +72,11 @@ public class UserDao {
 		
 		try {
 			con = dbConnection.getConnection();
-			String query = "select id, email, name from user where no=? and passwd=?";
+			String query = "select id, email, name from user where email=? and passwd=?";
 			pstmt = con.prepareStatement(query);
 			
-			pstmt.setLong(1, vo.getId());	// 첫번째  ?에 id값
-			pstmt.setString(2, SecurityUtil.encryptSHA256(vo.getPassword()));
+			pstmt.setString(1, vo.getEmail());	// 첫번째  ?에 id값
+			pstmt.setString(2, vo.getPassword());
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -123,7 +122,7 @@ public class UserDao {
 			
 			pstmt.setString(1, vo.getEmail());
 			pstmt.setString(2, vo.getName());
-			pstmt.setString(3, SecurityUtil.encryptSHA256(vo.getPassword()));
+			pstmt.setString(3, vo.getPassword());
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
