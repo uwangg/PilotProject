@@ -7,8 +7,7 @@ public class MainActionFactory extends ActionFactory {
 
 	@Override
 	public Action getAction(String actionName) {
-		// TODO Auto-generated method stub
-		return null;
+		return new DefaultAction();
 	}
 
 }

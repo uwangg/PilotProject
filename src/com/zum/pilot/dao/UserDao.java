@@ -78,6 +78,7 @@ public class UserDao {
 			pstmt.setString(1, vo.getEmail());	// 첫번째  ?에 id값
 			pstmt.setString(2, vo.getPassword());
 
+			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				Long id = rs.getLong("id");
 				String email = rs.getString("email");
