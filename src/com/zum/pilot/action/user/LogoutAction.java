@@ -17,6 +17,7 @@ public class LogoutAction implements Action {
 		HttpSession session = request.getSession();
 		
 		if(session == null){
+			System.out.println("로그인하지 않은 사용자");
 			WebUtil.redirect(request, response, "/pilot-project/main");
 			return;
 		}
