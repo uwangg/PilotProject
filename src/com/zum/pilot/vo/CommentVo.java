@@ -10,6 +10,7 @@ public class CommentVo {
 	private Boolean delete_flag;	// 삭제됬는지아닌지
 	private Long user_id;	// 작성자 id
 	private Long post_id;	// 게시글 id
+	private String userName;	// id로 찾은 유저이름
 	
 	public Long getId() {
 		return id;
@@ -65,4 +66,11 @@ public class CommentVo {
 	public void setPost_id(Long post_id) {
 		this.post_id = post_id;
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 }

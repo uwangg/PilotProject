@@ -27,9 +27,10 @@ public class PostDao {
 		try {
 			con = dbConnection.getConnection();
 	
-			String query = "select id, title, create_time, hit, user_id from"
-					+ "(select id, title, create_time, hit, user_id from post order by id asc limit 10)"
-					+ "a order by id desc";
+			String query = "select a.id, title, a.create_time, hit, b.name "
+					+ "from (select id, title, create_time, hit, user_id "
+					+ "from post order by id asc limit 0,10) as a, user as b "
+					+ "where a.user_id=b.id order by id desc";
 			pstmt = con.prepareStatement(query);
 			rs = pstmt.executeQuery();
 
@@ -38,14 +39,14 @@ public class PostDao {
 				String title = rs.getString(2);
 				String create_time = rs.getString(3);
 				Long hit = rs.getLong(4);
-				Long user_id = rs.getLong(5);
+				String user_name = rs.getString(5);
 
 				PostVo postVo = new PostVo();
 				postVo.setId(id);
 				postVo.setTitle(title);
 				postVo.setCreate_time(create_time);
 				postVo.setHit(hit);
-				postVo.setUser_id(user_id);;
+				postVo.setUser_name(user_name);
 				list.add(postVo);
 			}
 

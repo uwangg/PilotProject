@@ -9,6 +9,7 @@ public class PostVo {
 	private String update_time;	// 수정일
 	private Long hit;	// 조회수
 	private Long user_id;	// 작성자 id
+	private String user_name;	// id로 찾은 유저이름
 	
 	public Long getId() {
 		return id;
@@ -57,6 +58,12 @@ public class PostVo {
 	}
 	public void setUser_id(Long user_id) {
 		this.user_id = user_id;
+	}
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 	
 }
