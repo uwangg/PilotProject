@@ -11,11 +11,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <body>
 <c:import url="/WEB-INF/views/include/header.jsp"></c:import>
-<form 
+<form action="/pilot-project/board" method="post"
 	style="width:650px;margin:auto;margin-top:80px;
 			border:1px double;border-radius:10px;
 			border-color:#dcdcdc;
 			padding:30px;">
+	<input type="hidden" name="a" value="write">
 	<div class="panel-title text-center" style="padding:10px;">
 		<h2 class="title">글쓰기</h2>
 		<hr/>
@@ -23,15 +24,15 @@
 	
    <div class="form-group">
     <label for="exampleTextarea">제목</label>
-    <input class="form-control" type="text" value="제목" id="title">
+    <input class="form-control" type="text" id="title" name="title">
   </div>
   <div class="form-group">
     <label for="exampleTextarea">내용</label>
-    <textarea class="form-control" id="content" rows="15"></textarea>
+    <textarea class="form-control" id="content" rows="15" name="content"></textarea>
   </div>
   <div class="form-group">
     <label for="exampleInputFile">이미지 첨부</label>
-    <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+    <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" name="image_path">
     <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
   </div>
   

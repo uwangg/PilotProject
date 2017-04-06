@@ -16,7 +16,7 @@ public class PostDao {
 	public PostDao(DBConnection dbConnection) {
 		this.dbConnection = dbConnection;
 	}
-	
+
 	// 게시글 불러오기
 	public List<PostVo> getList() {
 		List<PostVo> list = new ArrayList<PostVo>();
@@ -26,7 +26,7 @@ public class PostDao {
 
 		try {
 			con = dbConnection.getConnection();
-	
+
 			String query = "select a.id, title, a.create_time, hit, b.name "
 					+ "from (select id, title, create_time, hit, user_id "
 					+ "from post order by id asc limit 0,10) as a, user as b "
@@ -68,5 +68,39 @@ public class PostDao {
 			}
 		}
 		return list;
+	}
+
+	// 게시글 입력
+	public void insert(PostVo vo) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = dbConnection.getConnection();
+			
+			String query = "insert into post(title, content, image_path, user_id)"
+					+ " values(?,?,?,?)";
+			pstmt = con.prepareStatement(query);
+
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getImage_path());
+			pstmt.setLong(4, vo.getUser_id());
+
+			pstmt.executeUpdate();
+			System.out.println("게시글이 입력되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 }
