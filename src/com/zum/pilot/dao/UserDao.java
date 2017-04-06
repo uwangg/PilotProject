@@ -72,13 +72,13 @@ public class UserDao {
 		
 		try {
 			con = dbConnection.getConnection();
-			String query = "select id, email, name from user where id=? and passwd=?";
+			String query = "select id, email, name from user where email=? and passwd=?";
 			pstmt = con.prepareStatement(query);
 			
 			pstmt.setString(1, vo.getEmail());	// 첫번째  ?에 id값
 			pstmt.setString(2, vo.getPassword());
+
 			rs = pstmt.executeQuery();
-			
 			while(rs.next()) {
 				Long id = rs.getLong("id");
 				String email = rs.getString("email");
@@ -89,7 +89,6 @@ public class UserDao {
 				userVo.setEmail(email);
 				userVo.setName(name);
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -199,6 +198,7 @@ public class UserDao {
 			pstmt.setString(3, vo.getPassword());
 			
 			pstmt.executeUpdate();
+			System.out.println("유저정보가 입력되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -237,7 +237,9 @@ public class UserDao {
 				pstmt.setLong(2, vo.getId());
 				pstmt.setString(3, vo.getPassword());
 			}
-			pstmt.executeUpdate();
+			int r = pstmt.executeUpdate();
+			if(r == 1)
+				System.out.println("유저정보가 업데이트 되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

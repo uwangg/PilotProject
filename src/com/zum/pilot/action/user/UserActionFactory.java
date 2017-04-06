@@ -8,24 +8,26 @@ public class UserActionFactory extends ActionFactory {
 	@Override
 	public Action getAction(String actionName) {
 		Action action = null;
-		if(actionName.equals("joinform")) {	// 회원가입
+		if("joinform".equals(actionName)) {	// 회원가입
 			action = new JoinFormAction();
-		} else if(actionName.equals("join")) {
+		} else if("join".equals(actionName)) {
 			action = new JoinAction();
-		} else if(actionName.equals("joinsuccess")) {
+		} else if("joinsuccess".equals(actionName)) {
 			action = new JoinSuccessAction();
-		} else if(actionName.equals("login")) {	// 로그인
+		} else if("login".equals(actionName)) {	// 로그인
 			action = new LoginAction();
-		} else if(actionName.equals("logout")) {	// 로그아웃
+		} else if("logout".equals(actionName)) {	// 로그아웃
 			action = new LogoutAction();
-		} else if(actionName.equals("modifyform")) {	// 회원수정
+		} else if("modifyform".equals(actionName)) {	// 회원수정
 			action = new ModifyFormAction();
-		} else if(actionName.equals("modify")) {
+		} else if("modify".equals(actionName)) {
 			action = new ModifyAction();
-		} else if(actionName.equals("withdrawalform")) {	// 회원탈퇴
+		} else if("withdrawalform".equals(actionName)) {	// 회원탈퇴
 			action = new WithdrawalFormAction();
-		} else if(actionName.equals("withdrawal")) {
+		} else if("withdrawal".equals(actionName)) {
 			action = new WithdrawalAction();
+		} else {
+			action = new DefaultAction();
 		}
 		return action;
 	}
