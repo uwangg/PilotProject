@@ -27,7 +27,9 @@ public class PostDao {
 		try {
 			con = dbConnection.getConnection();
 	
-			String query = "select id, title, create_time, hit, user_id from post order by id desc";
+			String query = "select id, title, create_time, hit, user_id from"
+					+ "(select id, title, create_time, hit, user_id from post order by id asc limit 10)"
+					+ "a order by id desc";
 			pstmt = con.prepareStatement(query);
 			rs = pstmt.executeQuery();
 
