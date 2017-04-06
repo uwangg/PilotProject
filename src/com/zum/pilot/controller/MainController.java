@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zum.pilot.WebUtil;
+import com.zum.pilot.action.Action;
+import com.zum.pilot.action.ActionFactory;
+import com.zum.pilot.action.main.MainActionFactory;
 
 /**
  * Servlet implementation class MainServlet
@@ -36,7 +38,10 @@ public class MainController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		WebUtil.forward(request, response, "/WEB-INF/views/main/index.jsp");
+		String actionName = request.getParameter("a");
+		ActionFactory actionFactory = new MainActionFactory();
+		Action action = actionFactory.getAction(actionName);
+		action.execute(request, response);
 	}
 
 }

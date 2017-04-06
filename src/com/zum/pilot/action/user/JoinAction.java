@@ -23,10 +23,18 @@ public class JoinAction implements Action {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String password = SecurityUtil.encryptSHA256(request.getParameter("password"));
+		String confirmPassword = SecurityUtil.encryptSHA256(request.getParameter("confirm"));
 		
 		System.out.println("join: name="+name+",email="+email+",password="+password);
 		
 		UserDao userDao = new UserDao(new MySQLConnection());
+		
+		if(name.equals("") || email.equals("") || password.equals("") || confirmPassword.equals("")) {
+			WebUtil.redirect(request, response, "/pilot-project/user?a=joinform");
+			System.out.println("빈칸존재");
+			return;
+		}
+		
 		// 닉네임 중복체크
 		if(userDao.checkName(name))
 		{

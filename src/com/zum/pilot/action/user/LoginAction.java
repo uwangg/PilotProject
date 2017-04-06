@@ -24,12 +24,16 @@ public class LoginAction implements Action {
 		String email = request.getParameter("email");
 		String password = SecurityUtil.encryptSHA256(request.getParameter("password"));
 		
-		System.out.println("email = " + email + ", password = " + password);
 		UserVo userVo = new UserVo();
 		userVo.setEmail(email);
 		userVo.setPassword(password);
 		
-		// email에 맞는 유저정보 가져오기
+		if(email.equals("") || password.equals("")) {
+			WebUtil.redirect(request, response, "/pilot-project/main");
+			return;
+		}
+			
+		// 유저정보 가져오기
 		UserDao userDao = new UserDao(new MySQLConnection());
 		UserVo authUser = userDao.get(userVo);
 		
