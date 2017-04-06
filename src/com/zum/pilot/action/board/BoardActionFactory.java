@@ -1,0 +1,22 @@
+package com.zum.pilot.action.board;
+
+import com.zum.pilot.action.Action;
+import com.zum.pilot.action.ActionFactory;
+
+public class BoardActionFactory extends ActionFactory {
+
+	@Override
+	public Action getAction(String actionName) {
+		Action action = null;
+		if("writeform".equals(actionName)) {	// 글쓰기
+			action = new PostWriteFormAction();
+		} else if("write".equals(actionName)) {
+			action = new PostWriteAction();
+		} 
+		else {
+			action = new DefaultAction();
+		}
+		return action;
+	}
+
+}
