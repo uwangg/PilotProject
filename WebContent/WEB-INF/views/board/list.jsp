@@ -11,27 +11,23 @@
 		style="margin-top: 50px; margin-bottom: 50px; width: 1000px; margin-left: auto; margin-right: auto">
 		<thead>
 			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>날짜</th>
-				<th>조회수</th>
+				<th class="text-center" style="width:7%">번호</th>
+				<th class="text-center" style="width:56%">제목</th>
+				<th class="text-center" style="width:12%">작성자</th>
+				<th class="text-center" style="width:18%">날짜</th>
+				<th class="text-center" style="width:7%">조회수</th>
 			</tr>
 		</thead>
 		<tbody>
-			<%
-				for (int i = 10; i > 0; i--) {
-			%>
+		<c:forEach items="${postList }" var="vo" varStatus="status">
 			<tr>
-				<td><%=i%></td>
-				<td>안녕하세요<%=i + 1%></td>
-				<td>유저<%=i + 1%></td>
-				<td>2017.1.1</td>
-				<td><%=i * 10%></td>
+				<td class="text-center">${vo.id}</td>
+				<td class="text-center">${vo.title}</td>
+				<td class="text-center">${vo.user_id}</td>
+				<td class="text-center">${vo.create_time}</td>
+				<td class="text-center">${vo.hit}</td>
 			</tr>
-			<%
-				}
-			%>
+		</c:forEach>
 		</tbody>
 	</table>
 	<hr />

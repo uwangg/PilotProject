@@ -18,7 +18,7 @@ public class PostDao {
 	}
 	
 	// 게시글 불러오기
-	public List<PostVo> getList(String keyword, int page, int listSize) {
+	public List<PostVo> getList() {
 		List<PostVo> list = new ArrayList<PostVo>();
 		Connection con = null;
 		ResultSet rs = null;
@@ -27,7 +27,7 @@ public class PostDao {
 		try {
 			con = dbConnection.getConnection();
 	
-			String query = "select id, title, create_time, hit, user_id from post order by id";
+			String query = "select id, title, create_time, hit, user_id from post order by id desc";
 			pstmt = con.prepareStatement(query);
 			rs = pstmt.executeQuery();
 
@@ -36,14 +36,14 @@ public class PostDao {
 				String title = rs.getString(2);
 				String create_time = rs.getString(3);
 				Long hit = rs.getLong(4);
-				Long user_no = rs.getLong(5);
+				Long user_id = rs.getLong(5);
 
 				PostVo postVo = new PostVo();
 				postVo.setId(id);
 				postVo.setTitle(title);
 				postVo.setCreate_time(create_time);
 				postVo.setHit(hit);
-				postVo.setId(id);
+				postVo.setUser_id(user_id);;
 				list.add(postVo);
 			}
 
