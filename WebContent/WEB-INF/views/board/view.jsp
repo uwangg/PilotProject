@@ -1,6 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	pageContext.setAttribute("crcn", "\r\n");
+	pageContext.setAttribute("br", "<br/>");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,19 +42,18 @@ h1 {
 			<div class="col-lg-8">
 
 				<!-- 글 제목 -->
-				<h1>글 제목</h1>
+				<h1>${vo.title }</h1>
 
 				<!-- 작성자 -->
 				<p class="lead">
-				<h4>by. 김은진</h4>
+				<h4>by. ${vo.user_name }</h4>
 				</p>
 
 				<hr>
 
 				<!-- Date/Time -->
 				<p>
-					<span class="glyphicon glyphicon-time"></span> Posted on August 24,
-					2013 at 9:00 PM
+					<span class="glyphicon glyphicon-time"></span> Posted on ${vo.create_time }
 				</p>
 
 				<hr>
@@ -61,18 +65,15 @@ h1 {
 
 				<!-- 글 내용 -->
 				<p class="lead">내용</p>
-				<p>내용 첫번째줄</p>
-				<p>내용 두번째줄</p>
-				<p>내용 세번째줄</p>
-				<p>내용 네번째줄</p>
+				<p>${fn:replace(vo.content, crcn, br) }</p>
 
 				<hr>
 
-				<c:import url="/WEB-INF/views/board/commentform.jsp"></c:import>
+				<c:import url="/WEB-INF/views/board/comment/writeform.jsp"></c:import>
 
 				<hr>
 
-				<c:import url="/WEB-INF/views/board/commentlist.jsp"></c:import>
+				<c:import url="/WEB-INF/views/board/comment/list.jsp"></c:import>
 
 				<div class="text-center">
 					<ul class="pagination">
@@ -91,7 +92,7 @@ h1 {
 				<!-- 페이지네이션 -->
 
 				<!-- 목록 -->
-				<a class="btn btn-primary pull-right" href="writeform.jsp"
+				<a class="btn btn-primary pull-right" href="/pilot-project/main"
 					style="padding:">목록보기</a>
 				<div style="margin-bottom: 100px;"></div>
 			</div>

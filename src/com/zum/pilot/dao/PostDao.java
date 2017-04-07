@@ -103,4 +103,57 @@ public class PostDao {
 		}
 
 	}
+	
+	// 게시물 세부정보 가져오기
+		public PostVo get(Long number) {
+			PostVo postVo = null;
+			
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			try {
+				con = dbConnection.getConnection();
+				String query = "select a.id, title, content, image_path, a.create_time, name "
+						+ "from (select * from post where id=?)as a, user as u "
+						+ "where a.user_id=u.id;";
+				pstmt = con.prepareStatement(query);
+				
+				pstmt.setLong(1, number);
+
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					Long id = rs.getLong("id");
+					String title = rs.getString("title");
+					String content = rs.getString("content");
+					String image_path = rs.getString("image_path");
+					String create_time = rs.getString("create_time");
+					String user_name = rs.getString("name");
+					
+					postVo = new PostVo();
+					postVo.setId(id);
+					postVo.setTitle(title);
+					postVo.setContent(content);
+					postVo.setImage_path(image_path);
+					postVo.setCreate_time(create_time);
+					postVo.setUser_name(user_name);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if(con != null)
+						con.close();
+					if(pstmt != null)
+						pstmt.close();
+					if(rs != null)
+						rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			return postVo;
+		}
 }

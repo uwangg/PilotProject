@@ -22,7 +22,7 @@
 		<c:forEach items="${postList }" var="vo" varStatus="status">
 			<tr>
 				<td class="text-center">${vo.id}</td>
-				<td class="text-center">${vo.title}</td>
+				<td class="text-center"><a href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}">${vo.title }</a></td>
 				<td class="text-center">${vo.user_name}</td>
 				<td class="text-center">${vo.create_time}</td>
 				<td class="text-center">${vo.hit}</td>
