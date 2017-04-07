@@ -114,7 +114,7 @@ public class PostDao {
 			
 			try {
 				con = dbConnection.getConnection();
-				String query = "select a.id, title, content, image_path, a.create_time, name "
+				String query = "select a.id, title, content, image_path, a.create_time, user_id, name "
 						+ "from (select * from post where id=?)as a, user as u "
 						+ "where a.user_id=u.id;";
 				pstmt = con.prepareStatement(query);
@@ -128,6 +128,7 @@ public class PostDao {
 					String content = rs.getString("content");
 					String image_path = rs.getString("image_path");
 					String create_time = rs.getString("create_time");
+					Long user_id = rs.getLong("user_id");
 					String user_name = rs.getString("name");
 					
 					postVo = new PostVo();
@@ -136,6 +137,7 @@ public class PostDao {
 					postVo.setContent(content);
 					postVo.setImage_path(image_path);
 					postVo.setCreate_time(create_time);
+					postVo.setUser_id(user_id);
 					postVo.setUser_name(user_name);
 				}
 			} catch (SQLException e) {

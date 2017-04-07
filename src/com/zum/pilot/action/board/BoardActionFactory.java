@@ -14,7 +14,12 @@ public class BoardActionFactory extends ActionFactory {
 			action = new PostWriteAction();
 		} else if("view".equals(actionName)) {
 			action = new PostViewAction();
-		} else {
+		} else if("modifyform".equals(actionName)) {
+			action = new PostModifyFormAction();
+		} else if("modify".equals(actionName)) {
+			action = new PostModifyAction();
+		}
+		else {
 			action = new DefaultAction();
 		}
 		return action;

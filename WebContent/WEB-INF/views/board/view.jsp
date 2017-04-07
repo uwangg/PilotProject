@@ -75,6 +75,7 @@ h1 {
 
 				<c:import url="/WEB-INF/views/board/comment/list.jsp"></c:import>
 
+				<!-- 페이지네이션 -->
 				<div class="text-center">
 					<ul class="pagination">
 						<li><a href="#">&laquo;</a></li>
@@ -88,12 +89,18 @@ h1 {
 				</div>
 				<hr>
 
-
-				<!-- 페이지네이션 -->
-
-				<!-- 목록 -->
-				<a class="btn btn-primary pull-right" href="/pilot-project/main"
-					style="padding:">목록보기</a>
+				<!-- 수정 / 삭제 -->
+				<div class="text-right">
+					<a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/main" style="padding:">목록보기</a>
+					
+					<c:choose>
+						<c:when test="${sessionScope.authUser.id == vo.user_id }">
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=modifyform&id=${vo.id }" style="padding:">수정하기</a>
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=deleteform&id=${vo.id }" style="padding:">삭제하기</a>
+						</c:when>
+					</c:choose>
+				</div>
+			
 				<div style="margin-bottom: 100px;"></div>
 			</div>
 		</div>
