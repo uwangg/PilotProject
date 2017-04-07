@@ -16,11 +16,12 @@
 	<form action="/pilot-project/board" method="post"
 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;">
 		<input type="hidden" name="a" value="modify">
+		<input type="hidden" name="id" value="${vo.id }">
+		<input type="hidden" name="user_id" value="${vo.user_id }">
 		<div class="panel-title text-center" style="padding: 10px;">
 			<h2 class="title">글수정하기</h2>
 			<hr />
 		</div>
-
 		<div class="form-group">
 			<label for="exampleTextarea">제목</label> <input class="form-control"
 				type="text" id="title" name="title" value="${vo.title}">
@@ -41,7 +42,7 @@
 		<div class="text-center">
 			<button type="submit" class="btn btn-primary"
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">확인</button>
-			<a href="/pilot-project/main" class="btn btn-primary"
+			<a href="/pilot-project/board?a=view&id=${vo.id }" class="btn btn-primary"
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">취소</a>
 		</div>
 	</form>

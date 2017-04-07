@@ -158,4 +158,38 @@ public class PostDao {
 			
 			return postVo;
 		}
+		
+		// 글 수정시
+		public void update(PostVo vo) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+				con = dbConnection.getConnection();
+					String query = "update post set title=?, content=?, image_path=?, update_time=now() "
+							+ "where id=? and user_id=?";
+					pstmt = con.prepareStatement(query);
+
+					pstmt.setString(1, vo.getTitle());
+					pstmt.setString(2, vo.getContent());
+					pstmt.setString(3, vo.getImage_path());
+					pstmt.setLong(4, vo.getId());
+					pstmt.setLong(5, vo.getUser_id());
+				
+				int r = pstmt.executeUpdate();
+				if(r == 1)
+					System.out.println("글이 수정 되었습니다.");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if(pstmt != null)
+						pstmt.close();
+					if(con != null)
+						con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 }
