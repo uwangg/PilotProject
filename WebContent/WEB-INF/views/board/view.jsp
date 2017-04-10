@@ -59,7 +59,14 @@ h1 {
 				<hr>
 
 				<!-- 이미지 -->
-				<img class="img-responsive" src="http://placehold.it/900x300" alt="">
+				<c:choose>
+					<c:when test="${vo.image_path != null }">
+						<img class="img-responsive" src="upload/${vo.image_path }"></img>
+					</c:when>
+					<c:otherwise>
+						<img class="img-responsive" src="http://placehold.it/900x300" alt="">
+					</c:otherwise>
+				</c:choose>
 
 				<hr>
 
@@ -68,6 +75,7 @@ h1 {
 				<p>${fn:replace(vo.content, crcn, br) }</p>
 
 				<hr>
+
 
 				<c:import url="/WEB-INF/views/board/comment/writeform.jsp"></c:import>
 

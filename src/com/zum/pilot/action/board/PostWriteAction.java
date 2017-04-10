@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.db.MySQLConnection;
 import com.zum.pilot.WebUtil;
 import com.zum.pilot.action.Action;
@@ -20,7 +22,6 @@ public class PostWriteAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("utf-8");
-		
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
@@ -29,12 +30,41 @@ public class PostWriteAction implements Action {
 			return;
 		}
 		
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
-		PostVo postVo = new PostVo(title, content, authUser.getId());
+		// 업로드용 폴더 이름
+		MultipartRequest multi = null;
+		int maxSize = 5*1024*1024;	// 10M
+		String title = "";
+		String content = "";
+		String image_path = "";
+		String file_name = "";
+		
+		// 파일이 업로드될 실제 tomcat 폴더의 경로
+//		String save_path = request.getSession().getServletContext().getRealPath("upload");
+//		String save_path = "D:\\git\\PilotProject\\WebContent\\upload";
+		String save_path = request.getServletContext().getRealPath("upload");
+		
+		try {
+			multi = new MultipartRequest(request, save_path, maxSize, "utf-8", new DefaultFileRenamePolicy());
+			title = multi.getParameter("title");
+			content = multi.getParameter("content");
+			file_name = multi.getFilesystemName("image_path");
+			image_path = file_name;
+//			image_path = savePath + "\\" + multi.getFilesystemName("image_path");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+//		ParameterBlock pb = new ParameterBlock();
+//		pb.add(savePath+"/"+image_path)''
+		
+		System.out.println("title = " + title);
+		System.out.println("content = " + content);
+		System.out.println("image_path = " + image_path);
+		
+		// 게시글 입력
+		PostVo postVo = new PostVo(title, content, image_path, authUser.getId());
 		PostDao postDao = new PostDao(new MySQLConnection());
 		postDao.insert(postVo);
-		WebUtil.redirect(request, response, "/pilot-project/main");
+		WebUtil.redirect(request, response, "/pilot-project/board");
 	}
 
 }
