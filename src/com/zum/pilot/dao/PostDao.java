@@ -87,8 +87,9 @@ public class PostDao {
 			pstmt.setString(3, vo.getImage_path());
 			pstmt.setLong(4, vo.getUser_id());
 
-			pstmt.executeUpdate();
-			System.out.println("게시글이 입력되었습니다.");
+			int r = pstmt.executeUpdate();
+			if(r == 1)
+				System.out.println("게시글이 입력되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -179,6 +180,35 @@ public class PostDao {
 				int r = pstmt.executeUpdate();
 				if(r == 1)
 					System.out.println("글이 수정 되었습니다.");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if(pstmt != null)
+						pstmt.close();
+					if(con != null)
+						con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		// 게시글 삭제
+		public void delete(Long id) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+				con = dbConnection.getConnection();
+				String query = "delete from post where id=?";
+				pstmt = con.prepareStatement(query);
+				
+				pstmt.setLong(1, id);
+				
+				int r = pstmt.executeUpdate();
+				if(r == 1)
+					System.out.println("글이 삭제되었습니다.");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {

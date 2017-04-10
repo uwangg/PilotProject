@@ -18,6 +18,8 @@ public class BoardActionFactory extends ActionFactory {
 			action = new PostModifyFormAction();
 		} else if("modify".equals(actionName)) {
 			action = new PostModifyAction();
+		} else if("delete".equals(actionName)) {
+			action = new PostDeleteAction();
 		}
 		else {
 			action = new DefaultAction();

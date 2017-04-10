@@ -96,7 +96,7 @@ h1 {
 					<c:choose>
 						<c:when test="${sessionScope.authUser.id == vo.user_id }">
 							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=modifyform&id=${vo.id }" style="padding:">수정하기</a>
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=deleteform&id=${vo.id }" style="padding:">삭제하기</a>
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=delete&id=${vo.id }&user_id=${vo.user_id}" style="padding:">삭제하기</a>
 						</c:when>
 					</c:choose>
 				</div>
