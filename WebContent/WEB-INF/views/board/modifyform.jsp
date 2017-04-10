@@ -13,11 +13,11 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
-	<form action="/pilot-project/board" method="post"
+	<form action="/pilot-project/board?modify" method="post" enctype="multipart/form-data"
 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;">
-		<input type="hidden" name="a" value="modify">
 		<input type="hidden" name="id" value="${vo.id }">
 		<input type="hidden" name="user_id" value="${vo.user_id }">
+		<input type="hidden" name="old_file" value="${vo.image_path }">
 		<div class="panel-title text-center" style="padding: 10px;">
 			<h2 class="title">글수정하기</h2>
 			<hr />
