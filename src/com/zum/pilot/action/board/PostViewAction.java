@@ -20,6 +20,7 @@ public class PostViewAction implements Action {
 		request.setCharacterEncoding("utf-8");
 		Long id = Long.parseLong(request.getParameter("id"));
 		PostDao postDao = new PostDao(new MySQLConnection());
+		postDao.hitIncrease(id);
 		PostVo vo = postDao.get(id);
 		request.setAttribute("vo", vo);
 		
