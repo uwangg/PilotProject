@@ -50,21 +50,17 @@ public class PostModifyAction implements Action {
 			id = Long.parseLong(multi.getParameter("id"));
 			title = multi.getParameter("title");
 			content = multi.getParameter("content");
-			old_path = multi.getFilesystemName("old_path");
+			old_path = multi.getParameter("old_imgpath");
 			image_path = multi.getFilesystemName("image_path");
-			if(image_path.equals(""))
+			if(image_path == null || image_path.equals(""))
 				image_path = old_path;
 			user_id = Long.parseLong(multi.getParameter("user_id"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("수정");
-		System.out.println("image_path = " + image_path);
-//		Long id = Long.parseLong(request.getParameter("id"));
-//		String title = request.getParameter("title");
-//		String content = request.getParameter("content");
-//		String image_path = request.getParameter("image_path");
-//		Long user_id = Long.parseLong(request.getParameter("user_id"));
+//		System.out.println("수정");
+//		System.out.println("old_path = " + old_path);
+//		System.out.println("image_path = " + image_path);
 		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
