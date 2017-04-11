@@ -38,7 +38,14 @@ public class PostVo {
 		this.image_path = image_path;
 		this.user_id = user_id;
 	}
-	
+	public PostVo(Long id, String title, String content, String image_path, Long user_id) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.content = content;
+		this.image_path = image_path;
+		this.user_id = user_id;
+	}
 	public Long getId() {
 		return id;
 	}
