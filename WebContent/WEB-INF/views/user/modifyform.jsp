@@ -34,14 +34,15 @@
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="#">
+					<form class="form-horizontal" method="post" action="/pilot-project/user">
+						<input type="hidden" name="a" value="modify">
 						
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">닉네임</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name"/>
+									<input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name" value="${name }"/>
 								</div>
 							</div>
 						</div>
@@ -61,7 +62,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+									<input type="password" class="form-control" name="change_password" id="change_password"  placeholder="Enter your Password"/>
 								</div>
 							</div>
 						</div>
@@ -71,13 +72,13 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+									<input type="password" class="form-control" name="change_confirm" id="change_confirm"  placeholder="Confirm your Password"/>
 								</div>
 							</div>
 						</div>
 
 						<div class="form-group ">
-							<button type="button" class="btn btn-primary btn-lg btn-block login-button">등록하기</button>
+							<button type="submit" class="btn btn-primary btn-lg btn-block login-button">등록하기</button>
 						</div>
 					</form>
 				</div>

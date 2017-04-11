@@ -9,18 +9,22 @@ import javax.servlet.http.HttpSession;
 
 import com.zum.pilot.WebUtil;
 import com.zum.pilot.action.Action;
+import com.zum.pilot.vo.UserVo;
 
 public class ModifyFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		UserVo authUser = (UserVo)session.getAttribute("authUser");	
 		
-		if(session == null){
+		if(authUser == null){
 			System.out.println("로그인하지 않은 사용자");
 			WebUtil.redirect(request, response, "/pilot-project/main");
 			return;
 		}
+		
+		request.setAttribute("name", authUser.getName());
 		
 		WebUtil.forward(request, response, "/WEB-INF/views/user/modifyform.jsp");
 	}
