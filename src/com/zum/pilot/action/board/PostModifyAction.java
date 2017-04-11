@@ -1,5 +1,6 @@
 package com.zum.pilot.action.board;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -44,6 +45,7 @@ public class PostModifyAction implements Action {
 //		String save_path = request.getSession().getServletContext().getRealPath("upload");
 //		String save_path = "D:\\git\\PilotProject\\WebContent\\upload";
 		String save_path = request.getServletContext().getRealPath("upload");
+		boolean changed_image = false;
 		
 		try {
 			multi = new MultipartRequest(request, save_path, maxSize, "utf-8", new DefaultFileRenamePolicy());
@@ -54,6 +56,9 @@ public class PostModifyAction implements Action {
 			image_path = multi.getFilesystemName("image_path");
 			if(image_path == null || image_path.equals(""))
 				image_path = old_path;
+			else {
+				changed_image = true;
+			}
 			user_id = Long.parseLong(multi.getParameter("user_id"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,15 +69,21 @@ public class PostModifyAction implements Action {
 		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
+		// 작성자만 수정 가능
 		if(authUser.getId() == user_id) {
-			PostVo vo = new PostVo();
-			vo.setId(id);
-			vo.setTitle(title);
-			vo.setContent(content);
-			vo.setImage_path(image_path);
-			vo.setUser_id(user_id);
-		
+			PostVo vo = new PostVo(id, title, content, image_path, user_id);
 			PostDao postDao = new PostDao(new MySQLConnection());
+			
+			// 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
+			if(changed_image) {
+				PostVo postVo = postDao.get(id);
+					
+				String upload_file_name = request.getServletContext().getRealPath("upload");
+				File upload_file = new File(upload_file_name + "/" + postVo.getImage_path());
+					
+				if(upload_file.exists() && upload_file.isFile())
+					upload_file.delete();
+			}
 			postDao.update(vo);
 		}
 		
