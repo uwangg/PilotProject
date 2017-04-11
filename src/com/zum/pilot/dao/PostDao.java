@@ -222,4 +222,35 @@ public class PostDao {
 				}
 			}
 		}
+		
+		// 조회수 증가
+		public void hitIncrease(Long number) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+
+			try {
+				conn = dbConnection.getConnection();
+
+				String sql = "update post set hit=hit+1 where id=?";
+				pstmt = conn.prepareStatement(sql);
+
+				pstmt.setLong(1, number);
+
+				pstmt.executeUpdate();
+
+			} catch (SQLException e) {
+				System.out.println("error : " + e);
+			} finally {
+				try {
+					if (pstmt != null) {
+						pstmt.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 }
