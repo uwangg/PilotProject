@@ -16,9 +16,47 @@ public class PostDao {
 	public PostDao(DBConnection dbConnection) {
 		this.dbConnection = dbConnection;
 	}
+	
+	// 게시글의 총 갯수
+	public int totalNumberOfPost() {
+		int totalCount = 0;
+		Connection con = null;
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = dbConnection.getConnection();
+
+			String query = "select count(*) from post";
+			pstmt = con.prepareStatement(query);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				totalCount = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return totalCount;
+	}
 
 	// 게시글 불러오기
-	public List<PostVo> getList() {
+	public List<PostVo> getList(int currentPageNum, int postUnit) {
 		List<PostVo> list = new ArrayList<PostVo>();
 		Connection con = null;
 		ResultSet rs = null;
@@ -29,9 +67,13 @@ public class PostDao {
 
 			String query = "select a.id, title, a.create_time, hit, b.name "
 					+ "from (select id, title, create_time, hit, user_id "
-					+ "from post order by id asc limit 0,10) as a, user as b "
+					+ "from post order by id asc limit ?,?) as a, user as b "
 					+ "where a.user_id=b.id order by id desc";
 			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, currentPageNum);
+			pstmt.setInt(2, postUnit);
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
