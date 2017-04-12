@@ -18,10 +18,16 @@ public class PostViewAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("utf-8");
+		
+		// 게시글 id를 이용해 게시물 불러오기
 		Long id = Long.parseLong(request.getParameter("id"));
 		PostDao postDao = new PostDao(new MySQLConnection());
 		postDao.hitIncrease(id);
 		PostVo vo = postDao.get(id);
+		
+		// 게시물 id에 맞는 댓글 불러오기
+		
+		
 		request.setAttribute("vo", vo);
 		
 		WebUtil.forward(request, response, "/WEB-INF/views/board/view.jsp");
