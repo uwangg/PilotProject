@@ -5,7 +5,7 @@
 <!-- 댓글 폼 -->
 <div class="commentform-group">
 	<div class="commentform-default">
-	<form role="form">
+	<form role="form" method="post" action="">
 		<div class="form-group">
 			<label for="comment">댓글입력란:</label>
 			<textarea class="form-control" rows="3" id="comment"
