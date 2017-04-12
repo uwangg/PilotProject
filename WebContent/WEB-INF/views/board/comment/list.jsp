@@ -7,6 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
+<label for="accordion">댓글:</label>
 <div class="comment-group" id="accordion">
   <div class="panel comment-default">
     <div class="comment-heading">
@@ -42,7 +43,7 @@
   <div class="panel comment-default">
     <div class="comment-heading">
       <h4 class="comment-title">
-        	작성자
+      	작성자
       	<small>August 25, 2014 at 9:30 PM</small>
       	<small class="pull-right">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
@@ -52,7 +53,9 @@
         <a href="#">삭제</a>
         </small>
       </h4>
-      <div class="comment-body">여기는 내용입니다.</div>
+      <p>
+      	2번째 댓글입니다.
+      </p>
     </div>
     <div id="collapse2" class="comment-collapse collapse">
       <div class="panel-body">
@@ -60,7 +63,7 @@
 				<div class="form-group">
 				<label for="comment">답글:</label>
 				<textarea rows="3" class="form-control" id="comment"
-							placeholder="Enter comment" ng-model="user.comment"></textarea>
+							placeholder="답글을 입력해주세요" ng-model="user.comment"></textarea>
 				</div>
 				<button type="submit" class="pull-right btn btn-default btn-sm">확인</button>
 			</form>

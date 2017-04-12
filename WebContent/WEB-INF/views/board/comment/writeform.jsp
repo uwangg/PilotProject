@@ -3,12 +3,16 @@
 <!-- 댓글란 -->
 
 <!-- 댓글 폼 -->
-<div class="well">
-	<h4>댓글:</h4>
+<div class="commentform-group">
+	<div class="commentform-default">
 	<form role="form">
 		<div class="form-group">
-			<textarea class="form-control" rows="3"></textarea>
+			<label for="comment">댓글입력란:</label>
+			<textarea class="form-control" rows="3" id="comment"
+				placeholder="댓글을 입력해주세요"></textarea>
 		</div>
-		<button type="submit" class="btn btn-primary">확인</button>
+			<button type="submit" class="btn btn-primary pull-right">확인</button>
+		<div class="clearfix"></div>
 	</form>
+	</div>
 </div>

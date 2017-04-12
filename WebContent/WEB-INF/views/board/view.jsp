@@ -71,15 +71,19 @@ h1 {
 				<hr>
 
 				<!-- 글 내용 -->
-				<p class="lead">내용</p>
-				<p>${fn:replace(vo.content, crcn, br) }</p>
+<!-- 				<p class="lead">내용</p> -->
+				<label for="content">내용</label>
+				<c:choose>
+					<c:when test="${vo.content == \"\" }">
+						<p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></p>
+					</c:when>
+					<c:otherwise>
+						<p id="content">${fn:replace(vo.content, crcn, br) }</p>
+					</c:otherwise>
+				</c:choose>
 
 				<hr>
 
-
-				<c:import url="/WEB-INF/views/board/comment/writeform.jsp"></c:import>
-
-				<hr>
 
 				<c:import url="/WEB-INF/views/board/comment/list.jsp"></c:import>
 
@@ -95,6 +99,11 @@ h1 {
 						<li><a href="#">&raquo;</a></li>
 					</ul>
 				</div>
+				<hr>
+				
+				<!-- 댓글 작성폼 -->
+				<c:import url="/WEB-INF/views/board/comment/writeform.jsp"></c:import>
+
 				<hr>
 
 				<!-- 수정 / 삭제 -->
