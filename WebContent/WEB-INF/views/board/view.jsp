@@ -42,26 +42,26 @@ h1 {
 			<div class="col-lg-8">
 
 				<!-- 글 제목 -->
-				<h1>${vo.title }</h1>
+				<h1>${postVo.title }</h1>
 
 				<!-- 작성자 -->
 				<p class="lead">
-				<h4>by. ${vo.user_name }</h4>
+				<h4>by. ${postVo.user_name }</h4>
 				</p>
 
 				<hr>
 
 				<!-- Date/Time -->
 				<p>
-					<span class="glyphicon glyphicon-time"></span> Posted on ${vo.create_time }
+					<span class="glyphicon glyphicon-time"></span> Posted on ${postVo.create_time }
 				</p>
 
 				<hr>
 
 				<!-- 이미지 -->
 				<c:choose>
-					<c:when test="${vo.image_path != null }">
-						<img class="img-responsive" src="upload/${vo.image_path }"></img>
+					<c:when test="${postVo.image_path != null && postVo.image_path != \"\"}">
+						<img class="img-responsive" src="upload/${postVo.image_path }"></img>
 					</c:when>
 					<c:otherwise>
 						<img class="img-responsive" src="http://placehold.it/900x300" alt="">
@@ -74,11 +74,11 @@ h1 {
 <!-- 				<p class="lead">내용</p> -->
 				<label for="content">내용</label>
 				<c:choose>
-					<c:when test="${vo.content == \"\" }">
+					<c:when test="${postVo.content == \"\" }">
 						<p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></p>
 					</c:when>
 					<c:otherwise>
-						<p id="content">${fn:replace(vo.content, crcn, br) }</p>
+						<p id="content">${fn:replace(postVo.content, crcn, br) }</p>
 					</c:otherwise>
 				</c:choose>
 
@@ -111,9 +111,9 @@ h1 {
 					<a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/main" style="padding:">목록보기</a>
 					
 					<c:choose>
-						<c:when test="${sessionScope.authUser.id == vo.user_id }">
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=modifyform&id=${vo.id }" style="padding:">수정하기</a>
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=delete&id=${vo.id }&user_id=${vo.user_id}" style="padding:">삭제하기</a>
+						<c:when test="${sessionScope.authUser.id == postVo.user_id }">
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=modifyform&id=${postVo.id }" style="padding:">수정하기</a>
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=delete&id=${postVo.id }&user_id=${postVo.user_id}" style="padding:">삭제하기</a>
 						</c:when>
 					</c:choose>
 				</div>

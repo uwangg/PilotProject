@@ -9,43 +9,36 @@
 
 <script>
 	$(document).ready(function() {
-		$(".modify_form").hide();
-		
-		$(".comment_modify").click(function() {
-			var no = $(this).attr("id");
-			var comment_content = "#comment_content" + no;
-			var modify_form = "#modify_form" + no;
-			$(comment_content).toggle();
-			$(modify_form).toggle();
+		$("#modify_form").hide();
+		$("#comment_modify").click(function() {
+			$("#comment_content").toggle();
+			$("#modify_form").toggle();
 		});
 	});
 </script>
-
 <label for="accordion">댓글:</label>
 <div class="comment-group" id="accordion">
-
-<c:forEach items="${commentList }" var="vo" varStatus="status">
-
-  <div class="panel comment-default" style="margin-left:${vo.depth*20}px">
+  <div class="panel comment-default">
     <div class="comment-heading">
       <h4 class="comment-title">
-      	${vo.user_name }
-      	<small>${vo.create_time }</small>
+      	작성자
+      	<small>August 25, 2014 at 9:30 PM</small>
       	<small class="pull-right">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse${vo.id }">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
           	답글
         </a>
-        <a class="comment_modify" id="${vo.id }">수정</a>
+        <a id="comment_modify">수정</a>
         <a href="#">삭제</a>
         </small>
       </h4>
-      <p class="comment_content" id="comment_content${vo.id }">
-      	${vo.content }
+      <p id="comment_content">
+      	여기는 내용입니다.<br/>댓글입니다.<br/>길게길게길게길게길게길게길게 길게길게길게길게길게길게길게길게길게길게길게길게길게길게길게
       </p>
-      <div class="modify_form" id="modify_form${vo.id }">
+      <div id="modify_form">
       <form role="form" style="margin:10px">
       	<div class="form-group">
-      	<textarea rows="2" class="form-control" ng-model="user.comment">${vo.content }</textarea>
+
+      	<textarea rows="2" class="form-control" id="comment_modify" ng-model="user.comment"></textarea>
       	</div>
       	<div>
       	<button type="submit" class="btn btn-default btn-sm">수정완료</button>
@@ -54,7 +47,7 @@
 		</form>
 		</div>
     </div>
-    <div id="collapse${vo.id }" class="comment-collapse collapse">
+    <div id="collapse1" class="comment-collapse collapse">
       <div class="panel-body">
         <form role="form">
 				<div class="form-group">
@@ -68,5 +61,4 @@
     </div>
   </div>
   
-</c:forEach>
 </div>

@@ -9,7 +9,7 @@ public class CommentVo {
 	private Integer depth;	// 답글 깊이
 	private Long user_id;	// 작성자 id
 	private Long post_id;	// 게시글 id
-	private String userName;	// id로 찾은 유저이름
+	private String user_name;	// id로 찾은 유저이름
 	
 	public Long getId() {
 		return id;
@@ -59,11 +59,11 @@ public class CommentVo {
 	public void setPost_id(Long post_id) {
 		this.post_id = post_id;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUser_name() {
+		return user_name;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 	
 }
