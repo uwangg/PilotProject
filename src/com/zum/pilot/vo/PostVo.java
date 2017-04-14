@@ -9,7 +9,43 @@ public class PostVo {
 	private String update_time;	// 수정일
 	private Long hit;	// 조회수
 	private Long user_id;	// 작성자 id
+	private String user_name;	// id로 찾은 유저이름
 	
+	
+	public PostVo() {
+		this.title = "";
+		this.content = "";
+		this.image_path = "";
+	}
+	public PostVo(String title, Long user_id) {
+		super();
+		this.title = title;
+		this.user_id = user_id;
+		this.content = "";
+		this.image_path = "";
+	}
+	public PostVo(String title, String content, Long user_id) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.user_id = user_id;
+		this.image_path = "";
+	}
+	public PostVo(String title, String content, String image_path, Long user_id) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.image_path = image_path;
+		this.user_id = user_id;
+	}
+	public PostVo(Long id, String title, String content, String image_path, Long user_id) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.content = content;
+		this.image_path = image_path;
+		this.user_id = user_id;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -57,6 +93,12 @@ public class PostVo {
 	}
 	public void setUser_id(Long user_id) {
 		this.user_id = user_id;
+	}
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 	
 }

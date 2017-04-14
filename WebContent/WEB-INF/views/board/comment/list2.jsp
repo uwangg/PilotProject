@@ -7,6 +7,11 @@
                     <div class="media-body">
                         <h4 class="media-heading">Start Bootstrap
                             <small>August 25, 2014 at 9:30 PM</small>
+                            <small class="pull-right">
+                           	 <a href="#" style="margin-right: 10px">답글</a>
+                           	 <a href="#" style="margin-right: 10px">수정</a>
+                           	 <a href="#" style="margin-right: 20px">삭제</a>
+                           	 </small>
                         </h4>
 		                        최신댓글입니다.
                     </div>
@@ -67,3 +72,17 @@
                         End Nested Comment
                     </div>
                 </div> -->
+                
+                <div class="panel-group" id="accordion1">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion1"
+					href="#collapseOne1"> Collapsible Group Item #1 </a>
+			</h4>
+		</div>
+		<div id="collapseOne1" class="panel-collapse collapse in">
+			<div class="panel-body">Anim pariatur cliche reprehenderit</div>
+		</div>
+	</div>
+</div>

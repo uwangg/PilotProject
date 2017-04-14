@@ -1,4 +1,4 @@
-package com.zum.pilot.action.main;
+package com.zum.pilot.action.board;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,27 +10,41 @@ import javax.servlet.http.HttpServletResponse;
 import com.zum.db.MySQLConnection;
 import com.zum.pilot.WebUtil;
 import com.zum.pilot.action.Action;
+import com.zum.pilot.dao.CommentDao;
 import com.zum.pilot.dao.PostDao;
+import com.zum.pilot.vo.CommentVo;
 import com.zum.pilot.vo.PostVo;
 
-public class DefaultAction implements Action {
+public class PostViewAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 게시글 페이지네이션
-		Long totalPostNum = 0L;	// 게시글의 총 갯수
+		
+		request.setCharacterEncoding("utf-8");
+		
+		// 게시글 id를 이용해 게시물 불러오기
+		Long post_id = Long.parseLong(request.getParameter("id"));
+		PostDao postDao = new PostDao(new MySQLConnection());
+		postDao.hitIncrease(post_id);
+		PostVo postVo = postDao.get(post_id);
+		
+		
+		// 댓글 페이지네이션
+		Long totalCommentNum = 0L;	// 게시글의 총 갯수
 		int totalPageNum = 0; 	// 총 페이지 번호의 수
-		int postUnit = 10;	// 한 페이지당 보여줄 글의 최대 갯수
+		int commentUnit = 10;	// 한 페이지당 보여줄 글의 최대 갯수
 		int pageNumUnit = 5;	// 한 페이지 블락당 보여줄 번호의 최대 갯수
 		int currentPageNum = 1;	// 눌린 페이지 번호
 		int begin = 1, end = 1;
 		
-		List<PostVo> postList = null;
 		
-		PostDao postDao = new PostDao(new MySQLConnection());
+		// 게시물 id에 맞는 댓글 불러오기
+		List<CommentVo> commentList = null;
+		CommentDao commentDao = new CommentDao(new MySQLConnection());
 		
-		totalPostNum = postDao.totalNumberOfPost();
-		totalPageNum = (int)((totalPostNum - 1) / postUnit + 1);
+		totalCommentNum = commentDao.totalNumberOfComment(post_id);
+		totalPageNum = (int)((totalCommentNum - 1) / commentUnit + 1);
+		System.out.println("댓글수 : " + totalCommentNum + ", 페이지번호수 : "+totalPageNum);
 		
 		// 현재 눌린 페이지 가져오기
 		if(request.getParameter("currentPageNum") == null) {
@@ -38,7 +52,7 @@ public class DefaultAction implements Action {
 		} else {
 			currentPageNum = Integer.parseInt(request.getParameter("currentPageNum"));
 		}
-		postList = postDao.getList((totalPageNum-currentPageNum)*postUnit, postUnit);	// 선택된 페이지번호, 보여줄 글의갯수
+		commentList = commentDao.getList(post_id, (totalPageNum-currentPageNum)*commentUnit, commentUnit);
 		
 		
 		// 시작과 끝페이지 가져오기
@@ -51,16 +65,17 @@ public class DefaultAction implements Action {
 		if(end > totalPageNum)
 			end = totalPageNum;
 		
-		System.out.println("begin = "+begin+", end = "+end);
 		
+		
+		request.setAttribute("postVo", postVo);
+		request.setAttribute("commentList", commentList);
 		request.setAttribute("begin", begin);
 		request.setAttribute("end", end);
 		request.setAttribute("totalPageNum", totalPageNum);
 		request.setAttribute("currentPageNum", currentPageNum);
 		request.setAttribute("pageNumUnit", pageNumUnit);
-		request.setAttribute("postList", postList);
 		
-		WebUtil.forward(request, response, "/WEB-INF/views/main/index.jsp");
+		WebUtil.forward(request, response, "/WEB-INF/views/board/view.jsp");
 	}
 
 }

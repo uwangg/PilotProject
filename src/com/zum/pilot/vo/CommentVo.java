@@ -7,9 +7,10 @@ public class CommentVo {
 	private String update_time;	// 수정일
 	private Integer thread;	// 댓글 순서
 	private Integer depth;	// 답글 깊이
-	private Boolean delete_flag;	// 삭제됬는지아닌지
 	private Long user_id;	// 작성자 id
 	private Long post_id;	// 게시글 id
+	private String user_name;	// id로 찾은 유저이름
+	private Boolean delete_flag;
 	
 	public Long getId() {
 		return id;
@@ -47,12 +48,6 @@ public class CommentVo {
 	public void setDepth(Integer depth) {
 		this.depth = depth;
 	}
-	public Boolean getDelete_flag() {
-		return delete_flag;
-	}
-	public void setDelete_flag(Boolean delete_flag) {
-		this.delete_flag = delete_flag;
-	}
 	public Long getUser_id() {
 		return user_id;
 	}
@@ -65,4 +60,17 @@ public class CommentVo {
 	public void setPost_id(Long post_id) {
 		this.post_id = post_id;
 	}
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+	public Boolean getDelete_flag() {
+		return delete_flag;
+	}
+	public void setDelete_flag(Boolean delete_flag) {
+		this.delete_flag = delete_flag;
+	}
+	
 }

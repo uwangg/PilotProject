@@ -26,7 +26,7 @@ public class UserDao {
 		
 		try {
 			con = dbConnection.getConnection();
-			String query = "select id, email, name from user where no=?";
+			String query = "select id, email, name from user where no=? and delete_flag=0";
 			pstmt = con.prepareStatement(query);
 			
 			pstmt.setLong(1, number);	// 첫번째  ?에 id값
@@ -72,7 +72,7 @@ public class UserDao {
 		
 		try {
 			con = dbConnection.getConnection();
-			String query = "select id, email, name from user where email=? and passwd=?";
+			String query = "select id, email, name from user where email=? and passwd=? and delete_flag=0";
 			pstmt = con.prepareStatement(query);
 			
 			pstmt.setString(1, vo.getEmail());	// 첫번째  ?에 id값
@@ -118,7 +118,7 @@ public class UserDao {
 		
 		try {
 			con = dbConnection.getConnection();
-			String query = "select count(*) from user where name=?";
+			String query = "select count(*) from user where name=? and delete_flag=0";
 			pstmt = con.prepareStatement(query);
 			
 			pstmt.setString(1, name);	// 첫번째  ?에 id값
@@ -154,7 +154,7 @@ public class UserDao {
 		
 		try {
 			con = dbConnection.getConnection();
-			String query = "select count(*) from user where email=?";
+			String query = "select count(*) from user where email=? and delete_flag=0";
 			pstmt = con.prepareStatement(query);
 			
 			pstmt.setString(1, email);	// 첫번째  ?에 id값
@@ -215,14 +215,15 @@ public class UserDao {
 	}
 	
 	// 회원수정시
-	public void update(UserVo vo, String newPassword) {
+	public int update(UserVo vo, String newPassword) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		int result = 0;
 		
 		try {
 			con = dbConnection.getConnection();
 			if (newPassword != "") {	// 패스워드 변경시
-				String query = "update user set name=? password=? where id=? and passwd=?";
+				String query = "update user set name=?, passwd=? where id=? and passwd=?";
 				pstmt = con.prepareStatement(query);
 
 				pstmt.setString(1, vo.getName());
@@ -237,8 +238,8 @@ public class UserDao {
 				pstmt.setLong(2, vo.getId());
 				pstmt.setString(3, vo.getPassword());
 			}
-			int r = pstmt.executeUpdate();
-			if(r == 1)
+			result = pstmt.executeUpdate();
+			if(result == 1)
 				System.out.println("유저정보가 업데이트 되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -252,33 +253,85 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		}
+		return result;
 	}
 	
 	// 회원탈퇴
-	public void delete(UserVo vo) {
+	public int delete(Long id, String password) {
 		Connection con = null;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		int result = 0;
 		
 		try {
 			con = dbConnection.getConnection();
-			String query = "delete from user where id=? and passwd=?";
-			pstmt = con.prepareStatement(query);
+
+//			String query = "update user as u, post as p, comment as c "
+//					+ "set u.delete_flag=1, p.delete_flag=1, c.delete_flag=1 "
+//					+ "where u.id=? and p.user_id=? and c.user_id=?";
+			String query1 = "update user set delete_flag=1 where id=? and passwd=?";
+			pstmt1 = con.prepareStatement(query1);
+			pstmt1.setLong(1, id);
+			pstmt1.setString(2, password);
+			result += pstmt1.executeUpdate();
 			
-			pstmt.setLong(1, vo.getId());
-			pstmt.setString(2, vo.getPassword());
+			if(result == 1) {
+				String query2 = "update post set delete_flag=1 where user_id=?";
+				pstmt2 = con.prepareStatement(query2);
+				pstmt2.setLong(1, id);
+				result += pstmt2.executeUpdate();
+				
+				String query3 = "update comment set delete_flag=1 where user_id=?";
+				pstmt3 = con.prepareStatement(query3);
+				pstmt3.setLong(1, id);
+				result += pstmt3.executeUpdate();
+			}
 			
-			pstmt.executeUpdate();
+			if(result == 3)
+				System.out.println("회원탈퇴 완료");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pstmt != null)
-					pstmt.close();
+				if(pstmt1 != null)
+					pstmt1.close();
+				if(pstmt2 != null)
+					pstmt2.close();
+				if(pstmt3 != null)
+					pstmt3.close();
 				if(con != null)
 					con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+		return result;
 	}
+//	public void delete(UserVo vo) {
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		
+//		try {
+//			con = dbConnection.getConnection();
+//			String query = "delete from user where id=? and passwd=?";
+//			pstmt = con.prepareStatement(query);
+//			
+//			pstmt.setLong(1, vo.getId());
+//			pstmt.setString(2, vo.getPassword());
+//			
+//			pstmt.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if(pstmt != null)
+//					pstmt.close();
+//				if(con != null)
+//					con.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 }
