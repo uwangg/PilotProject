@@ -27,8 +27,8 @@ public class CommentDao {
 		try {
 			con = dbConnection.getConnection();
 
-			String query = "select c.id, content, c.create_time, thread, depth, user_id, u.name "
-					+ "from (select * from comment where post_id=? and delete_flag=0) as c, user as u "
+			String query = "select c.id, content, c.create_time, thread, depth, user_id, u.name, c.delete_flag "
+					+ "from (select * from comment where post_id=?) as c, user as u "
 					+ "where c.user_id = u.id order by thread desc";
 			pstmt = con.prepareStatement(query);
 
@@ -44,6 +44,7 @@ public class CommentDao {
 				Integer depth = rs.getInt(5);
 				Long user_id = rs.getLong(6);
 				String user_name = rs.getString(7);
+				Boolean delete_flag = rs.getBoolean(8);
 
 				CommentVo commentVo = new CommentVo();
 				commentVo.setId(id);
@@ -53,6 +54,7 @@ public class CommentDao {
 				commentVo.setDepth(depth);
 				commentVo.setUser_id(user_id);
 				commentVo.setUser_name(user_name);
+				commentVo.setDelete_flag(delete_flag);
 				list.add(commentVo);
 			}
 
@@ -197,7 +199,7 @@ public class CommentDao {
 		
 		try {
 			con = dbConnection.getConnection();
-				String query = "update comment set thread = thread-1 where ?<thread and thread<? and delete_flag=0";
+				String query = "update comment set thread = thread-1 where ?<thread and thread<?";
 				pstmt = con.prepareStatement(query);
 
 				pstmt.setInt(1, begin);
@@ -249,5 +251,39 @@ public class CommentDao {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public int delete(Long comment_id, Long user_id) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			con = dbConnection.getConnection();
+
+			String query = "update comment set delete_flag=1 "
+					+ "where id=? and user_id=?";
+			pstmt = con.prepareStatement(query);
+
+			pstmt.setLong(1, comment_id);
+			pstmt.setLong(2, user_id);
+				
+			result = pstmt.executeUpdate();
+			
+			if(result == 1)
+				System.out.println("댓글삭제 완료");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null)
+					pstmt.close();
+				if(con != null)
+					con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 }
