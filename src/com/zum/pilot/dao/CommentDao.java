@@ -219,4 +219,35 @@ public class CommentDao {
 			}
 		}
 	}
+	
+	// 댓글 업데이트
+	public void update(CommentVo vo) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = dbConnection.getConnection();
+				String query = "update comment set content=?, update_time=now() where id=? and user_id=?";
+				pstmt = con.prepareStatement(query);
+
+				pstmt.setString(1, vo.getContent());
+				pstmt.setLong(2, vo.getId());
+				pstmt.setLong(3, vo.getUser_id());
+			
+			int r = pstmt.executeUpdate();
+			if(r == 1)
+				System.out.println("댓글이 수정 되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null)
+					pstmt.close();
+				if(con != null)
+					con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

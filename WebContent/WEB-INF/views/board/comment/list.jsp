@@ -47,9 +47,12 @@
 				<p class="comment_content" id="comment_content${vo.id }">
 					${vo.content }</p>
 				<div class="modify_form" id="modify_form${vo.id }">
-					<form role="form" style="margin: 10px">
+					<form role="form" style="margin: 10px" method="post" action="${pageContext.request.contextPath}/board">
+					<input type="hidden" name="a" value="commentmodify">
+					<input type="hidden" name="id" value="${vo.id }">
+					<input type="hidden" name="post_id" value="${postVo.id }">
 						<div class="form-group">
-							<textarea rows="2" class="form-control" ng-model="user.comment">${vo.content }</textarea>
+							<textarea rows="2" class="form-control" ng-model="user.comment" name="content">${vo.content }</textarea>
 						</div>
 						<div>
 							<button type="submit" class="btn btn-default btn-sm">수정완료</button>
