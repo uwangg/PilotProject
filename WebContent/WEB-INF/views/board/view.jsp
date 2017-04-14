@@ -78,7 +78,7 @@ h1 {
 						<p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></p>
 					</c:when>
 					<c:otherwise>
-						<p id="content">${fn:replace(postVo.content, crcn, br) }</p>
+						<p id="content"><BIG>${fn:replace(postVo.content, crcn, br) }</BIG></p>
 					</c:otherwise>
 				</c:choose>
 
@@ -112,8 +112,8 @@ h1 {
 					<a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/main" style="padding:">목록보기</a>
 					<c:choose>
 						<c:when test="${sessionScope.authUser.id == postVo.user_id }">
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=modifyform&id=${postVo.id }" style="padding:">수정하기</a>
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=delete&id=${postVo.id }&user_id=${postVo.user_id}" style="padding:">삭제하기</a>
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=modifyform&id=${postVo.id }">수정하기</a>
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=delete&id=${postVo.id }&user_id=${postVo.user_id}">삭제하기</a>
 						</c:when>
 					</c:choose>
 				</div>
