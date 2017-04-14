@@ -28,11 +28,18 @@
 <div class="comment-group" id="accordion">
 
 	<c:forEach items="${commentList }" var="vo" varStatus="status">
-
+		<c:choose>
+			<c:when test="${vo.delete_flag == true }">
+				<c:import url="/WEB-INF/views/board/comment/deleted_comment.jsp">
+					<c:param name="depth" value="${vo.depth }"/>
+				</c:import>
+			</c:when>
+			<c:otherwise>
 		<div class="panel comment-default"
 			style="margin-left:${vo.depth*20}px">
 			<div class="comment-heading">
 				<h4 class="comment-title">
+				<c:if test="${vo.depth>0 }"><span class="glyphicon glyphicon-hand-right"></span></c:if>	
 					${vo.user_name } <small>${vo.create_time }</small> <small
 						class="pull-right"> 
 						
@@ -40,11 +47,14 @@
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse${vo.id }"> 답글 </a> 
 						</c:if>
 						<c:if test="${sessionScope.authUser.id == vo.user_id }">
-						<a class="comment_modify" id="${vo.id }">수정</a> <a href="#">삭제</a>
+						<a class="comment_modify" id="${vo.id }">수정</a> 
+						<a href="${pageContext.request.contextPath}/board?a=commentdelete&id=${vo.id}&post_id=${postVo.id}">삭제</a>
+						
 						</c:if>
 					</small>
 				</h4>
 				<p class="comment_content" id="comment_content${vo.id }">
+					<c:if test="${vo.depth>0 }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 					${vo.content }</p>
 				<div class="modify_form" id="modify_form${vo.id }">
 					<form role="form" style="margin: 10px" method="post" action="${pageContext.request.contextPath}/board">
@@ -79,6 +89,8 @@
 				</div>
 			</div>
 		</div>
+			</c:otherwise>
+		</c:choose>
 
 	</c:forEach>
 </div>
