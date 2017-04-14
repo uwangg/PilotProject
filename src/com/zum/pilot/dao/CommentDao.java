@@ -17,8 +17,48 @@ public class CommentDao {
 		this.dbConnection = dbConnection;
 	}
 
+	// 댓글의 총 갯수
+	public Long totalNumberOfComment(Long post_id) {
+		Long totalCount = 0L;
+		Connection con = null;
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = dbConnection.getConnection();
+
+			String query = "select count(*) from comment where post_id=?";
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setLong(1, post_id);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				totalCount = rs.getLong(1);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return totalCount;
+	}
+
 	// 댓글 불러오기
-	public List<CommentVo> getList(Long post_id) {
+	public List<CommentVo> getList(Long post_id, int currentPageNum, int commentUnit) {
 		List<CommentVo> list = new ArrayList<CommentVo>();
 		Connection con = null;
 		ResultSet rs = null;
@@ -28,11 +68,13 @@ public class CommentDao {
 			con = dbConnection.getConnection();
 
 			String query = "select c.id, content, c.create_time, thread, depth, user_id, u.name, c.delete_flag "
-					+ "from (select * from comment where post_id=?) as c, user as u "
+					+ "from (select * from comment where post_id=? order by thread asc limit ?,?) as c, user as u "
 					+ "where c.user_id = u.id order by thread desc";
 			pstmt = con.prepareStatement(query);
 
 			pstmt.setLong(1, post_id);
+			pstmt.setInt(2, currentPageNum);
+			pstmt.setInt(3, commentUnit);
 
 			rs = pstmt.executeQuery();
 
@@ -192,93 +234,92 @@ public class CommentDao {
 		}
 		return thread;
 	}
-	
+
 	public void updateThread(int begin, int end) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			con = dbConnection.getConnection();
-				String query = "update comment set thread = thread-1 where ?<thread and thread<?";
-				pstmt = con.prepareStatement(query);
+			String query = "update comment set thread = thread-1 where ?<thread and thread<?";
+			pstmt = con.prepareStatement(query);
 
-				pstmt.setInt(1, begin);
-				pstmt.setInt(2, end);
-			
+			pstmt.setInt(1, begin);
+			pstmt.setInt(2, end);
+
 			int r = pstmt.executeUpdate();
-			if(r == 1)
+			if (r == 1)
 				System.out.println("답글이 업데이트 되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pstmt != null)
+				if (pstmt != null)
 					pstmt.close();
-				if(con != null)
+				if (con != null)
 					con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	// 댓글 업데이트
 	public void update(CommentVo vo) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			con = dbConnection.getConnection();
-				String query = "update comment set content=?, update_time=now() where id=? and user_id=?";
-				pstmt = con.prepareStatement(query);
+			String query = "update comment set content=?, update_time=now() where id=? and user_id=?";
+			pstmt = con.prepareStatement(query);
 
-				pstmt.setString(1, vo.getContent());
-				pstmt.setLong(2, vo.getId());
-				pstmt.setLong(3, vo.getUser_id());
-			
+			pstmt.setString(1, vo.getContent());
+			pstmt.setLong(2, vo.getId());
+			pstmt.setLong(3, vo.getUser_id());
+
 			int r = pstmt.executeUpdate();
-			if(r == 1)
+			if (r == 1)
 				System.out.println("댓글이 수정 되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pstmt != null)
+				if (pstmt != null)
 					pstmt.close();
-				if(con != null)
+				if (con != null)
 					con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public int delete(Long comment_id, Long user_id) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		int result = 0;
-		
+
 		try {
 			con = dbConnection.getConnection();
 
-			String query = "update comment set delete_flag=1 "
-					+ "where id=? and user_id=?";
+			String query = "update comment set delete_flag=1 " + "where id=? and user_id=?";
 			pstmt = con.prepareStatement(query);
 
 			pstmt.setLong(1, comment_id);
 			pstmt.setLong(2, user_id);
-				
+
 			result = pstmt.executeUpdate();
-			
-			if(result == 1)
+
+			if (result == 1)
 				System.out.println("댓글삭제 완료");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pstmt != null)
+				if (pstmt != null)
 					pstmt.close();
-				if(con != null)
+				if (con != null)
 					con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -27,7 +27,7 @@ public class PostDao {
 		try {
 			con = dbConnection.getConnection();
 
-			String query = "select count(*) from post";
+			String query = "select count(*) from post where delete_flag=0";
 			pstmt = con.prepareStatement(query);
 			rs = pstmt.executeQuery();
 

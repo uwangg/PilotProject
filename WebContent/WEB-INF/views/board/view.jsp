@@ -93,16 +93,27 @@ h1 {
 
 				<!-- 페이지네이션 -->
 				<div class="text-center">
-					<ul class="pagination">
-						<li><a href="#">&laquo;</a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li class="active"><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#">&raquo;</a></li>
-					</ul>
-				</div>
+						<ul class="pagination">
+							<c:if test="${begin > 1 }">
+								<li><a href="${pageContext.request.contextPath}/board?a=view&id=${postVo.id }&begin=${begin-pageNumUnit}&currentPageNum=${currentPageNum-1}">&laquo;</a></li>
+							</c:if>
+							
+							<c:forEach begin="${begin }" end="${end }" step="1" var="count" >
+								<c:choose>
+									<c:when test="${currentPageNum == count }">
+										<li class="active"><a>${count }</a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="${pageContext.request.contextPath}/board?a=view&id=${postVo.id }
+												&currentPageNum=${count}&begin=${begin}">${count }</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							<c:if test="${end < totalPageNum }">
+								<li><a href="${pageContext.request.contextPath}/board?a=view&id=${postVo.id }&begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
+							</c:if>
+						</ul>
+					</div>
 
 				<hr>
 
