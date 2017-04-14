@@ -18,8 +18,8 @@ public class PostDao {
 	}
 	
 	// 게시글의 총 갯수
-	public int totalNumberOfPost() {
-		int totalCount = 0;
+	public Long totalNumberOfPost() {
+		Long totalCount = 0L;
 		Connection con = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -32,7 +32,7 @@ public class PostDao {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				totalCount = rs.getInt(1);
+				totalCount = rs.getLong(1);
 			}
 
 		} catch (SQLException e) {
@@ -54,6 +54,7 @@ public class PostDao {
 		}
 		return totalCount;
 	}
+	
 
 	// 게시글 불러오기
 	public List<PostVo> getList(int currentPageNum, int postUnit) {
