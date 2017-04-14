@@ -21,6 +21,8 @@ public class PostViewAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("utf-8");
+//		int currentPageNum = Integer.parseInt(request.getParameter("currentPageNum"));
+//		int begin = Integer.parseInt(request.getParameter("begin"));
 		
 		// 게시글 id를 이용해 게시물 불러오기
 		Long post_id = Long.parseLong(request.getParameter("id"));
@@ -36,6 +38,8 @@ public class PostViewAction implements Action {
 		
 		request.setAttribute("postVo", postVo);
 		request.setAttribute("commentList", commentList);
+//		request.setAttribute("currentPageNum", currentPageNum);
+//		request.setAttribute("begin", begin);
 		
 		WebUtil.forward(request, response, "/WEB-INF/views/board/view.jsp");
 	}

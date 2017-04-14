@@ -18,12 +18,11 @@ public class DefaultAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 게시글 페이지네이션
-		int totalPostNum = 0;	// 게시글의 총 갯수
+		Long totalPostNum = 0L;	// 게시글의 총 갯수
 		int totalPageNum = 0; 	// 총 페이지 번호의 수
 		int postUnit = 10;	// 한 페이지당 보여줄 글의 최대 갯수
 		int pageNumUnit = 5;	// 한 페이지 블락당 보여줄 번호의 최대 갯수
 		int currentPageNum = 1;	// 눌린 페이지 번호
-		int currentPage = 1;	// 현재 페이지 블락
 		int begin = 1, end = 1;
 		
 		List<PostVo> postList = null;
@@ -31,7 +30,7 @@ public class DefaultAction implements Action {
 		PostDao postDao = new PostDao(new MySQLConnection());
 		
 		totalPostNum = postDao.totalNumberOfPost();
-		totalPageNum = (totalPostNum - 1) / postUnit + 1;
+		totalPageNum = (int)((totalPostNum - 1) / postUnit + 1);
 		
 		// 현재 눌린 페이지 가져오기
 		if(request.getParameter("currentPageNum") == null) {
