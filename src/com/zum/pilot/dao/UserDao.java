@@ -257,33 +257,49 @@ public class UserDao {
 	}
 	
 	// 회원탈퇴
-	public int delete(Long id, String passwd) {
+	public int delete(Long id, String password) {
 		Connection con = null;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
 		int result = 0;
 		
 		try {
 			con = dbConnection.getConnection();
 
-			String query = "update user as u, post as p, comment as c "
-					+ "set u.delete_flag=1, p.delete_flag=1, c.delete_flag=1 "
-					+ "where u.id=? and p.user_id=? and c.user_id=?";
-			pstmt = con.prepareStatement(query);
-
-			pstmt.setLong(1, id);
-			pstmt.setLong(2, id);
-			pstmt.setLong(3, id);
-				
-			result = pstmt.executeUpdate();
+//			String query = "update user as u, post as p, comment as c "
+//					+ "set u.delete_flag=1, p.delete_flag=1, c.delete_flag=1 "
+//					+ "where u.id=? and p.user_id=? and c.user_id=?";
+			String query1 = "update user set delete_flag=1 where id=? and passwd=?";
+			pstmt1 = con.prepareStatement(query1);
+			pstmt1.setLong(1, id);
+			pstmt1.setString(2, password);
+			result += pstmt1.executeUpdate();
 			
-			if(result == 1)
+			if(result == 1) {
+				String query2 = "update post set delete_flag=1 where user_id=?";
+				pstmt2 = con.prepareStatement(query2);
+				pstmt2.setLong(1, id);
+				result += pstmt2.executeUpdate();
+				
+				String query3 = "update comment set delete_flag=1 where user_id=?";
+				pstmt3 = con.prepareStatement(query3);
+				pstmt3.setLong(1, id);
+				result += pstmt3.executeUpdate();
+			}
+			
+			if(result == 3)
 				System.out.println("회원탈퇴 완료");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pstmt != null)
-					pstmt.close();
+				if(pstmt1 != null)
+					pstmt1.close();
+				if(pstmt2 != null)
+					pstmt2.close();
+				if(pstmt3 != null)
+					pstmt3.close();
 				if(con != null)
 					con.close();
 			} catch (SQLException e) {

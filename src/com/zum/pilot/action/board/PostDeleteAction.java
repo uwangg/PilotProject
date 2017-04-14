@@ -39,7 +39,7 @@ public class PostDeleteAction implements Action {
 			
 			// 이미지가 있다면 삭제
 			PostVo postVo = postDao.get(id);
-			if(!postVo.getImage_path().equals("")) {
+			if(postVo.getImage_path() != null && !postVo.getImage_path().equals("")) {
 				
 				String upload_file_name = request.getServletContext().getRealPath("upload");
 				File upload_file = new File(upload_file_name + "/" + postVo.getImage_path());
@@ -49,7 +49,7 @@ public class PostDeleteAction implements Action {
 			}
 			
 			// 게시글 삭제
-			postDao.delete(id);
+			postDao.delete(id, authUser.getId());
 		}
 		WebUtil.redirect(request, response, "/pilot-project/board");
 	}

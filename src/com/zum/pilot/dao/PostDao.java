@@ -68,7 +68,7 @@ public class PostDao {
 
 			String query = "select a.id, title, a.create_time, hit, b.name "
 					+ "from (select id, title, create_time, hit, user_id "
-					+ "from post order by id asc limit ?,?) as a, user as b "
+					+ "from post where delete_flag=0 order by id asc limit ?,?) as a, user as b "
 					+ "where a.user_id=b.id order by id desc";
 			pstmt = con.prepareStatement(query);
 			
@@ -160,7 +160,7 @@ public class PostDao {
 				con = dbConnection.getConnection();
 				String query = "select a.id, title, content, image_path, a.create_time, user_id, name "
 						+ "from (select * from post where id=?)as a, user as u "
-						+ "where a.user_id=u.id;";
+						+ "where a.user_id=u.id";
 				pstmt = con.prepareStatement(query);
 				
 				pstmt.setLong(1, number);
@@ -238,32 +238,45 @@ public class PostDao {
 		}
 		
 		// 게시글 삭제
-		public void delete(Long id) {
+		public int delete(Long post_id, Long user_id) {
 			Connection con = null;
-			PreparedStatement pstmt = null;
+			PreparedStatement pstmt1 = null;
+			PreparedStatement pstmt2 = null;
+			int result = 0;
 			
 			try {
 				con = dbConnection.getConnection();
-				String query = "delete from post where id=?";
-				pstmt = con.prepareStatement(query);
+
+				String query1 = "update post set delete_flag=1 where id=? and user_id=?";
+				pstmt1 = con.prepareStatement(query1);
+				pstmt1.setLong(1, post_id);
+				pstmt1.setLong(2, user_id);
+				result += pstmt1.executeUpdate();
 				
-				pstmt.setLong(1, id);
+				if(result == 1) {
+					String query2 = "update comment set delete_flag=1 where post_id=?";
+					pstmt2 = con.prepareStatement(query2);
+					pstmt2.setLong(1, post_id);
+					result += pstmt2.executeUpdate();
+				}
 				
-				int r = pstmt.executeUpdate();
-				if(r == 1)
-					System.out.println("글이 삭제되었습니다.");
+				if(result == 2)
+					System.out.println("글삭제 완료");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if(pstmt != null)
-						pstmt.close();
+					if(pstmt1 != null)
+						pstmt1.close();
+					if(pstmt2 != null)
+						pstmt2.close();
 					if(con != null)
 						con.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
+			return result;
 		}
 		
 		// 조회수 증가
