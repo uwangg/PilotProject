@@ -83,7 +83,11 @@ h1 {
 				</c:choose>
 
 				<hr>
-
+				
+				<c:if test="${sessionScope.authUser != null }">
+				<!-- 댓글 작성폼 -->
+				<c:import url="/WEB-INF/views/board/comment/writeform.jsp"></c:import>
+				</c:if>
 
 				<c:import url="/WEB-INF/views/board/comment/list.jsp"></c:import>
 
@@ -99,17 +103,13 @@ h1 {
 						<li><a href="#">&raquo;</a></li>
 					</ul>
 				</div>
-				<hr>
-				
-				<!-- 댓글 작성폼 -->
-				<c:import url="/WEB-INF/views/board/comment/writeform.jsp"></c:import>
 
 				<hr>
 
 				<!-- 수정 / 삭제 -->
 				<div class="text-right">
+					<%-- <a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/main?currentPageNum=${currentPageNum}&begin=${begin}" style="padding:">목록보기</a> --%>
 					<a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/main" style="padding:">목록보기</a>
-					
 					<c:choose>
 						<c:when test="${sessionScope.authUser.id == postVo.user_id }">
 							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=modifyform&id=${postVo.id }" style="padding:">수정하기</a>

@@ -34,9 +34,14 @@
 			<div class="comment-heading">
 				<h4 class="comment-title">
 					${vo.user_name } <small>${vo.create_time }</small> <small
-						class="pull-right"> <a data-toggle="collapse"
-						data-parent="#accordion" href="#collapse${vo.id }"> 답글 </a> <a
-						class="comment_modify" id="${vo.id }">수정</a> <a href="#">삭제</a>
+						class="pull-right"> 
+						
+						<c:if test="${sessionScope.authUser != null }">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse${vo.id }"> 답글 </a> 
+						</c:if>
+						<c:if test="${sessionScope.authUser.id == vo.user_id }">
+						<a class="comment_modify" id="${vo.id }">수정</a> <a href="#">삭제</a>
+						</c:if>
 					</small>
 				</h4>
 				<p class="comment_content" id="comment_content${vo.id }">
@@ -56,10 +61,14 @@
 			<div id="collapse${vo.id }" class="comment-collapse collapse">
 				<hr/>
 				<div class="panel-body">
-					<form role="form">
+					<form role="form" method="post" action="${pageContext.request.contextPath}/board">
+					<input type="hidden" name="a" value="commentwrite">
+					<input type="hidden" name="post_id" value="${postVo.id }">
+					<input type="hidden" name="depth" value="${vo.depth+1 }">
+					<input type="hidden" name="thread" value="${vo.thread-1 }">
 						<div class="form-group">
 							<label for="comment">답글:</label>
-							<textarea rows="3" class="form-control" id="comment"
+							<textarea rows="3" class="form-control" id="comment" name="content"
 								placeholder="답글을 입력해주세요" ng-model="user.comment"></textarea>
 						</div>
 						<button type="submit" class="pull-right btn btn-default btn-sm">확인</button>
