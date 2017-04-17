@@ -12,6 +12,10 @@ public class UserActionFactory extends ActionFactory {
 			action = new JoinFormAction();
 		} else if("join".equals(actionName)) {
 			action = new JoinAction();
+		} else if("check_email".equals(actionName)) {	// 유효성 검사
+			action = new CheckEmailAction();
+		} else if("check_name".equals(actionName)) {
+			action = new CheckNameAction();
 		} else if("joinsuccess".equals(actionName)) {
 			action = new JoinSuccessAction();
 		} else if("login".equals(actionName)) {	// 로그인
