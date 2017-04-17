@@ -24,11 +24,11 @@ public class ModifyAction implements Action {
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
-		if(authUser == null){
-			System.out.println("로그인하지 않은 사용자");
-			WebUtil.redirect(request, response, "/pilot-project/main");
-			return;
-		}
+//		if(authUser == null){
+//			System.out.println("로그인하지 않은 사용자");
+//			WebUtil.redirect(request, response, "/pilot-project/main");
+//			return;
+//		}
 		
 		String name = request.getParameter("name");
 		String password = request.getParameter("passwd");

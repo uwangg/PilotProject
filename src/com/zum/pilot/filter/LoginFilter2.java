@@ -1,6 +1,7 @@
 package com.zum.pilot.filter;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,43 +11,42 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet Filter implementation class LoginFilter
- */
-@WebFilter("/lf")
-public class LoginFilter implements Filter {
+@WebFilter(
+		filterName = "LoginFilter2",
+		urlPatterns = {"/board"}		)
+public class LoginFilter2 implements Filter {
 
-    /**
-     * Default constructor. 
-     */
-    public LoginFilter() {
+    public LoginFilter2() {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see Filter#destroy()
-	 */
 	public void destroy() {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest)request;
-//		HttpServletResponse res = (HttpServletResponse)response;
-		HttpSession session = req.getSession();
-		if(session.getAttribute("authUser") == null) {	// 로그인한 사용자가 아닐때
+		HttpServletResponse res = (HttpServletResponse)response;
+		
+		String actionName = request.getParameter("a");
+
+		if(actionName == null) {
 			chain.doFilter(request, response);
+		} else if(actionName.equals("view")) {
+			chain.doFilter(request, response);
+		} else {
+			HttpSession session = req.getSession();
+			if(session.getAttribute("authUser") == null) {	// 로그인한 사용자가 아닐때
+				res.sendRedirect(req.getContextPath() + "/board");
+			} else {
+				chain.doFilter(request, response);
+			}
 		}
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
 	}

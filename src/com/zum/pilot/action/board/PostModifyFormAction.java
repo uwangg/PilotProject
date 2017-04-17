@@ -22,7 +22,9 @@ public class PostModifyFormAction implements Action {
 		
 		// 로그인하지 않은 사용자
 		HttpSession session = request.getSession();
-		if(session == null) {
+		
+		if(request.getParameter("id") == null)
+		{
 			WebUtil.redirect(request, response, "/pilot-project/board");
 			return;
 		}

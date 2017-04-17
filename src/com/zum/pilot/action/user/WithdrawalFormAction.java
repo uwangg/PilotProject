@@ -14,13 +14,13 @@ public class WithdrawalFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		
-		if(session == null){
-			System.out.println("로그인하지 않은 사용자");
-			WebUtil.redirect(request, response, "/pilot-project/main");
-			return;
-		}
+//		HttpSession session = request.getSession();
+//		
+//		if(session == null){
+//			System.out.println("로그인하지 않은 사용자");
+//			WebUtil.redirect(request, response, "/pilot-project/main");
+//			return;
+//		}
 		
 		WebUtil.forward(request, response, "/WEB-INF/views/user/withdrawalform.jsp");
 	}                                                                                                                            
