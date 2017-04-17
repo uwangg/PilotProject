@@ -30,13 +30,20 @@ public class WithdrawalAction implements Action {
 		
 		// db에서 회원정보 삭제
 		UserVo userVo = (UserVo)session.getAttribute("authUser");
-		String password = SecurityUtil.encryptSHA256(request.getParameter("password"));
+		String password = SecurityUtil.encryptSHA256(request.getParameter("passwd"));
 
 		UserDao userDao = new UserDao(new MySQLConnection());
 		int result = userDao.delete(userVo.getId(), password);
+		
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
 		if(result == 0) {
 			System.out.println("비밀번호 틀림");
-			WebUtil.redirect(request, response, "/pilot-project/user?a=withdrawalform");
+			out.println("<script language=\"javascript\">");
+			out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user?a=withdrawalform\"");
+			out.println("</script>");
+			out.close();
 			return;
 		}
 		
@@ -45,10 +52,6 @@ public class WithdrawalAction implements Action {
 		session.invalidate();	// 세션 종료
 		
 //		WebUtil.redirect(request, response, "/pilot-project/main");
-		
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();
 		out.println("<script language=\"javascript\">");
 		out.println("alert('회원탈퇴가 완료되었습니다.'); location.href=\"/pilot-project/main\"");
 		out.println("</script>");

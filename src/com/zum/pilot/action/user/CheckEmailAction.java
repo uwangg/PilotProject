@@ -19,7 +19,6 @@ public class CheckEmailAction implements Action {
 		String email = request.getParameter("email");
 		PrintWriter out = response.getWriter();
 		
-		System.out.println("check email = " + email);
 		UserDao userDao = new UserDao(new MySQLConnection());
 		
 		// 이메일 중복체크

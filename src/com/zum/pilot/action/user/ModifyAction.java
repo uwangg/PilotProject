@@ -1,6 +1,7 @@
 package com.zum.pilot.action.user;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,26 +31,30 @@ public class ModifyAction implements Action {
 		}
 		
 		String name = request.getParameter("name");
-		String password = request.getParameter("password");
-		String change_password = request.getParameter("change_password");
-		String change_confirm = request.getParameter("change_confirm");
-		System.out.println("name = " + name + ", password = " + password);
-		if(password.equals("") || password == null) {
-			System.out.println("패스워드 입력하지 않음");
-			WebUtil.redirect(request, response, "/pilot-project/user?a=modifyform");
+		String password = request.getParameter("passwd");
+		String change_password = request.getParameter("change_passwd");
+		
+		UserDao userDao = new UserDao(new MySQLConnection());
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		if(!userDao.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(password))) {
+			out.println("<script language=\"javascript\">");
+			out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user?a=modifyform\"");
+			out.println("</script>");
+			out.close();
 			return;
-		}
-		if(!change_password.equals(change_confirm)) {
-			System.out.println("바꿀 패스워드 != 확인패스워드");
-			WebUtil.redirect(request, response, "/pilot-project/user?a=modifyform");
-			return;
-		}
+		} 
 		
 		// 회원 수정
 		authUser.setName(name);
 		authUser.setPassword(SecurityUtil.encryptSHA256(password));
-		UserDao userDao = new UserDao(new MySQLConnection());
-		userDao.update(authUser, SecurityUtil.encryptSHA256(change_password));
+		
+		if(change_password.equals("") || change_password == null) {
+			userDao.update(authUser, "");
+		} else {
+			userDao.update(authUser, SecurityUtil.encryptSHA256(change_password));
+		}
 
 		// 세션 정보 변경
 		authUser.setPassword("");

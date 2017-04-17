@@ -46,7 +46,7 @@ $(document).ready(function() {
 				email: true,
 				remote: "user?a=check_email"
 			},
-			password: {
+			passwd: {
 				required: true,
 				minlength: 6
 			},
@@ -67,7 +67,7 @@ $(document).ready(function() {
 				email: "이메일 규칙에 어긋납니다",
 				remote: "존재하는 이메일 입니다"
 			},
-			password: {
+			passwd: {
 				required: "필수 입력사항 입니다",
 				minlength: "최소 {0}글자 이상이어야 합니다"
 			},

@@ -8,7 +8,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-</head>
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -26,6 +25,37 @@
 	rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Oxygen'
 	rel='stylesheet' type='text/css'>
+<!-- validate -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#withdrawalForm').validate({
+		// validation이 끝난 이후 submit 직전할 것
+ 		submitHandler: function() {
+			var f = confirm("회원탈퇴를 하시겠습니까?");
+			if(f) {
+				return true;
+			} else {
+				return false;
+			}
+		},
+		// 규칙
+		rules: {
+			passwd: {
+				required: true,
+			}
+		},
+		// 규칙 실패시 출력될 메세지
+		messages: {
+			passwd: {
+				required: "필수입력사항입니다",
+			}
+		}
+	});
+});
+</script>
+</head>
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 	<div style="width:400px;margin:auto;margin-top:100px;
@@ -40,7 +70,7 @@
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="/pilot-project/user">
+					<form class="form-horizontal" method="post" action="/pilot-project/user" id="withdrawalForm">
 						<input type="hidden" name="a" value="withdrawal">
 
 						<!-- 패스워드 폼 -->
@@ -49,7 +79,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" class="form-control" name="password" id="password"  placeholder="패스워드를입력해주세요"/>
+									<input type="password" class="form-control" name="passwd" id="passwd"  placeholder="패스워드를입력해주세요"/>
 								</div>
 							</div>
 						</div>

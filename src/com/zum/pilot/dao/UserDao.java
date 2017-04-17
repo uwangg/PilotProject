@@ -181,6 +181,43 @@ public class UserDao {
 		
 		return check;
 	}
+	public boolean checkPassword(Long id, String password) {
+		boolean check = true;	// name이 존재하면 true
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = dbConnection.getConnection();
+			String query = "select count(*) from user where id=? and passwd=? and delete_flag=0";
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setLong(1, id);	// 첫번째  ?에 id값
+			pstmt.setString(2, password);
+			rs = pstmt.executeQuery();
+			rs.next();
+			if(rs.getInt(1) == 0)
+				check = false;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(con != null)
+					con.close();
+				if(pstmt != null)
+					pstmt.close();
+				if(rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return check;
+	}
 	
 	// 회원가입시
 	public void insert(UserVo vo) {
