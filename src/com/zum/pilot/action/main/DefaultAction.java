@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zum.db.MySQLConnection;
-import com.zum.pilot.WebUtil;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.PostDao;
+import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.PostVo;
 
 public class DefaultAction implements Action {

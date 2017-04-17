@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zum.pilot.WebUtil;
 import com.zum.pilot.action.Action;
+import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.UserVo;
 
 public class PostWriteFormAction implements Action {

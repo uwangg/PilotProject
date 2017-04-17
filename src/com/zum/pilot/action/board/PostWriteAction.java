@@ -10,9 +10,9 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.db.MySQLConnection;
-import com.zum.pilot.WebUtil;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.PostDao;
+import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
 

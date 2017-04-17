@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zum.db.MySQLConnection;
-import com.zum.pilot.SecurityUtil;
-import com.zum.pilot.WebUtil;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.UserDao;
+import com.zum.pilot.util.SecurityUtil;
+import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.UserVo;
 
 public class JoinAction implements Action {
