@@ -206,7 +206,7 @@ public class CommentDao {
 		try {
 			con = dbConnection.getConnection();
 
-			String query = "select max(thread) from comment where delete_flag=0 and post_id=?";
+			String query = "select max(thread) from comment where post_id=?";
 			pstmt = con.prepareStatement(query);
 			pstmt.setLong(1, post_id);
 			rs = pstmt.executeQuery();
