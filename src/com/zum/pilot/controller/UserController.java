@@ -12,9 +12,6 @@ import com.zum.pilot.action.Action;
 import com.zum.pilot.action.ActionFactory;
 import com.zum.pilot.action.user.UserActionFactory;
 
-/**
- * Servlet implementation class UserServlet
- */
 @WebServlet("/user")
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -24,9 +21,6 @@ public class UserController extends HttpServlet {
 		actionDo(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		actionDo(request, response);
 	}
