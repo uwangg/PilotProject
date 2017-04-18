@@ -1,7 +1,6 @@
 package com.zum.pilot.filter;
 
 import java.io.IOException;
-import java.util.HashSet;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -28,6 +27,7 @@ public class LoginFilter2 implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		request.setCharacterEncoding("utf-8");
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
 		
