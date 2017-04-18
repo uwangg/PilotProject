@@ -63,8 +63,7 @@ public class PostViewAction implements Action {
 		}
 		end = (begin-1) + pageNumUnit;
 		if(end > totalPageNum)
-			end = totalPageNum;
-		
+			end = totalPageNum;		
 		
 		
 		request.setAttribute("postVo", postVo);

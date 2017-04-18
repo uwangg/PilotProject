@@ -23,10 +23,6 @@ public class PostDeleteAction implements Action {
 		request.setCharacterEncoding("utf-8");
 		
 		HttpSession session = request.getSession();
-		if(session == null) {
-			WebUtil.redirect(request, response, "/pilot-project/board");
-			return;
-		}
 		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		Long auth_id = authUser.getId();	// 글을 확인하는 사람

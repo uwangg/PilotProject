@@ -24,11 +24,6 @@ public class PostWriteAction implements Action {
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			System.out.println("로그인하지않아 글을 쓸수 없습니다.");
-			WebUtil.redirect(request, response, "/pilot-project/main");
-			return;
-		}
 		
 		// 업로드용 폴더 이름
 		MultipartRequest multi = null;
@@ -39,8 +34,6 @@ public class PostWriteAction implements Action {
 		String file_name = "";
 		
 		// 파일이 업로드될 실제 tomcat 폴더의 경로
-//		String save_path = request.getSession().getServletContext().getRealPath("upload");
-//		String save_path = "D:\\git\\PilotProject\\WebContent\\upload";
 		String save_path = request.getServletContext().getRealPath("upload");
 		
 		try {
@@ -49,12 +42,9 @@ public class PostWriteAction implements Action {
 			content = multi.getParameter("content");
 			file_name = multi.getFilesystemName("image_path");
 			image_path = file_name;
-//			image_path = savePath + "\\" + multi.getFilesystemName("image_path");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		ParameterBlock pb = new ParameterBlock();
-//		pb.add(savePath+"/"+image_path)''
 		
 		System.out.println("title = " + title);
 		System.out.println("content = " + content);

@@ -16,12 +16,6 @@ public class LogoutAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-//		if(session == null){
-//			System.out.println("로그인하지 않은 사용자");
-//			WebUtil.redirect(request, response, "/pilot-project/main");
-//			return;
-//		}
-		
 		//로그아웃 처리
 		session.removeAttribute("authUser");	// 세션 삭제
 		session.invalidate();	// 세션 종료

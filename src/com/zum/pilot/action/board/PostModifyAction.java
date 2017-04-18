@@ -37,8 +37,6 @@ public class PostModifyAction implements Action {
 		Long user_id = -1L;
 		
 		// 파일이 업로드될 실제 tomcat 폴더의 경로
-//		String save_path = request.getSession().getServletContext().getRealPath("upload");
-//		String save_path = "D:\\git\\PilotProject\\WebContent\\upload";
 		String save_path = request.getServletContext().getRealPath("upload");
 		boolean changed_image = false;
 		

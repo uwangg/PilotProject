@@ -19,11 +19,9 @@ import javax.servlet.http.HttpSession;
 public class LoginFilter2 implements Filter {
 
     public LoginFilter2() {
-        // TODO Auto-generated constructor stub
     }
 
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -48,7 +46,6 @@ public class LoginFilter2 implements Filter {
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 	}
 
 }
