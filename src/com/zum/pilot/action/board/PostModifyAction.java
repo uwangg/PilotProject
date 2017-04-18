@@ -25,12 +25,7 @@ public class PostModifyAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		System.out.println("postmodifyaction");
-		HttpSession session = request.getSession();
-		if(session == null) {
-			WebUtil.redirect(request, response, "/pilot-project/board");
-			return;
-		}
-		
+
 		// 업로드용 폴더 이름
 		MultipartRequest multi = null;
 		int maxSize = 5*1024*1024;	// 10M
@@ -63,10 +58,8 @@ public class PostModifyAction implements Action {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		System.out.println("수정");
-//		System.out.println("old_path = " + old_path);
-//		System.out.println("image_path = " + image_path);
 		
+		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
 		// 작성자만 수정 가능
@@ -87,7 +80,7 @@ public class PostModifyAction implements Action {
 			postDao.update(vo);
 		}
 		
-		WebUtil.redirect(request, response, "/pilot-project/board?a=view?id="+user_id);
+		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+user_id);
 	}
 
 }
