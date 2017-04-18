@@ -80,7 +80,7 @@ public class PostModifyAction implements Action {
 			postDao.update(vo);
 		}
 		
-		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+user_id);
+		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+id);
 	}
 
 }
