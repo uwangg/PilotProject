@@ -23,8 +23,8 @@ public class CommentModifyAction implements Action {
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
-		Long user_id = authUser.getId();
-		Long post_id = Long.parseLong(request.getParameter("post_id"));
+		Long userId = authUser.getId();
+		Long postId = Long.parseLong(request.getParameter("post_id"));
 		Long id = Long.parseLong(request.getParameter("id"));
 		String content = request.getParameter("content");
 		
@@ -34,11 +34,11 @@ public class CommentModifyAction implements Action {
 		CommentVo commentVo = new CommentVo();
 		commentVo.setId(id);
 		commentVo.setContent(content);
-		commentVo.setUser_id(user_id);
+		commentVo.setUserId(userId);
 		
 		commentDao.update(commentVo);
 		
-		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+post_id);
+		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+postId);
 	}
 
 }

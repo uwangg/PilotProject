@@ -24,15 +24,9 @@ public class ModifyAction implements Action {
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
-//		if(authUser == null){
-//			System.out.println("로그인하지 않은 사용자");
-//			WebUtil.redirect(request, response, "/pilot-project/main");
-//			return;
-//		}
-		
 		String name = request.getParameter("name");
 		String password = request.getParameter("passwd");
-		String change_password = request.getParameter("change_passwd");
+		String changePassword = request.getParameter("change_passwd");
 		
 		UserDao userDao = new UserDao(new MySQLConnection());
 		response.setCharacterEncoding("UTF-8");
@@ -50,10 +44,10 @@ public class ModifyAction implements Action {
 		authUser.setName(name);
 		authUser.setPassword(SecurityUtil.encryptSHA256(password));
 		
-		if(change_password.equals("") || change_password == null) {
+		if(changePassword.equals("") || changePassword == null) {
 			userDao.update(authUser, "");
 		} else {
-			userDao.update(authUser, SecurityUtil.encryptSHA256(change_password));
+			userDao.update(authUser, SecurityUtil.encryptSHA256(changePassword));
 		}
 
 		// 세션 정보 변경

@@ -32,27 +32,27 @@ public class PostModifyAction implements Action {
 		Long id = -1L;
 		String title = "";
 		String content = "";
-		String old_path = "";
-		String image_path = "";
-		Long user_id = -1L;
+		String oldPath = "";
+		String imagePath = "";
+		Long userId = -1L;
 		
 		// 파일이 업로드될 실제 tomcat 폴더의 경로
-		String save_path = request.getServletContext().getRealPath("upload");
-		boolean changed_image = false;
+		String savePath = request.getServletContext().getRealPath("upload");
+		boolean changedImage = false;
 		
 		try {
-			multi = new MultipartRequest(request, save_path, maxSize, "utf-8", new DefaultFileRenamePolicy());
+			multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 			id = Long.parseLong(multi.getParameter("id"));
 			title = multi.getParameter("title");
 			content = multi.getParameter("content");
-			old_path = multi.getParameter("old_imgpath");
-			image_path = multi.getFilesystemName("image_path");
-			if(image_path == null || image_path.equals(""))
-				image_path = old_path;
+			oldPath = multi.getParameter("old_imgpath");
+			imagePath = multi.getFilesystemName("image_path");
+			if(imagePath == null || imagePath.equals(""))
+				imagePath = oldPath;
 			else {
-				changed_image = true;
+				changedImage = true;
 			}
-			user_id = Long.parseLong(multi.getParameter("user_id"));
+			userId = Long.parseLong(multi.getParameter("user_id"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,19 +61,19 @@ public class PostModifyAction implements Action {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
 		// 작성자만 수정 가능
-		if(authUser.getId() == user_id) {
-			PostVo vo = new PostVo(id, title, content, image_path, user_id);
+		if(authUser.getId() == userId) {
+			PostVo vo = new PostVo(id, title, content, imagePath, userId);
 			PostDao postDao = new PostDao(new MySQLConnection());
 			
 			// 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
-			if(changed_image) {
+			if(changedImage) {
 				PostVo postVo = postDao.get(id);
 					
-				String upload_file_name = request.getServletContext().getRealPath("upload");
-				File upload_file = new File(upload_file_name + "/" + postVo.getImage_path());
+				String uploadFileName = request.getServletContext().getRealPath("upload");
+				File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
 					
-				if(upload_file.exists() && upload_file.isFile())
-					upload_file.delete();
+				if(uploadFile.exists() && uploadFile.isFile())
+					uploadFile.delete();
 			}
 			postDao.update(vo);
 		}

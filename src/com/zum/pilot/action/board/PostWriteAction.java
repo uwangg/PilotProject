@@ -30,28 +30,28 @@ public class PostWriteAction implements Action {
 		int maxSize = 5*1024*1024;	// 10M
 		String title = "";
 		String content = "";
-		String image_path = "";
-		String file_name = "";
+		String imagePath = "";
+		String fileName = "";
 		
 		// 파일이 업로드될 실제 tomcat 폴더의 경로
-		String save_path = request.getServletContext().getRealPath("upload");
+		String savePath = request.getServletContext().getRealPath("upload");
 		
 		try {
-			multi = new MultipartRequest(request, save_path, maxSize, "utf-8", new DefaultFileRenamePolicy());
+			multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 			title = multi.getParameter("title");
 			content = multi.getParameter("content");
-			file_name = multi.getFilesystemName("image_path");
-			image_path = file_name;
+			fileName = multi.getFilesystemName("image_path");
+			imagePath = fileName;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		System.out.println("title = " + title);
 		System.out.println("content = " + content);
-		System.out.println("image_path = " + image_path);
+		System.out.println("imagePath = " + imagePath);
 		
 		// 게시글 입력
-		PostVo postVo = new PostVo(title, content, image_path, authUser.getId());
+		PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
 		PostDao postDao = new PostDao(new MySQLConnection());
 		postDao.insert(postVo);
 		WebUtil.redirect(request, response, "/pilot-project/board");

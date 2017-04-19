@@ -37,7 +37,7 @@ $(document).ready(function() {
 		// 규칙
 		rules: {
 			name: {
-				remote: "user?a=check_name"
+				remote: "user?a=checkname"
 			},
 			passwd: {
 				required: true,

@@ -39,12 +39,12 @@ $(document).ready(function() {
 		rules: {
 			name: {
 				required: true,
-				remote: "user?a=check_name"
+				remote: "user?a=checkname"
 			},
 			email: {
 				required: true,
 				email: true,
-				remote: "user?a=check_email"
+				remote: "user?a=checkemail"
 			},
 			passwd: {
 				required: true,

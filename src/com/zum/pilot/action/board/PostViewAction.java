@@ -23,10 +23,10 @@ public class PostViewAction implements Action {
 //		request.setCharacterEncoding("utf-8");
 		
 		// 게시글 id를 이용해 게시물 불러오기
-		Long post_id = Long.parseLong(request.getParameter("id"));
+		Long postId = Long.parseLong(request.getParameter("id"));
 		PostDao postDao = new PostDao(new MySQLConnection());
-		postDao.hitIncrease(post_id);
-		PostVo postVo = postDao.get(post_id);
+		postDao.hitIncrease(postId);
+		PostVo postVo = postDao.get(postId);
 		
 		
 		// 댓글 페이지네이션
@@ -42,7 +42,7 @@ public class PostViewAction implements Action {
 		List<CommentVo> commentList = null;
 		CommentDao commentDao = new CommentDao(new MySQLConnection());
 		
-		totalCommentNum = commentDao.totalNumberOfComment(post_id);
+		totalCommentNum = commentDao.totalNumberOfComment(postId);
 		totalPageNum = (int)((totalCommentNum - 1) / commentUnit + 1);
 		System.out.println("댓글수 : " + totalCommentNum + ", 페이지번호수 : "+totalPageNum);
 		
@@ -52,7 +52,7 @@ public class PostViewAction implements Action {
 		} else {
 			currentPageNum = Integer.parseInt(request.getParameter("currentPageNum"));
 		}
-		commentList = commentDao.getList(post_id, (totalPageNum-currentPageNum)*commentUnit, commentUnit);
+		commentList = commentDao.getList(postId, (totalPageNum-currentPageNum)*commentUnit, commentUnit);
 		
 		
 		// 시작과 끝페이지 가져오기

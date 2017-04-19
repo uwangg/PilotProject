@@ -41,7 +41,7 @@ public class PostModifyFormAction implements Action {
 			return;
 		}
 		// 작성자와 로그인한 유저가 다를때
-		if(vo.getUser_id() != authUser.getId()) {
+		if(vo.getUserId() != authUser.getId()) {
 			WebUtil.redirect(request, response, "/pilot-project/board");
 			return;
 		}

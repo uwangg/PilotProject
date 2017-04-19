@@ -12,9 +12,9 @@ public class UserActionFactory implements ActionFactory {
 			action = new JoinFormAction();
 		} else if("join".equals(actionName)) {
 			action = new JoinAction();
-		} else if("check_email".equals(actionName)) {	// 유효성 검사
+		} else if("checkemail".equals(actionName)) {	// 유효성 검사
 			action = new CheckEmailAction();
-		} else if("check_name".equals(actionName)) {
+		} else if("checkname".equals(actionName)) {
 			action = new CheckNameAction();
 		} else if("joinsuccess".equals(actionName)) {
 			action = new JoinSuccessAction();

@@ -3,15 +3,14 @@ package com.zum.pilot.vo;
 public class CommentVo {
 	private Long id;	// id
 	private String content;	// 댓글 내용
-	private String create_time;	// 작성일
-	private String update_time;	// 수정일
+	private String createTime;	// 작성일
+	private String updateTime;	// 수정일
 	private Integer thread;	// 댓글 순서
 	private Integer depth;	// 답글 깊이
-	private Long user_id;	// 작성자 id
-	private Long post_id;	// 게시글 id
-	private String user_name;	// id로 찾은 유저이름
-	private Boolean delete_flag;
-	
+	private Long userId;	// 작성자 id
+	private Long postId;	// 게시글 id
+	private String userName;	// id로 찾은 유저이름
+	private Boolean deleteFlag;
 	public Long getId() {
 		return id;
 	}
@@ -24,17 +23,17 @@ public class CommentVo {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getCreate_time() {
-		return create_time;
+	public String getCreateTime() {
+		return createTime;
 	}
-	public void setCreate_time(String create_time) {
-		this.create_time = create_time;
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
-	public String getUpdate_time() {
-		return update_time;
+	public String getUpdateTime() {
+		return updateTime;
 	}
-	public void setUpdate_time(String update_time) {
-		this.update_time = update_time;
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
 	}
 	public Integer getThread() {
 		return thread;
@@ -48,29 +47,30 @@ public class CommentVo {
 	public void setDepth(Integer depth) {
 		this.depth = depth;
 	}
-	public Long getUser_id() {
-		return user_id;
+	public Long getUserId() {
+		return userId;
 	}
-	public void setUser_id(Long user_id) {
-		this.user_id = user_id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
-	public Long getPost_id() {
-		return post_id;
+	public Long getPostId() {
+		return postId;
 	}
-	public void setPost_id(Long post_id) {
-		this.post_id = post_id;
+	public void setPostId(Long postId) {
+		this.postId = postId;
 	}
-	public String getUser_name() {
-		return user_name;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public Boolean getDelete_flag() {
-		return delete_flag;
+	public Boolean getDeleteFlag() {
+		return deleteFlag;
 	}
-	public void setDelete_flag(Boolean delete_flag) {
-		this.delete_flag = delete_flag;
+	public void setDeleteFlag(Boolean deleteFlag) {
+		this.deleteFlag = deleteFlag;
 	}
 	
+
 }

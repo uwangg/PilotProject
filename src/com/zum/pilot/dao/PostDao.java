@@ -80,16 +80,16 @@ public class PostDao {
 			while (rs.next()) {
 				Long id = rs.getLong(1);
 				String title = rs.getString(2);
-				String create_time = rs.getString(3);
+				String createTime = rs.getString(3);
 				Long hit = rs.getLong(4);
-				String user_name = rs.getString(5);
+				String userName = rs.getString(5);
 
 				PostVo postVo = new PostVo();
 				postVo.setId(id);
 				postVo.setTitle(title);
-				postVo.setCreate_time(create_time);
+				postVo.setCreateTime(createTime);
 				postVo.setHit(hit);
-				postVo.setUser_name(user_name);
+				postVo.setUserName(userName);
 				list.add(postVo);
 			}
 
@@ -127,8 +127,8 @@ public class PostDao {
 
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContent());
-			pstmt.setString(3, vo.getImage_path());
-			pstmt.setLong(4, vo.getUser_id());
+			pstmt.setString(3, vo.getImagePath());
+			pstmt.setLong(4, vo.getUserId());
 
 			int r = pstmt.executeUpdate();
 			if(r == 1)
@@ -170,19 +170,19 @@ public class PostDao {
 					Long id = rs.getLong("id");
 					String title = rs.getString("title");
 					String content = rs.getString("content");
-					String image_path = rs.getString("image_path");
-					String create_time = rs.getString("create_time");
-					Long user_id = rs.getLong("user_id");
-					String user_name = rs.getString("name");
+					String imagePath = rs.getString("image_path");
+					String createTime = rs.getString("create_time");
+					Long userId = rs.getLong("user_id");
+					String userName = rs.getString("name");
 					
 					postVo = new PostVo();
 					postVo.setId(id);
 					postVo.setTitle(title);
 					postVo.setContent(content);
-					postVo.setImage_path(image_path);
-					postVo.setCreate_time(create_time);
-					postVo.setUser_id(user_id);
-					postVo.setUser_name(user_name);
+					postVo.setImagePath(imagePath);
+					postVo.setCreateTime(createTime);
+					postVo.setUserId(userId);
+					postVo.setUserName(userName);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -216,9 +216,9 @@ public class PostDao {
 
 					pstmt.setString(1, vo.getTitle());
 					pstmt.setString(2, vo.getContent());
-					pstmt.setString(3, vo.getImage_path());
+					pstmt.setString(3, vo.getImagePath());
 					pstmt.setLong(4, vo.getId());
-					pstmt.setLong(5, vo.getUser_id());
+					pstmt.setLong(5, vo.getUserId());
 				
 				int r = pstmt.executeUpdate();
 				if(r == 1)
@@ -238,7 +238,7 @@ public class PostDao {
 		}
 		
 		// 게시글 삭제
-		public int delete(Long post_id, Long user_id) {
+		public int delete(Long postId, Long userId) {
 			Connection con = null;
 			PreparedStatement pstmt1 = null;
 			PreparedStatement pstmt2 = null;
@@ -249,14 +249,14 @@ public class PostDao {
 
 				String query1 = "update post set delete_flag=1 where id=? and user_id=?";
 				pstmt1 = con.prepareStatement(query1);
-				pstmt1.setLong(1, post_id);
-				pstmt1.setLong(2, user_id);
+				pstmt1.setLong(1, postId);
+				pstmt1.setLong(2, userId);
 				result += pstmt1.executeUpdate();
 				
 				if(result == 1) {
 					String query2 = "update comment set delete_flag=1 where post_id=?";
 					pstmt2 = con.prepareStatement(query2);
-					pstmt2.setLong(1, post_id);
+					pstmt2.setLong(1, postId);
 					result += pstmt2.executeUpdate();
 				}
 				

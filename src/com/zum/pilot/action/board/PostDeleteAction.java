@@ -25,23 +25,23 @@ public class PostDeleteAction implements Action {
 		HttpSession session = request.getSession();
 		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		Long auth_id = authUser.getId();	// 글을 확인하는 사람
+		Long authId = authUser.getId();	// 글을 확인하는 사람
 	
 		Long id = Long.parseLong(request.getParameter("id"));
-		Long user_id = Long.parseLong(request.getParameter("user_id"));	// 게시글 작성자
+		Long userId = Long.parseLong(request.getParameter("user_id"));	// 게시글 작성자
 		
-		if(user_id == auth_id) {		
+		if(userId == authId) {		
 			PostDao postDao = new PostDao(new MySQLConnection());
 			
 			// 이미지가 있다면 삭제
 			PostVo postVo = postDao.get(id);
-			if(postVo.getImage_path() != null && !postVo.getImage_path().equals("")) {
+			if(postVo.getImagePath() != null && !postVo.getImagePath().equals("")) {
 				
-				String upload_file_name = request.getServletContext().getRealPath("upload");
-				File upload_file = new File(upload_file_name + "/" + postVo.getImage_path());
+				String uploadFileName = request.getServletContext().getRealPath("upload");
+				File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
 				
-				if(upload_file.exists() && upload_file.isFile())
-					upload_file.delete();
+				if(uploadFile.exists() && uploadFile.isFile())
+					uploadFile.delete();
 			}
 			
 			// 게시글 삭제

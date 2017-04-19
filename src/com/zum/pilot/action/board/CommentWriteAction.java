@@ -21,19 +21,20 @@ public class CommentWriteAction implements Action {
 //		request.setCharacterEncoding("utf-8");
 		
 //		Long countOfComment = 0L;
-		int thr_unit = 1000;
-		Long post_id = Long.parseLong(request.getParameter("post_id"));
+		final int thrUnit = 1000;
+		Long postId = Long.parseLong(request.getParameter("post_id"));
 		int depth = Integer.parseInt(request.getParameter("depth"));
 		String content = request.getParameter("content");
 		
+		System.out.println("댓글 내용 : "+content);
 		// 댓글 작성자 정보 가져오기
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		Long user_id = authUser.getId();
+		Long userId = authUser.getId();
 		
 		CommentVo commentVo = new CommentVo();
-		commentVo.setPost_id(post_id);
-		commentVo.setUser_id(user_id);
+		commentVo.setPostId(postId);
+		commentVo.setUserId(userId);
 		commentVo.setContent(content);
 		commentVo.setDepth(depth);
 		
@@ -41,19 +42,19 @@ public class CommentWriteAction implements Action {
 		int thread = 0;
 		
 		if(depth == 0) {	// 댓글을 다는 경우
-			thread = commentDao.getMaxThread(post_id);
-			thread = (thread/thr_unit) * thr_unit + thr_unit;
+			thread = commentDao.getMaxThread(postId);
+			thread = (thread/thrUnit) * thrUnit + thrUnit;
 			System.out.println("thread = " + thread);
 			commentVo.setThread(thread);
 		} else {	// 답글을 다는 경우
 			thread = Integer.parseInt(request.getParameter("thread"));
 			commentVo.setThread(thread);
-			int precomment_thread = (thread/thr_unit) * thr_unit;
-			commentDao.updateThread(precomment_thread, thread+1);
+			int precommentThread = (thread/thrUnit) * thrUnit;
+			commentDao.updateThread(precommentThread, thread+1);
 		}
 		
 		commentDao.insert(commentVo);
-		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+post_id);
+		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+postId);
 	}
 
 }

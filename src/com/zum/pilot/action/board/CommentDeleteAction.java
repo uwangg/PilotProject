@@ -20,13 +20,13 @@ public class CommentDeleteAction implements Action {
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
-		Long user_id = authUser.getId();
-		Long post_id = Long.parseLong(request.getParameter("post_id"));
-		Long comment_id = Long.parseLong(request.getParameter("id"));
+		Long userId = authUser.getId();
+		Long postId = Long.parseLong(request.getParameter("post_id"));
+		Long commentId = Long.parseLong(request.getParameter("id"));
 		CommentDao commentDao = new CommentDao(new MySQLConnection());
-		commentDao.delete(comment_id, user_id);
+		commentDao.delete(commentId, userId);
 		
-		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+post_id);
+		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+postId);
 	}
 
 }
