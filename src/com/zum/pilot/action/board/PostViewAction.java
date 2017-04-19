@@ -20,7 +20,7 @@ public class PostViewAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setCharacterEncoding("utf-8");
+//		request.setCharacterEncoding("utf-8");
 		
 		// 게시글 id를 이용해 게시물 불러오기
 		Long post_id = Long.parseLong(request.getParameter("id"));

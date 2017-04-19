@@ -18,7 +18,7 @@ public class CommentWriteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+//		request.setCharacterEncoding("utf-8");
 		
 //		Long countOfComment = 0L;
 		int thr_unit = 1000;

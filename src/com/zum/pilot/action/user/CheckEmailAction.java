@@ -15,7 +15,7 @@ public class CheckEmailAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+//		request.setCharacterEncoding("utf-8");
 		String email = request.getParameter("email");
 		PrintWriter out = response.getWriter();
 		

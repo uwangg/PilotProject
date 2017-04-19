@@ -23,7 +23,7 @@ public class PostModifyAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+//		request.setCharacterEncoding("utf-8");
 		System.out.println("postmodifyaction");
 
 		// 업로드용 폴더 이름
