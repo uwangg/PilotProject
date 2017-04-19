@@ -15,18 +15,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebFilter(
-		filterName = "LoginFilter1",
+		filterName = "UserLoginFilter",
 		urlPatterns = {"/user"}		)
-public class LoginFilter1 implements Filter {
+public class UserLoginFilter implements Filter {
 
-    public LoginFilter1() {
+    public UserLoginFilter() {
     }
 
 	public void destroy() {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		request.setCharacterEncoding("utf-8");
+//		request.setCharacterEncoding("utf-8");
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
 		
