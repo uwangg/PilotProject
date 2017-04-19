@@ -3,7 +3,7 @@ package com.zum.pilot.action.user;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.action.ActionFactory;
 
-public class UserActionFactory extends ActionFactory {
+public class UserActionFactory implements ActionFactory {
 
 	@Override
 	public Action getAction(String actionName) {

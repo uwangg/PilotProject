@@ -3,7 +3,7 @@ package com.zum.pilot.action.board;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.action.ActionFactory;
 
-public class BoardActionFactory extends ActionFactory {
+public class BoardActionFactory implements ActionFactory {
 
 	@Override
 	public Action getAction(String actionName) {
