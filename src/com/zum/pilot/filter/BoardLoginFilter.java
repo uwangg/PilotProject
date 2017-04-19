@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(
-		filterName = "BoardLoginFilter",
-		urlPatterns = {"/board"}		)
+@WebFilter(filterName = "BoardLoginFilter")
 public class BoardLoginFilter implements Filter {
 
     public BoardLoginFilter() {
@@ -25,7 +23,7 @@ public class BoardLoginFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("utf-8");
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
 		
