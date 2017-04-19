@@ -12,16 +12,12 @@ import com.zum.pilot.action.Action;
 import com.zum.pilot.action.ActionFactory;
 import com.zum.pilot.action.board.BoardActionFactory;
 
-/**
- * Servlet implementation class BoardController
- */
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     public BoardController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,7 +26,7 @@ public class BoardController extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("utf-8");
 		String actionName = request.getParameter("a");
 		ActionFactory actionFactory = new BoardActionFactory();
 		Action action = actionFactory.getAction(actionName);

@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.zum.db.MySQLConnection;
-import com.zum.pilot.WebUtil;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.PostDao;
+import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
 
@@ -22,7 +22,9 @@ public class PostModifyFormAction implements Action {
 		
 		// 로그인하지 않은 사용자
 		HttpSession session = request.getSession();
-		if(session == null) {
+		
+		if(request.getParameter("id") == null)
+		{
 			WebUtil.redirect(request, response, "/pilot-project/board");
 			return;
 		}

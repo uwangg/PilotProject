@@ -1,4 +1,4 @@
-package com.zum.pilot;
+package com.zum.pilot.util;
 
 import java.security.MessageDigest;
 

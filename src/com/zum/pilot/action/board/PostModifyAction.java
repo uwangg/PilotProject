@@ -12,9 +12,9 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.db.MySQLConnection;
-import com.zum.pilot.WebUtil;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.PostDao;
+import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
 
@@ -25,12 +25,7 @@ public class PostModifyAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		System.out.println("postmodifyaction");
-		HttpSession session = request.getSession();
-		if(session == null) {
-			WebUtil.redirect(request, response, "/pilot-project/board");
-			return;
-		}
-		
+
 		// 업로드용 폴더 이름
 		MultipartRequest multi = null;
 		int maxSize = 5*1024*1024;	// 10M
@@ -42,8 +37,6 @@ public class PostModifyAction implements Action {
 		Long user_id = -1L;
 		
 		// 파일이 업로드될 실제 tomcat 폴더의 경로
-//		String save_path = request.getSession().getServletContext().getRealPath("upload");
-//		String save_path = "D:\\git\\PilotProject\\WebContent\\upload";
 		String save_path = request.getServletContext().getRealPath("upload");
 		boolean changed_image = false;
 		
@@ -63,10 +56,8 @@ public class PostModifyAction implements Action {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		System.out.println("수정");
-//		System.out.println("old_path = " + old_path);
-//		System.out.println("image_path = " + image_path);
 		
+		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
 		// 작성자만 수정 가능
@@ -87,7 +78,7 @@ public class PostModifyAction implements Action {
 			postDao.update(vo);
 		}
 		
-		WebUtil.redirect(request, response, "/pilot-project/board?a=view?id="+user_id);
+		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+id);
 	}
 
 }
