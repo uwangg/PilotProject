@@ -56,23 +56,29 @@ h1 {
 					<span class="glyphicon glyphicon-time"></span> Posted on ${postVo.createTime }
 				</p>
 
-				<hr>
 
 				<!-- 이미지 -->
-				<c:choose>
+				<c:if test="${postVo.imagePath != null && postVo.imagePath != \"\"}">
+					<hr>
+					<img class="img-responsive" src="upload/${postVo.imagePath }"></img>
+				</c:if>
+<%-- 				<c:choose>
 					<c:when test="${postVo.imagePath != null && postVo.imagePath != \"\"}">
 						<img class="img-responsive" src="upload/${postVo.imagePath }"></img>
 					</c:when>
 					<c:otherwise>
 						<img class="img-responsive" src="http://placehold.it/900x300" alt="">
 					</c:otherwise>
-				</c:choose>
+				</c:choose> --%>
 
-				<hr>
 
 				<!-- 글 내용 -->
-<!-- 				<p class="lead">내용</p> -->
-				<label for="content">내용</label>
+				<hr>
+ 				<c:if test="${postVo.content != \"\"}">
+					<label for="content">내용</label>
+					<p id="content"><BIG>${fn:replace(postVo.content, crcn, br) }</BIG></p>
+				</c:if>
+				<%-- <label for="content">내용</label>
 				<c:choose>
 					<c:when test="${postVo.content == \"\" }">
 						<p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></p>
@@ -80,7 +86,7 @@ h1 {
 					<c:otherwise>
 						<p id="content"><BIG>${fn:replace(postVo.content, crcn, br) }</BIG></p>
 					</c:otherwise>
-				</c:choose>
+				</c:choose> --%>
 
 				<hr>
 				
