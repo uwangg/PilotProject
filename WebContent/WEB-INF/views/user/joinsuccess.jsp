@@ -34,7 +34,7 @@
 	               	</div>
 	            </div> 
 	            <div class="panel-title text-center">
-	            	<a href="${pageContext.request.contextPath}/main">Home으로 가기</a>
+	            	<a href="${pageContext.request.contextPath}/">Home으로 가기</a>
 	            </div>
 			</div>
 		</div>

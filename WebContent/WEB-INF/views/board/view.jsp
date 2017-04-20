@@ -119,8 +119,7 @@ h1 {
 
 				<!-- 수정 / 삭제 -->
 				<div class="text-right">
-					<%-- <a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/main?currentPageNum=${currentPageNum}&begin=${begin}" style="padding:">목록보기</a> --%>
-					<a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/main" style="padding:">목록보기</a>
+					<a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/" style="padding:">목록보기</a>
 					<c:choose>
 						<c:when test="${sessionScope.authUser.id == postVo.userId }">
 							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=modifyform&id=${postVo.id }">수정하기</a>

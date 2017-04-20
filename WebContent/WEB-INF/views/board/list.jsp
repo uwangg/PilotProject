@@ -45,7 +45,7 @@
 	<div class="text-center">
 		<ul class="pagination">
 			<c:if test="${begin > 1 }">
-				<li><a href="${pageContext.request.contextPath}/main?begin=${begin-pageNumUnit}&currentPageNum=${currentPageNum-1}">&laquo;</a></li>
+				<li><a href="${pageContext.request.contextPath}/?begin=${begin-pageNumUnit}&currentPageNum=${currentPageNum-1}">&laquo;</a></li>
 			</c:if>
 			
 			<c:forEach begin="${begin }" end="${end }" step="1" var="count" >
@@ -54,7 +54,7 @@
 						<li class="active"><a>${count }</a></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="${pageContext.request.contextPath}/main?
+						<li><a href="${pageContext.request.contextPath}/?
 								currentPageNum=${count}&begin=${begin}">${count }</a></li>
 					</c:otherwise>
 				</c:choose>
@@ -65,7 +65,7 @@
 			<li><a href="#">4</a></li>
 			<li><a href="#">5</a></li> -->
 			<c:if test="${end < totalPageNum }">
-				<li><a href="${pageContext.request.contextPath}/main?begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
+				<li><a href="${pageContext.request.contextPath}/?begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
 			</c:if>
 		</ul>
 	</div>

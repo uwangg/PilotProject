@@ -12,6 +12,6 @@ response.setStatus(HttpServletResponse.SC_OK);
 <body>
 <strong>서비스 과정에서 에러가 발생했습니다.</strong>
 <br><br>
-<a href="${pageContext.request.contextPath}/main">홈으로 가기</a>
+<a href="${pageContext.request.contextPath}/">홈으로 가기</a>
 </body>
 </html>
