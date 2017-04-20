@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.zum.pilot.action.UserConstant;
+
 @WebFilter(filterName = "UserLoginFilter")
 public class UserLoginFilter implements Filter {
 
@@ -28,7 +30,7 @@ public class UserLoginFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
 		
-		String[] filterParam = {"logout","modifyform","modify","withdrawalform","withdrawal"};
+		String[] filterParam = {UserConstant.LOGOUT, UserConstant.MODIFY_FORM, UserConstant.MODIFY, UserConstant.WITHDRAWAL_FORM, UserConstant.WITHDRWAL};
 		HashSet<String> params = new HashSet<String>();
 		for(int i=0 ; i<filterParam.length ; i++) {
 			params.add(filterParam[i]);

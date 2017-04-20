@@ -2,33 +2,34 @@ package com.zum.pilot.action.user;
 
 import com.zum.pilot.action.Action;
 import com.zum.pilot.action.ActionFactory;
+import com.zum.pilot.action.UserConstant;
 
 public class UserActionFactory implements ActionFactory {
 
 	@Override
 	public Action getAction(String actionName) {
 		Action action = null;
-		if("joinform".equals(actionName)) {	// 회원가입
+		if(UserConstant.JOIN_FORM.equals(actionName)) {	// 회원가입
 			action = new JoinFormAction();
-		} else if("join".equals(actionName)) {
+		} else if(UserConstant.JOIN.equals(actionName)) {
 			action = new JoinAction();
-		} else if("checkemail".equals(actionName)) {	// 유효성 검사
+		} else if(UserConstant.CHECK_EMAIL.equals(actionName)) {	// 유효성 검사
 			action = new CheckEmailAction();
-		} else if("checkname".equals(actionName)) {
+		} else if(UserConstant.CHECK_NAME.equals(actionName)) {
 			action = new CheckNameAction();
-		} else if("joinsuccess".equals(actionName)) {
+		} else if(UserConstant.JOIN_SUCCESS.equals(actionName)) {
 			action = new JoinSuccessAction();
-		} else if("login".equals(actionName)) {	// 로그인
+		} else if(UserConstant.LOGIN.equals(actionName)) {	// 로그인
 			action = new LoginAction();
-		} else if("logout".equals(actionName)) {	// 로그아웃
+		} else if(UserConstant.LOGOUT.equals(actionName)) {	// 로그아웃
 			action = new LogoutAction();
-		} else if("modifyform".equals(actionName)) {	// 회원수정
+		} else if(UserConstant.MODIFY_FORM.equals(actionName)) {	// 회원수정
 			action = new ModifyFormAction();
-		} else if("modify".equals(actionName)) {
+		} else if(UserConstant.MODIFY.equals(actionName)) {
 			action = new ModifyAction();
-		} else if("withdrawalform".equals(actionName)) {	// 회원탈퇴
+		} else if(UserConstant.WITHDRAWAL_FORM.equals(actionName)) {	// 회원탈퇴
 			action = new WithdrawalFormAction();
-		} else if("withdrawal".equals(actionName)) {
+		} else if(UserConstant.WITHDRWAL.equals(actionName)) {
 			action = new WithdrawalAction();
 		} else {
 			action = new DefaultAction();

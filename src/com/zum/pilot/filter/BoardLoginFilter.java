@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.zum.pilot.action.BoardConstant;
+
 @WebFilter(filterName = "BoardLoginFilter")
 public class BoardLoginFilter implements Filter {
 
@@ -29,9 +31,7 @@ public class BoardLoginFilter implements Filter {
 		
 		String actionName = request.getParameter("a");
 
-		if(actionName == null) {
-			chain.doFilter(request, response);
-		} else if(actionName.equals("view")) {
+		if(BoardConstant.VIEW.equals(actionName) || actionName == null) {
 			chain.doFilter(request, response);
 		} else {
 			HttpSession session = req.getSession();
