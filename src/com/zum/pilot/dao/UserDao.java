@@ -6,11 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.zum.db.DBConnection;
+import com.zum.db.JdbcTemplate;
 import com.zum.pilot.vo.UserVo;
 
 public class UserDao {
 	private DBConnection dbConnection;
 
+	public UserDao() {}
 	public UserDao(DBConnection dbConnection) {
 		this.dbConnection = dbConnection;
 	}
@@ -63,49 +65,33 @@ public class UserDao {
 	}
 	
 	// 회원인증시
-	public UserVo get(UserVo vo) {
-		UserVo userVo = null;
-		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			con = dbConnection.getConnection();
-			String query = "select id, email, name from user where email=? and passwd=? and delete_flag=0";
-			pstmt = con.prepareStatement(query);
+	public UserVo get(UserVo vo) {		
+		JdbcTemplate template = new JdbcTemplate() {
 			
-			pstmt.setString(1, vo.getEmail());	// 첫번째  ?에 id값
-			pstmt.setString(2, vo.getPassword());
-
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				Long id = rs.getLong("id");
-				String email = rs.getString("email");
-				String name = rs.getString("name");
-				
-				userVo = new UserVo();
-				userVo.setId(id);
-				userVo.setEmail(email);
-				userVo.setName(name);
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {
+				pstmt.setString(1, vo.getEmail());	// 첫번째  ?에 id값
+				pstmt.setString(2, vo.getPassword());
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(con != null)
-					con.close();
-				if(pstmt != null)
-					pstmt.close();
-				if(rs != null)
-					rs.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				UserVo userVo = null;
+				while(rs.next()) {
+					Long id = rs.getLong("id");
+					String email = rs.getString("email");
+					String name = rs.getString("name");
+					
+					userVo = new UserVo();
+					userVo.setId(id);
+					userVo.setEmail(email);
+					userVo.setName(name);
+				}
+				return userVo;
 			}
-		}
-		
-		return userVo;
+		};
+		String query = "select id, email, name from user where email=? and passwd=? and delete_flag=0";
+		return (UserVo)template.executeQuery(query);
 	}
 	
 	// 회원가입시 중복성체크
@@ -221,75 +207,57 @@ public class UserDao {
 	
 	// 회원가입시
 	public void insert(UserVo vo) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			con = dbConnection.getConnection();
-			String query = "insert into user(email, name, passwd) "
-					+ "values(?,?,?)";
-			pstmt = con.prepareStatement(query);
-			
-			pstmt.setString(1, vo.getEmail());
-			pstmt.setString(2, vo.getName());
-			pstmt.setString(3, vo.getPassword());
-			
-			pstmt.executeUpdate();
-			System.out.println("유저정보가 입력되었습니다.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(pstmt != null)
-					pstmt.close();
-				if(con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+		JdbcTemplate template = new JdbcTemplate() {		
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {
+				pstmt.setString(1, vo.getEmail());
+				pstmt.setString(2, vo.getName());
+				pstmt.setString(3, vo.getPassword());
 			}
-		}
-		
+
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+		String query = "insert into user(email, name, passwd) values(?,?,?)";
+		template.excuteUpdate(query);
 	}
+	
 	
 	// 회원수정시
 	public int update(UserVo vo, String newPassword) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
 		int result = 0;
-		
-		try {
-			con = dbConnection.getConnection();
-			if (newPassword != "") {	// 패스워드 변경시
-				String query = "update user set name=?, passwd=? where id=? and passwd=?";
-				pstmt = con.prepareStatement(query);
-
-				pstmt.setString(1, vo.getName());
-				pstmt.setString(2, newPassword);
-				pstmt.setLong(3, vo.getId());
-				pstmt.setString(4, vo.getPassword());
-			} else {
-				String query = "update user set name=? where id=? and passwd=?";
-				pstmt = con.prepareStatement(query);
-
-				pstmt.setString(1, vo.getName());
-				pstmt.setLong(2, vo.getId());
-				pstmt.setString(3, vo.getPassword());
+		JdbcTemplate template = new JdbcTemplate() {
+			
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {
+				if (newPassword != "") {	// 패스워드 변경시
+					pstmt.setString(1, vo.getName());
+					pstmt.setString(2, newPassword);
+					pstmt.setLong(3, vo.getId());
+					pstmt.setString(4, vo.getPassword());
+				} else {
+					pstmt.setString(1, vo.getName());
+					pstmt.setLong(2, vo.getId());
+					pstmt.setString(3, vo.getPassword());
+				}
 			}
-			result = pstmt.executeUpdate();
-			if(result == 1)
-				System.out.println("유저정보가 업데이트 되었습니다.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(pstmt != null)
-					pstmt.close();
-				if(con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
 			}
+		};
+		String query = null;
+		if(newPassword != "") {
+			query = "update user set name=?, passwd=? where id=? and passwd=?";
+		} else {
+			query = "update user set name=? where id=? and passwd=?";
 		}
+		template.excuteUpdate(query);
 		return result;
 	}
 	
@@ -345,30 +313,5 @@ public class UserDao {
 		}
 		return result;
 	}
-//	public void delete(UserVo vo) {
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		
-//		try {
-//			con = dbConnection.getConnection();
-//			String query = "delete from user where id=? and passwd=?";
-//			pstmt = con.prepareStatement(query);
-//			
-//			pstmt.setLong(1, vo.getId());
-//			pstmt.setString(2, vo.getPassword());
-//			
-//			pstmt.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if(pstmt != null)
-//					pstmt.close();
-//				if(con != null)
-//					con.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+
 }
