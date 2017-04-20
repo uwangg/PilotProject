@@ -45,7 +45,6 @@ public class WithdrawalAction implements Action {
 		session.removeAttribute("authUser");	// 세션 삭제
 		session.invalidate();	// 세션 종료
 		
-//		WebUtil.redirect(request, response, "/pilot-project/main");
 		out.println("<script language=\"javascript\">");
 		out.println("alert('회원탈퇴가 완료되었습니다.'); location.href=\"/pilot-project/main\"");
 		out.println("</script>");

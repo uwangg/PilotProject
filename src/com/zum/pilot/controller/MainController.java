@@ -12,7 +12,7 @@ import com.zum.pilot.action.Action;
 import com.zum.pilot.action.ActionFactory;
 import com.zum.pilot.action.main.MainActionFactory;
 
-@WebServlet("/main")
+@WebServlet("/")
 public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

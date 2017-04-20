@@ -29,7 +29,7 @@ public class LoginAction implements Action {
 		userVo.setPassword(password);
 		
 		if(email.equals("") || password.equals("")) {
-			WebUtil.redirect(request, response, "/pilot-project/main");
+			WebUtil.redirect(request, response, "/pilot-project/");
 			return;
 		}
 			
@@ -44,7 +44,7 @@ public class LoginAction implements Action {
 			session.setAttribute("authUser", authUser);
 		}
 	
-		WebUtil.redirect(request, response, "/pilot-project/main");
+		WebUtil.redirect(request, response, "/pilot-project/");
 	}
 
 }

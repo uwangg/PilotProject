@@ -13,7 +13,7 @@ public class DefaultAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		WebUtil.redirect(request, response, "/pilot-project/main");
+		WebUtil.redirect(request, response, "/pilot-project/");
 	}
 
 }
