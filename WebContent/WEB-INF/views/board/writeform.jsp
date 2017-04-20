@@ -61,9 +61,7 @@ $(document).ready(function() {
 			<label for="exampleInputFile">이미지 첨부</label> 
 			<input type="file" class="form-control-file" id="exampleInputFile"
 				aria-describedby="fileHelp" name="image_path"> 
-				<small id="fileHelp" class="form-text text-muted">This is some
-				placeholder block-level help text for the above input. It's a bit
-				lighter and easily wraps to a new line.</small>
+				<small id="fileHelp" class="form-text text-muted">파일을 선택해주세요</small>
 		</div>
 
 		<div class="text-center">

@@ -29,7 +29,7 @@
 
 	<c:forEach items="${commentList }" var="vo" varStatus="status">
 		<c:choose>
-			<c:when test="${vo.delete_flag == true }">
+			<c:when test="${vo.deleteFlag == true }">
 				<c:import url="/WEB-INF/views/board/comment/deleted_comment.jsp">
 					<c:param name="depth" value="${vo.depth }"/>
 				</c:import>
@@ -40,13 +40,13 @@
 			<div class="comment-heading">
 				<h4 class="comment-title">
 				<c:if test="${vo.depth>0 }"><span class="glyphicon glyphicon-hand-right"></span></c:if>	
-					${vo.user_name } <small>${vo.create_time }</small> <small
+					${vo.userName } <small>${vo.createTime }</small> <small
 						class="pull-right"> 
 						
 						<c:if test="${sessionScope.authUser != null }">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse${vo.id }"> 답글 </a> 
 						</c:if>
-						<c:if test="${sessionScope.authUser.id == vo.user_id }">
+						<c:if test="${sessionScope.authUser.id == vo.userId }">
 						<a class="comment_modify" id="${vo.id }">수정</a> 
 						<a href="${pageContext.request.contextPath}/board?a=commentdelete&id=${vo.id}&post_id=${postVo.id}">삭제</a>
 						

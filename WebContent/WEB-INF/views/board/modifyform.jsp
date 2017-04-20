@@ -37,8 +37,8 @@ $(document).ready(function() {
 	<form action="/pilot-project/board?a=modify" method="post" enctype="multipart/form-data" id="modifyForm"
 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;">
 		<input type="hidden" name="id" value="${vo.id }">
-		<input type="hidden" name="user_id" value="${vo.user_id }">
-		<input type="hidden" name="old_imgpath" value="${vo.image_path }">
+		<input type="hidden" name="user_id" value="${vo.userId }">
+		<input type="hidden" name="old_imgpath" value="${vo.imagePath }">
 		<div class="panel-title text-center" style="padding: 10px;">
 			<h2 class="title">글수정하기</h2>
 			<hr />

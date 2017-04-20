@@ -46,22 +46,22 @@ h1 {
 
 				<!-- 작성자 -->
 				<p class="lead">
-				<h4>by. ${postVo.user_name }</h4>
+				<h4>by. ${postVo.userName }</h4>
 				</p>
 
 				<hr>
 
 				<!-- Date/Time -->
 				<p>
-					<span class="glyphicon glyphicon-time"></span> Posted on ${postVo.create_time }
+					<span class="glyphicon glyphicon-time"></span> Posted on ${postVo.createTime }
 				</p>
 
 				<hr>
 
 				<!-- 이미지 -->
 				<c:choose>
-					<c:when test="${postVo.image_path != null && postVo.image_path != \"\"}">
-						<img class="img-responsive" src="upload/${postVo.image_path }"></img>
+					<c:when test="${postVo.imagePath != null && postVo.imagePath != \"\"}">
+						<img class="img-responsive" src="upload/${postVo.imagePath }"></img>
 					</c:when>
 					<c:otherwise>
 						<img class="img-responsive" src="http://placehold.it/900x300" alt="">
@@ -122,9 +122,9 @@ h1 {
 					<%-- <a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/main?currentPageNum=${currentPageNum}&begin=${begin}" style="padding:">목록보기</a> --%>
 					<a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/main" style="padding:">목록보기</a>
 					<c:choose>
-						<c:when test="${sessionScope.authUser.id == postVo.user_id }">
+						<c:when test="${sessionScope.authUser.id == postVo.userId }">
 							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=modifyform&id=${postVo.id }">수정하기</a>
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=delete&id=${postVo.id }&user_id=${postVo.user_id}">삭제하기</a>
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=delete&id=${postVo.id }&user_id=${postVo.userId}">삭제하기</a>
 						</c:when>
 					</c:choose>
 				</div>

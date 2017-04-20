@@ -46,9 +46,6 @@ $(document).ready(function() {
 				minlength: 6
 			},
 			change_confirm: {
-				required: function() {
-					return $("#change_passwd").val().length > 0;
-				},
 				minlength: 6,
 				equalTo: "#change_passwd"
 			}
@@ -65,7 +62,6 @@ $(document).ready(function() {
 				minlength: "최소 {0}글자 이상이어야 합니다"
 			},
 			change_confirm: {
-				required: "필수입력사항입니다",
 				minlength: "최소 {0}글자 이상이어야 합니다",
 				equalTo: "바꿀 비밀번호와 다릅니다."
 			}

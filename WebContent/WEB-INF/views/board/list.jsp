@@ -26,8 +26,8 @@
 					<%-- <a href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}&currentPageNum=${currentPageNum }&begin=${begin}"> --%>
 					<a href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}">
 							${vo.title }</a></td>
-				<td class="text-center">${vo.user_name}</td>
-				<td class="text-center">${vo.create_time}</td>
+				<td class="text-center">${vo.userName}</td>
+				<td class="text-center">${vo.createTime}</td>
 				<td class="text-center">${vo.hit}</td>
 			</tr>
 		</c:forEach>
