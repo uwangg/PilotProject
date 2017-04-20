@@ -36,7 +36,7 @@ $(document).ready(function() {
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 	
-	<form action="/pilot-project/board?a=write" method="post" enctype="multipart/form-data" id="writeForm"
+	<form action="${pageContext.request.contextPath}/board?a=write" method="post" enctype="multipart/form-data" id="writeForm"
 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;">
 <!-- 		<input type="hidden" name="a" value="write"> -->
 		<div class="panel-title text-center" style="padding: 10px;">
@@ -67,7 +67,7 @@ $(document).ready(function() {
 		<div class="text-center">
 			<button type="submit" class="btn btn-primary"
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">확인</button>
-			<a href="/pilot-project/main" class="btn btn-primary"
+			<a href="${pageContext.request.contextPath}/main" class="btn btn-primary"
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">취소</a>
 		</div>
 	</form>

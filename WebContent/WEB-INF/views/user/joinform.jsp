@@ -99,7 +99,7 @@ $(document).ready(function() {
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="/pilot-project/user" id="joinForm">
+					<form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/user" id="joinForm">
 						<input type="hidden" name="a" value="join">
 						<!-- 닉네임 폼 -->
 						<div class="form-group">

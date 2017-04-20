@@ -22,6 +22,5 @@
 				<c:import url="/WEB-INF/views/user/loginsuccess.jsp"></c:import>
 			</c:otherwise>
 		</c:choose>
-		<%-- <c:import url="/WEB-INF/views/user/loginsuccess.jsp"></c:import> --%>
 	</div>
 </nav>

@@ -14,6 +14,6 @@ response.setStatus(HttpServletResponse.SC_OK);
 <br><br>
 주소를 올바르게 입력했는지 확인하시길 바랍니다.
 <br><br>
-<a href="/pilot-project/main">홈으로 가기</a>
+<a href="${pageContext.request.contextPath}/main">홈으로 가기</a>
 </body>
 </html>

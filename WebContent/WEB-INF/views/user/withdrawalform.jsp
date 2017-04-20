@@ -70,7 +70,7 @@ $(document).ready(function() {
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="/pilot-project/user" id="withdrawalForm">
+					<form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/user" id="withdrawalForm">
 						<input type="hidden" name="a" value="withdrawal">
 
 						<!-- 패스워드 폼 -->

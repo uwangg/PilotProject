@@ -4,7 +4,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<form id="signin" class="navbar-form navbar-right" role="form"
-					action="/pilot-project/user">
+					action="${pageContext.request.contextPath}/user">
 				<input type="hidden" name="a" value="login">
 				<div class="input-group">
 					<span class="input-group-addon"><i
@@ -21,7 +21,7 @@
 				</div>
 
 				<button type="submit" class="btn btn-primary">로그인</button>
-				<a class="btn btn-primary" href="/pilot-project/user?a=joinform">회원가입</a>
+				<a class="btn btn-primary" href="${pageContext.request.contextPath}/user?a=joinform">회원가입</a>
 			</form>
 
 		</div>

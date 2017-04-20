@@ -84,7 +84,7 @@ $(document).ready(function() {
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="/pilot-project/user" id="modifyForm">
+					<form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/user" id="modifyForm">
 						<input type="hidden" name="a" value="modify">
 						
 						<div class="form-group">
