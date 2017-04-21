@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class JdbcTemplate {
+public class JdbcTemplate {
 	private DBConnection dbConnection;
 	
 	public JdbcTemplate() {
@@ -13,7 +13,7 @@ public abstract class JdbcTemplate {
 		this.dbConnection = new MySQLConnection();
 	}
 	
-	public void excuteUpdate(String query) {
+	public void excuteUpdate(String query, PreparedStatementSetter pss) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -21,7 +21,7 @@ public abstract class JdbcTemplate {
 			con = dbConnection.getConnection();
 			pstmt = con.prepareStatement(query);
 			
-			setParameters(pstmt);
+			pss.setParameters(pstmt);
 			
 			pstmt.executeUpdate();
 
@@ -39,7 +39,7 @@ public abstract class JdbcTemplate {
 		}
 	}
 	
-	public Object executeQuery(String query) {
+	public Object executeQuery(String query, PreparedStatementSetter pss, RowMapper rm) {
 		Object vo = null;
 		
 		Connection con = null;
@@ -50,10 +50,10 @@ public abstract class JdbcTemplate {
 			con = dbConnection.getConnection();
 			pstmt = con.prepareStatement(query);
 			
-			setParameters(pstmt);
+			pss.setParameters(pstmt);
 
 			rs = pstmt.executeQuery();
-			vo = mapRow(rs);
+			vo = rm.mapRow(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -71,9 +71,5 @@ public abstract class JdbcTemplate {
 		}
 		
 		return vo;
-	}
-	
-	public abstract Object mapRow(ResultSet rs) throws SQLException;
-
-	public abstract void setParameters(PreparedStatement pstmt) throws SQLException;
+	}	
 }

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 
 import com.zum.db.DBConnection;
 import com.zum.db.JdbcTemplate;
+import com.zum.db.PreparedStatementSetter;
+import com.zum.db.RowMapper;
 import com.zum.pilot.vo.UserVo;
 
 public class UserDao {
@@ -66,13 +68,15 @@ public class UserDao {
 	
 	// 회원인증시
 	public UserVo get(UserVo vo) {		
-		JdbcTemplate template = new JdbcTemplate() {
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			
 			@Override
 			public void setParameters(PreparedStatement pstmt) throws SQLException {
 				pstmt.setString(1, vo.getEmail());	// 첫번째  ?에 id값
 				pstmt.setString(2, vo.getPassword());
 			}
+		};
+		RowMapper rm = new RowMapper() {
 			
 			@Override
 			public Object mapRow(ResultSet rs) throws SQLException {
@@ -90,8 +94,10 @@ public class UserDao {
 				return userVo;
 			}
 		};
+		JdbcTemplate template = new JdbcTemplate() {
+		};
 		String query = "select id, email, name from user where email=? and passwd=? and delete_flag=0";
-		return (UserVo)template.executeQuery(query);
+		return (UserVo)template.executeQuery(query, pss, rm);
 	}
 	
 	// 회원가입시 중복성체크
@@ -207,29 +213,26 @@ public class UserDao {
 	
 	// 회원가입시
 	public void insert(UserVo vo) {
-		JdbcTemplate template = new JdbcTemplate() {		
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			
 			@Override
 			public void setParameters(PreparedStatement pstmt) throws SQLException {
 				pstmt.setString(1, vo.getEmail());
 				pstmt.setString(2, vo.getName());
 				pstmt.setString(3, vo.getPassword());
 			}
-
-			@Override
-			public Object mapRow(ResultSet rs) throws SQLException {
-				// TODO Auto-generated method stub
-				return null;
-			}
+		};
+		JdbcTemplate template = new JdbcTemplate() {		
 		};
 		String query = "insert into user(email, name, passwd) values(?,?,?)";
-		template.excuteUpdate(query);
+		template.excuteUpdate(query, pss);
 	}
 	
 	
 	// 회원수정시
 	public int update(UserVo vo, String newPassword) {
 		int result = 0;
-		JdbcTemplate template = new JdbcTemplate() {
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			
 			@Override
 			public void setParameters(PreparedStatement pstmt) throws SQLException {
@@ -244,12 +247,8 @@ public class UserDao {
 					pstmt.setString(3, vo.getPassword());
 				}
 			}
-
-			@Override
-			public Object mapRow(ResultSet rs) throws SQLException {
-				// TODO Auto-generated method stub
-				return null;
-			}
+		};
+		JdbcTemplate template = new JdbcTemplate() {
 		};
 		String query = null;
 		if(newPassword != "") {
@@ -257,7 +256,7 @@ public class UserDao {
 		} else {
 			query = "update user set name=? where id=? and passwd=?";
 		}
-		template.excuteUpdate(query);
+		template.excuteUpdate(query, pss);
 		return result;
 	}
 	
