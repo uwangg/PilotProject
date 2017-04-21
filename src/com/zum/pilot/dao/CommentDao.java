@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.zum.db.DBConnection;
+import com.zum.db.JdbcTemplate;
+import com.zum.db.PreparedStatementSetter;
+import com.zum.db.RowMapper;
 import com.zum.pilot.vo.CommentVo;
 
 public class CommentDao {
@@ -19,42 +22,27 @@ public class CommentDao {
 
 	// 댓글의 총 갯수
 	public Long totalNumberOfComment(Long postId) {
-		Long totalCount = 0L;
-		Connection con = null;
-		ResultSet rs = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			con = dbConnection.getConnection();
-
-			String query = "select count(*) from comment where post_id=?";
-			pstmt = con.prepareStatement(query);
+		JdbcTemplate template = new JdbcTemplate();
+		String query = "select count(*) from comment where post_id=?";
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			
-			pstmt.setLong(1, postId);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				totalCount = rs.getLong(1);
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setLong(1, postId);
 			}
-
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
+		};
+		RowMapper rm = new RowMapper() {
+			
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				Long totalCount = 0L;
+				if (rs.next()) {
+					totalCount = rs.getLong(1);
 				}
-				if (con != null) {
-					con.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+				return totalCount;
 			}
-		}
-		return totalCount;
+		};
+		return (Long)template.executeQuery(query, pss, rm);
 	}
 
 	// 댓글 불러오기
@@ -122,209 +110,110 @@ public class CommentDao {
 
 	// 댓글 입력
 	public void insert(CommentVo vo) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			con = dbConnection.getConnection();
-
-			String query = "insert into comment(content, thread, depth, user_id, post_id)" + " values(?,?,?,?,?)";
-			pstmt = con.prepareStatement(query);
-
-			pstmt.setString(1, vo.getContent());
-			pstmt.setInt(2, vo.getThread());
-			pstmt.setInt(3, vo.getDepth());
-			pstmt.setLong(4, vo.getUserId());
-			pstmt.setLong(5, vo.getPostId());
-
-			int r = pstmt.executeUpdate();
-			if (r == 1)
-				System.out.println("댓글이 입력되었습니다.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+		JdbcTemplate template = new JdbcTemplate();
+		String query = "insert into comment(content, thread, depth, user_id, post_id)" + " values(?,?,?,?,?)";
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setString(1, vo.getContent());
+				pstmt.setInt(2, vo.getThread());
+				pstmt.setInt(3, vo.getDepth());
+				pstmt.setLong(4, vo.getUserId());
+				pstmt.setLong(5, vo.getPostId());
 			}
-		}
-
+		};
+		template.excuteUpdate(query, pss);
 	}
 
 	// 게시글에 달린 댓글의 갯수를 알아오기
 	public Long countOfComment(Long postId) {
-		Long totalCount = 0L;
-		Connection con = null;
-		ResultSet rs = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			con = dbConnection.getConnection();
-
-			String query = "select count(*) from comment where post_id=?";
-			pstmt = con.prepareStatement(query);
-
-			pstmt.setLong(1, postId);
-
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				totalCount = rs.getLong(1);
+		JdbcTemplate template = new JdbcTemplate();
+		String query = "select count(*) from comment where post_id=?";
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setLong(1, postId);
 			}
-
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
+		};
+		RowMapper rm = new RowMapper() {
+			
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				Long totalCount = 0L;
+				if (rs.next()) {
+					totalCount = rs.getLong(1);
 				}
-				if (con != null) {
-					con.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+				return totalCount;
 			}
-		}
-		return totalCount;
+		};
+		return (Long)template.executeQuery(query, pss, rm);
 	}
 
 	// 최대 thread값 가져오기
 	public int getMaxThread(Long postId) {
-		int thread = 0;
-		Connection con = null;
-		ResultSet rs = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			con = dbConnection.getConnection();
-
-			String query = "select max(thread) from comment where post_id=?";
-			pstmt = con.prepareStatement(query);
-			pstmt.setLong(1, postId);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				thread = rs.getInt(1);
+		JdbcTemplate template = new JdbcTemplate();
+		String query = "select max(thread) from comment where post_id=?";
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setLong(1, postId);
 			}
-
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
+		};
+		RowMapper rm = new RowMapper() {
+			
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				int thread = 0;
+				if (rs.next()) {
+					thread = rs.getInt(1);
 				}
-				if (con != null) {
-					con.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+				return thread;
 			}
-		}
-		return thread;
+		};
+		return (int)template.executeQuery(query, pss, rm);
 	}
 
 	public void updateThread(int begin, int end) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			con = dbConnection.getConnection();
-			String query = "update comment set thread = thread-1 where ?<thread and thread<?";
-			pstmt = con.prepareStatement(query);
-
-			pstmt.setInt(1, begin);
-			pstmt.setInt(2, end);
-
-			int r = pstmt.executeUpdate();
-			if (r == 1)
-				System.out.println("답글이 업데이트 되었습니다.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+		JdbcTemplate template = new JdbcTemplate();
+		String query = "update comment set thread = thread-1 where ?<thread and thread<?";
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setInt(1, begin);
+				pstmt.setInt(2, end);
 			}
-		}
+		};
+		template.excuteUpdate(query, pss);
 	}
 
 	// 댓글 업데이트
 	public void update(CommentVo vo) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			con = dbConnection.getConnection();
-			String query = "update comment set content=?, update_time=now() where id=? and user_id=?";
-			pstmt = con.prepareStatement(query);
-
-			pstmt.setString(1, vo.getContent());
-			pstmt.setLong(2, vo.getId());
-			pstmt.setLong(3, vo.getUserId());
-
-			int r = pstmt.executeUpdate();
-			if (r == 1)
-				System.out.println("댓글이 수정 되었습니다.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+		JdbcTemplate template = new JdbcTemplate();
+		String query = "update comment set content=?, update_time=now() where id=? and user_id=?";
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setString(1, vo.getContent());
+				pstmt.setLong(2, vo.getId());
+				pstmt.setLong(3, vo.getUserId());
 			}
-		}
+		};
+		template.excuteUpdate(query, pss);
 	}
 
-	public int delete(Long commentId, Long userId) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		int result = 0;
-
-		try {
-			con = dbConnection.getConnection();
-
-			String query = "update comment set delete_flag=1 " + "where id=? and user_id=?";
-			pstmt = con.prepareStatement(query);
-
-			pstmt.setLong(1, commentId);
-			pstmt.setLong(2, userId);
-
-			result = pstmt.executeUpdate();
-
-			if (result == 1)
-				System.out.println("댓글삭제 완료");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+	// 댓글 삭제
+	public void delete(Long commentId, Long userId) {
+		JdbcTemplate template = new JdbcTemplate();
+		String query = "update comment set delete_flag=1 " + "where id=? and user_id=?";
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setLong(1, commentId);
+				pstmt.setLong(2, userId);
 			}
-		}
-		return result;
+		};
+		template.excuteUpdate(query, pss);
 	}
 }
