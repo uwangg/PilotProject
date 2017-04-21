@@ -211,42 +211,42 @@ public class UserDao {
 	}
 	
 	// 회원탈퇴
-	public int delete(Long id, String password) {
+	public void delete(Long id, String password) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
-		int result = 0;
+		
+		String query1 = "update user set delete_flag=1 where id=? and passwd=?";
+		String query2 = "update post set delete_flag=1 where user_id=?";
+		String query3 = "update comment set delete_flag=1 where user_id=?";
 		
 		try {
 			con = dbConnection.getConnection();
 
-//			String query = "update user as u, post as p, comment as c "
-//					+ "set u.delete_flag=1, p.delete_flag=1, c.delete_flag=1 "
-//					+ "where u.id=? and p.user_id=? and c.user_id=?";
-			String query1 = "update user set delete_flag=1 where id=? and passwd=?";
+			// transaction block start
+			con.setAutoCommit(false);
 			pstmt1 = con.prepareStatement(query1);
 			pstmt1.setLong(1, id);
 			pstmt1.setString(2, password);
-			result += pstmt1.executeUpdate();
+			pstmt1.executeUpdate();
 			
-			if(result == 1) {
-				String query2 = "update post set delete_flag=1 where user_id=?";
-				pstmt2 = con.prepareStatement(query2);
-				pstmt2.setLong(1, id);
-				result += pstmt2.executeUpdate();
+			pstmt2 = con.prepareStatement(query2);
+			pstmt2.setLong(1, id);
+			pstmt2.executeUpdate();
 				
-				String query3 = "update comment set delete_flag=1 where user_id=?";
-				pstmt3 = con.prepareStatement(query3);
-				pstmt3.setLong(1, id);
-				result += pstmt3.executeUpdate();
-			}
+			pstmt3 = con.prepareStatement(query3);
+			pstmt3.setLong(1, id);
+			pstmt3.executeUpdate();
 			
-			if(result == 3)
-				System.out.println("회원탈퇴 완료");
+			// transcation block end
+			con.commit();
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
+			con.rollback();
 		} finally {
+			con.setAutoCommit(true);
 			try {
 				if(pstmt1 != null)
 					pstmt1.close();
@@ -260,7 +260,6 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		}
-		return result;
 	}
 
 }

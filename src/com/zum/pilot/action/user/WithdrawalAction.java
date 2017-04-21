@@ -2,6 +2,7 @@ package com.zum.pilot.action.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,18 +28,26 @@ public class WithdrawalAction implements Action {
 		String password = SecurityUtil.encryptSHA256(request.getParameter("passwd"));
 
 		UserDao userDao = new UserDao(new MySQLConnection());
-		int result = userDao.delete(userVo.getId(), password);
-		
+
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		if(result == 0) {
+		
+		// id, password가 동일한지 체크
+		if(!userDao.checkPassword(userVo.getId(), password)) {
 			System.out.println("비밀번호 틀림");
 			out.println("<script language=\"javascript\">");
 			out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user?a=withdrawalform\"");
 			out.println("</script>");
 			out.close();
 			return;
+		}
+		
+		// 동일하다면 삭제
+		try {
+			userDao.delete(userVo.getId(), password);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		//로그아웃 처리
