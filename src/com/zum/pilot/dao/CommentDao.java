@@ -1,6 +1,5 @@
 package com.zum.pilot.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,66 +45,51 @@ public class CommentDao {
 	}
 
 	// 댓글 불러오기
+	@SuppressWarnings("unchecked")
 	public List<CommentVo> getList(Long postId, int currentPageNum, int commentUnit) {
-		List<CommentVo> list = new ArrayList<CommentVo>();
-		Connection con = null;
-		ResultSet rs = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			con = dbConnection.getConnection();
-
-			String query = "select c.id, content, c.create_time, thread, depth, user_id, u.name, c.delete_flag "
-					+ "from (select * from comment where post_id=? order by thread asc limit ?,?) as c, user as u "
-					+ "where c.user_id = u.id order by thread desc";
-			pstmt = con.prepareStatement(query);
-
-			pstmt.setLong(1, postId);
-			pstmt.setInt(2, currentPageNum);
-			pstmt.setInt(3, commentUnit);
-
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				Long id = rs.getLong(1);
-				String content = rs.getString(2);
-				String createTime = rs.getString(3);
-				Integer thread = rs.getInt(4);
-				Integer depth = rs.getInt(5);
-				Long userId = rs.getLong(6);
-				String userName = rs.getString(7);
-				Boolean deleteFlag = rs.getBoolean(8);
-
-				CommentVo commentVo = new CommentVo();
-				commentVo.setId(id);
-				commentVo.setContent(content);
-				commentVo.setCreateTime(createTime);
-				commentVo.setThread(thread);
-				commentVo.setDepth(depth);
-				commentVo.setUserId(userId);
-				commentVo.setUserName(userName);
-				commentVo.setDeleteFlag(deleteFlag);
-				list.add(commentVo);
+		JdbcTemplate template = new JdbcTemplate();
+		String query = "select c.id, content, c.create_time, thread, depth, user_id, u.name, c.delete_flag "
+				+ "from (select * from comment where post_id=? order by thread asc limit ?,?) as c, user as u "
+				+ "where c.user_id = u.id order by thread desc";
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setLong(1, postId);
+				pstmt.setInt(2, currentPageNum);
+				pstmt.setInt(3, commentUnit);
 			}
-
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
+		};
+		RowMapper rm = new RowMapper() {
+			
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				List<CommentVo> list = new ArrayList<CommentVo>();
+				while (rs.next()) {
+					Long id = rs.getLong(1);
+					String content = rs.getString(2);
+					String createTime = rs.getString(3);
+					Integer thread = rs.getInt(4);
+					Integer depth = rs.getInt(5);
+					Long userId = rs.getLong(6);
+					String userName = rs.getString(7);
+					Boolean deleteFlag = rs.getBoolean(8);
+					
+					CommentVo commentVo = new CommentVo();
+					commentVo.setId(id);
+					commentVo.setContent(content);
+					commentVo.setCreateTime(createTime);
+					commentVo.setThread(thread);
+					commentVo.setDepth(depth);
+					commentVo.setUserId(userId);
+					commentVo.setUserName(userName);
+					commentVo.setDeleteFlag(deleteFlag);
+					list.add(commentVo);
 				}
-				if (con != null) {
-					con.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+				return list;
 			}
-		}
-		return list;
+		};
+		return (List<CommentVo>)template.executeQuery(query, pss, rm);
 	}
 
 	// 댓글 입력
