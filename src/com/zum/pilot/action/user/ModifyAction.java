@@ -27,6 +27,14 @@ public class ModifyAction implements Action {
 		String name = request.getParameter("name");
 		String password = request.getParameter("passwd");
 		String changePassword = request.getParameter("change_passwd");
+		String changeConfirm = request.getParameter("change_confirm");
+
+		// 새 비밀번호 != 비밀번호 확인
+		if(!changePassword.equals(changeConfirm)) {
+			System.out.println("새비밀번호와 일치하지않음");
+			WebUtil.redirect(request, response, "/pilot-project/user?a=modifyform");
+			return;
+		}
 		
 		UserDao userDao = new UserDao(new MySQLConnection());
 		response.setCharacterEncoding("UTF-8");

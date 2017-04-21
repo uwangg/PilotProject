@@ -22,13 +22,20 @@ public class JoinAction implements Action {
 		
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		String passwd = SecurityUtil.encryptSHA256(request.getParameter("passwd"));
+		String passwd = request.getParameter("passwd");
+		String confirm = request.getParameter("confirm");
+		
+		if(!passwd.equals(confirm)) {
+			System.out.println("패스워드 != 패스워드확인");
+			WebUtil.redirect(request, response, "/pilot-project/user?a=joinform");
+			return;
+		}
 		
 		System.out.println("join: name="+name+",email="+email+",password="+passwd);
 		
 		UserDao userDao = new UserDao(new MySQLConnection());
 		
-		UserVo userVo = new UserVo(email, name, passwd);
+		UserVo userVo = new UserVo(email, name, SecurityUtil.encryptSHA256(passwd));
 		userDao.insert(userVo);
 		WebUtil.redirect(request, response, "/pilot-project/user?a=joinsuccess");
 	}
