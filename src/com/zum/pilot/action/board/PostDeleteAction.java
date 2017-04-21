@@ -2,6 +2,7 @@ package com.zum.pilot.action.board;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +46,12 @@ public class PostDeleteAction implements Action {
 			}
 			
 			// 게시글 삭제
-			postDao.delete(id, authUser.getId());
+			try {
+				postDao.delete(id, authUser.getId());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		WebUtil.redirect(request, response, "/pilot-project/board");
 	}

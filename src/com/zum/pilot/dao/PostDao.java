@@ -238,33 +238,35 @@ public class PostDao {
 		}
 		
 		// 게시글 삭제
-		public int delete(Long postId, Long userId) {
+		public void delete(Long postId, Long userId) throws SQLException {
 			Connection con = null;
 			PreparedStatement pstmt1 = null;
 			PreparedStatement pstmt2 = null;
-			int result = 0;
 			
+			String query1 = "update post set delete_flag=1 where id=? and user_id=?";
+			String query2 = "update comment set delete_flag=1 where post_id=?";
 			try {
 				con = dbConnection.getConnection();
 
-				String query1 = "update post set delete_flag=1 where id=? and user_id=?";
+				// transcaction block start
+				con.setAutoCommit(false);
 				pstmt1 = con.prepareStatement(query1);
 				pstmt1.setLong(1, postId);
 				pstmt1.setLong(2, userId);
-				result += pstmt1.executeUpdate();
+				pstmt1.executeUpdate();
+			
+				pstmt2 = con.prepareStatement(query2);
+				pstmt2.setLong(1, postId);
+				pstmt2.executeUpdate();
 				
-				if(result == 1) {
-					String query2 = "update comment set delete_flag=1 where post_id=?";
-					pstmt2 = con.prepareStatement(query2);
-					pstmt2.setLong(1, postId);
-					result += pstmt2.executeUpdate();
-				}
+				// transaction block end
+				con.commit();
 				
-				if(result == 2)
-					System.out.println("글삭제 완료");
 			} catch (SQLException e) {
 				e.printStackTrace();
+				con.rollback();
 			} finally {
+				con.setAutoCommit(true);
 				try {
 					if(pstmt1 != null)
 						pstmt1.close();
@@ -276,7 +278,6 @@ public class PostDao {
 					e.printStackTrace();
 				}
 			}
-			return result;
 		}
 		
 		// 조회수 증가
