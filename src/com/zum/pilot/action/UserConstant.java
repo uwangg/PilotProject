@@ -10,6 +10,6 @@ public class UserConstant {
 	public final static String LOGOUT = "logout";
 	public final static String MODIFY_FORM = "modifyform";
 	public final static String MODIFY = "modify";
-	public final static String WITHDRAWAL_FORM = "withdrwalform";
+	public final static String WITHDRAWAL_FORM = "withdrawalform";
 	public final static String WITHDRWAL = "withdrawal";
 }

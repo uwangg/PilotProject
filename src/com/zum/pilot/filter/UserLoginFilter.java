@@ -40,8 +40,10 @@ public class UserLoginFilter implements Filter {
 		if(params.contains(actionName)) {
 			HttpSession session = req.getSession();
 			if(session.getAttribute("authUser") == null) {	// 로그인한 사용자가 아닐때
+				System.out.println("로그인한 사용자가 아닙니다");
 				res.sendRedirect(req.getContextPath() + "/user");
 			} else {
+				System.out.println("로그인한 사용자입니다");
 				chain.doFilter(request, response);
 			}
 		} else {
