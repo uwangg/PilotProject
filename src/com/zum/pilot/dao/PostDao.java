@@ -43,60 +43,45 @@ public class PostDao {
 	}
 
 	// 게시글 불러오기
+	@SuppressWarnings("unchecked")
 	public List<PostVo> getList(int currentPageNum, int postUnit) {
-		List<PostVo> list = new ArrayList<PostVo>();
-		Connection con = null;
-		ResultSet rs = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			con = dbConnection.getConnection();
-
-			String query = "select a.id, title, a.create_time, hit, b.name "
-					+ "from (select id, title, create_time, hit, user_id "
-					+ "from post where delete_flag=0 order by id asc limit ?,?) as a, user as b "
-					+ "where a.user_id=b.id order by id desc";
-			pstmt = con.prepareStatement(query);
-
-			pstmt.setInt(1, currentPageNum);
-			pstmt.setInt(2, postUnit);
-
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				Long id = rs.getLong(1);
-				String title = rs.getString(2);
-				String createTime = rs.getString(3);
-				Long hit = rs.getLong(4);
-				String userName = rs.getString(5);
-
-				PostVo postVo = new PostVo();
-				postVo.setId(id);
-				postVo.setTitle(title);
-				postVo.setCreateTime(createTime);
-				postVo.setHit(hit);
-				postVo.setUserName(userName);
-				list.add(postVo);
+		JdbcTemplate template = new JdbcTemplate();
+		String query = "select a.id, title, a.create_time, hit, b.name "
+				+ "from (select id, title, create_time, hit, user_id "
+				+ "from post where delete_flag=0 order by id asc limit ?,?) as a, user as b "
+				+ "where a.user_id=b.id order by id desc";
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {
+				pstmt.setInt(1, currentPageNum);
+				pstmt.setInt(2, postUnit);
 			}
-
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
+		};
+		RowMapper rm = new RowMapper() {
+			
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				List<PostVo> list = new ArrayList<PostVo>();
+				while (rs.next()) {
+					Long id = rs.getLong(1);
+					String title = rs.getString(2);
+					String createTime = rs.getString(3);
+					Long hit = rs.getLong(4);
+					String userName = rs.getString(5);
+					
+					PostVo postVo = new PostVo();
+					postVo.setId(id);
+					postVo.setTitle(title);
+					postVo.setCreateTime(createTime);
+					postVo.setHit(hit);
+					postVo.setUserName(userName);
+					list.add(postVo);
 				}
-				if (con != null) {
-					con.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+				return list;
 			}
-		}
-		return list;
+		};
+		return (List<PostVo>)template.executeQuery(query, pss, rm);
 	}
 
 	// 게시글 입력
