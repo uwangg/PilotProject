@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.util.WebUtil;
@@ -37,7 +36,8 @@ public class PostModifyAction implements Action {
 		Long userId = -1L;
 		
 		// 파일이 업로드될 실제 tomcat 폴더의 경로
-		String savePath = request.getServletContext().getRealPath("upload");
+//		String savePath = request.getServletContext().getRealPath("upload");
+		String savePath = "D:\\test\\upload";
 		boolean changedImage = false;
 		
 		try {
@@ -63,13 +63,15 @@ public class PostModifyAction implements Action {
 		// 작성자만 수정 가능
 		if(authUser.getId() == userId) {
 			PostVo vo = new PostVo(id, title, content, imagePath, userId);
-			PostDao postDao = new PostDao(new MySQLConnection());
+//			PostDao postDao = new PostDao(new MySQLConnection());
+			PostDao postDao = new PostDao();
 			
 			// 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
 			if(changedImage) {
 				PostVo postVo = postDao.get(id);
 					
-				String uploadFileName = request.getServletContext().getRealPath("upload");
+//				String uploadFileName = request.getServletContext().getRealPath("upload");
+				String uploadFileName = "D:\\test\\upload";
 				File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
 					
 				if(uploadFile.exists() && uploadFile.isFile())

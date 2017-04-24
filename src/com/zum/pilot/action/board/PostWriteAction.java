@@ -33,8 +33,9 @@ public class PostWriteAction implements Action {
 		String fileName = "";
 		
 		// 파일이 업로드될 실제 tomcat 폴더의 경로
-		String savePath = request.getServletContext().getRealPath("upload");
-		
+//		String savePath = request.getServletContext().getRealPath("upload");
+		String savePath = "D:\\test\\upload";
+		System.out.println("savePath = " + savePath);
 		try {
 			multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 			title = multi.getParameter("title");
