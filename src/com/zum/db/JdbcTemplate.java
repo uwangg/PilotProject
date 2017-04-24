@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JdbcTemplate {
-	private DBConnection dbConnection;
+//	private DBConnection dbConnection;
 	
 	public JdbcTemplate() {
 		// TODO Auto-generated constructor stub
-		this.dbConnection = new MySQLConnection();
+//		this.dbConnection = new MySQLConnection();
 	}
 	
 	public void excuteUpdate(String query, PreparedStatementSetter pss) {
@@ -18,7 +18,7 @@ public class JdbcTemplate {
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = dbConnection.getConnection();
+			con = DBConnection.getConnection();
 			pstmt = con.prepareStatement(query);
 			
 			pss.setParameters(pstmt);
@@ -47,7 +47,7 @@ public class JdbcTemplate {
 		ResultSet rs = null;
 		
 		try {
-			con = dbConnection.getConnection();
+			con = DBConnection.getConnection();
 			pstmt = con.prepareStatement(query);
 			
 			pss.setParameters(pstmt);
