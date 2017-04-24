@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.util.WebUtil;
@@ -32,7 +31,8 @@ public class PostDeleteAction implements Action {
 		Long userId = Long.parseLong(request.getParameter("user_id"));	// 게시글 작성자
 		
 		if(userId == authId) {		
-			PostDao postDao = new PostDao(new MySQLConnection());
+//			PostDao postDao = new PostDao(new MySQLConnection());
+			PostDao postDao = new PostDao();
 			
 			// 이미지가 있다면 삭제
 			PostVo postVo = postDao.get(id);

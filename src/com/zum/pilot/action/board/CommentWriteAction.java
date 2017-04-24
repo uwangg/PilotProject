@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.CommentDao;
 import com.zum.pilot.util.WebUtil;
@@ -38,7 +37,8 @@ public class CommentWriteAction implements Action {
 		commentVo.setContent(content);
 		commentVo.setDepth(depth);
 		
-		CommentDao commentDao = new CommentDao(new MySQLConnection());
+//		CommentDao commentDao = new CommentDao(new MySQLConnection());
+		CommentDao commentDao = new CommentDao();
 		int thread = 0;
 		
 		if(depth == 0) {	// 댓글을 다는 경우

@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.CommentDao;
 import com.zum.pilot.dao.PostDao;
@@ -24,7 +23,8 @@ public class PostViewAction implements Action {
 		
 		// 게시글 id를 이용해 게시물 불러오기
 		Long postId = Long.parseLong(request.getParameter("id"));
-		PostDao postDao = new PostDao(new MySQLConnection());
+//		PostDao postDao = new PostDao(new MySQLConnection());
+		PostDao postDao = new PostDao();
 		postDao.hitIncrease(postId);
 		PostVo postVo = postDao.get(postId);
 		
@@ -40,7 +40,8 @@ public class PostViewAction implements Action {
 		
 		// 게시물 id에 맞는 댓글 불러오기
 		List<CommentVo> commentList = null;
-		CommentDao commentDao = new CommentDao(new MySQLConnection());
+//		CommentDao commentDao = new CommentDao(new MySQLConnection());
+		CommentDao commentDao = new CommentDao();
 		
 		totalCommentNum = commentDao.totalNumberOfComment(postId);
 		totalPageNum = (int)((totalCommentNum - 1) / commentUnit + 1);

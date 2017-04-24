@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.UserDao;
 
@@ -19,7 +18,8 @@ public class CheckEmailAction implements Action {
 		String email = request.getParameter("email");
 		PrintWriter out = response.getWriter();
 		
-		UserDao userDao = new UserDao(new MySQLConnection());
+//		UserDao userDao = new UserDao(new MySQLConnection());
+		UserDao userDao = new UserDao();
 		
 		// 이메일 중복체크
 		if(userDao.checkEmail(email))

@@ -6,18 +6,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zum.db.DBConnection;
 import com.zum.db.JdbcTemplate;
 import com.zum.db.PreparedStatementSetter;
 import com.zum.db.RowMapper;
 import com.zum.pilot.vo.CommentVo;
 
 public class CommentDao {
-	private DBConnection dbConnection;
-
-	public CommentDao(DBConnection dbConnection) {
-		this.dbConnection = dbConnection;
-	}
+//	private DBConnection dbConnection;
+//
+//	public CommentDao(DBConnection dbConnection) {
+//		this.dbConnection = dbConnection;
+//	}
 
 	// 댓글의 총 갯수
 	public Long totalNumberOfComment(Long postId) {

@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.vo.UserVo;
@@ -32,7 +31,8 @@ public class CheckNameAction implements Action {
 		}
 
 		System.out.println("check name = " + name);
-		UserDao userDao = new UserDao(new MySQLConnection());
+//		UserDao userDao = new UserDao(new MySQLConnection());
+		UserDao userDao = new UserDao();
 
 		// 닉네임 중복체크
 		if (userDao.checkName(name)) {

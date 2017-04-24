@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.util.SecurityUtil;
@@ -33,7 +32,8 @@ public class JoinAction implements Action {
 		
 		System.out.println("join: name="+name+",email="+email+",password="+passwd);
 		
-		UserDao userDao = new UserDao(new MySQLConnection());
+//		UserDao userDao = new UserDao(new MySQLConnection());
+		UserDao userDao = new UserDao();
 		
 		UserVo userVo = new UserVo(email, name, SecurityUtil.encryptSHA256(passwd));
 		userDao.insert(userVo);

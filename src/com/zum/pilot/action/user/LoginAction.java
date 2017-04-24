@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.util.SecurityUtil;
@@ -34,7 +33,8 @@ public class LoginAction implements Action {
 		}
 			
 		// 유저정보 가져오기
-		UserDao userDao = new UserDao(new MySQLConnection());
+//		UserDao userDao = new UserDao(new MySQLConnection());
+		UserDao userDao = new UserDao();
 		UserVo authUser = userDao.get(userVo);
 		
 		// 로그인성공시

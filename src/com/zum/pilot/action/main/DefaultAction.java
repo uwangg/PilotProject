@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.util.WebUtil;
@@ -27,7 +26,8 @@ public class DefaultAction implements Action {
 		
 		List<PostVo> postList = null;
 		
-		PostDao postDao = new PostDao(new MySQLConnection());
+//		PostDao postDao = new PostDao(new MySQLConnection());
+		PostDao postDao = new PostDao();
 		
 		totalPostNum = postDao.totalNumberOfPost();
 		totalPageNum = (int)((totalPostNum - 1) / postUnit + 1);

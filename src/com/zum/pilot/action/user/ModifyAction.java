@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.util.SecurityUtil;
@@ -36,7 +35,8 @@ public class ModifyAction implements Action {
 			return;
 		}
 		
-		UserDao userDao = new UserDao(new MySQLConnection());
+//		UserDao userDao = new UserDao(new MySQLConnection());
+		UserDao userDao = new UserDao();
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();

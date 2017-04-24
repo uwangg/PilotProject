@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.util.WebUtil;
@@ -52,7 +51,8 @@ public class PostWriteAction implements Action {
 		
 		// 게시글 입력
 		PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
-		PostDao postDao = new PostDao(new MySQLConnection());
+//		PostDao postDao = new PostDao(new MySQLConnection());
+		PostDao postDao = new PostDao();
 		postDao.insert(postVo);
 		WebUtil.redirect(request, response, "/pilot-project/board");
 	}

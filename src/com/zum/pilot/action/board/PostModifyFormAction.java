@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.util.WebUtil;
@@ -32,7 +31,8 @@ public class PostModifyFormAction implements Action {
 		Long id = Long.parseLong(request.getParameter("id"));
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 
-		PostDao postDao = new PostDao(new MySQLConnection());
+//		PostDao postDao = new PostDao(new MySQLConnection());
+		PostDao postDao = new PostDao();
 		PostVo vo = postDao.get(id);
 		
 		// id값이 범위를 벗어날때

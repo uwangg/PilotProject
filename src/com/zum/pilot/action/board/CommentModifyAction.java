@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zum.db.MySQLConnection;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.CommentDao;
 import com.zum.pilot.util.WebUtil;
@@ -29,7 +28,8 @@ public class CommentModifyAction implements Action {
 		String content = request.getParameter("content");
 		
 		
-		CommentDao commentDao = new CommentDao(new MySQLConnection());
+//		CommentDao commentDao = new CommentDao(new MySQLConnection());
+		CommentDao commentDao = new CommentDao();
 		
 		CommentVo commentVo = new CommentVo();
 		commentVo.setId(id);
