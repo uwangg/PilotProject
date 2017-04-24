@@ -161,10 +161,13 @@ public class PostDao {
 	// 게시글 삭제
 	public void delete(Long postId, Long userId) throws SQLException {
 		JdbcTemplate template = new JdbcTemplate();
-		String query1 = "update post set delete_flag=1 where id=? and user_id=?";
-		String query2 = "update comment set delete_flag=1 where post_id=?";
 		
-		PreparedStatementSetter pss1 = new PreparedStatementSetter() {
+		String[] query = new String[2];
+		query[0] = "update post set delete_flag=1 where id=? and user_id=?";
+		query[1] = "update comment set delete_flag=1 where post_id=?";
+		
+		PreparedStatementSetter[] pss = new PreparedStatementSetter[2];
+		pss[0] = new PreparedStatementSetter() {
 			
 			@Override
 			public void setParameters(PreparedStatement pstmt) throws SQLException {
@@ -172,28 +175,14 @@ public class PostDao {
 				pstmt.setLong(2, userId);
 			}
 		};
-		PreparedStatementSetter pss2 = new PreparedStatementSetter() {
+		pss[1] = new PreparedStatementSetter() {
 			
 			@Override
 			public void setParameters(PreparedStatement pstmt) throws SQLException {
 				pstmt.setLong(1, postId);
 			}
 		};
-		template.excuteUpdate(query1, pss1);
-		template.excuteUpdate(query2, pss2);
-//		try {
-//			// transcaction block start
-//			con.setAutoCommit(false);
-//			
-//			// transaction block end
-//			con.commit();
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			con.rollback();
-//		} finally {
-//			con.setAutoCommit(true);
-//		}
+		template.excuteTransaction(query, pss);
 	}
 	//	public void delete(Long postId, Long userId) throws SQLException {
 //		Connection con = null;

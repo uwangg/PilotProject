@@ -71,5 +71,38 @@ public class JdbcTemplate {
 		}
 		
 		return vo;
-	}	
+	}
+	
+	public void excuteTransaction(String[] query, PreparedStatementSetter[] pss) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = DBConnection.getConnection();
+			
+			// transaction block start
+			con.setAutoCommit(false);
+			for(int i=0 ; i<query.length ; i++) {
+				pstmt = con.prepareStatement(query[i]);
+				pss[i].setParameters(pstmt);
+				pstmt.executeUpdate();
+			}
+			// transaction block end
+			con.commit();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			con.rollback();
+		} finally {
+			con.setAutoCommit(true);
+			try {
+				if(pstmt != null)
+					pstmt.close();
+				if(con != null)
+					con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

@@ -212,11 +212,13 @@ public class UserDao {
 	public void delete(Long id, String password) throws SQLException {
 		JdbcTemplate template = new JdbcTemplate();
 		
-		String query1 = "update user set delete_flag=1 where id=? and passwd=?";
-		String query2 = "update post set delete_flag=1 where user_id=?";
-		String query3 = "update comment set delete_flag=1 where user_id=?";
+		String[] query = new String[3];
+		query[0] = "update user set delete_flag=1 where id=? and passwd=?";
+		query[1] = "update post set delete_flag=1 where user_id=?";
+		query[2] = "update comment set delete_flag=1 where user_id=?";
 		
-		PreparedStatementSetter pss1 = new PreparedStatementSetter() {
+		PreparedStatementSetter[] pss = new PreparedStatementSetter[3];
+		pss[0] = new PreparedStatementSetter() {
 			
 			@Override
 			public void setParameters(PreparedStatement pstmt) throws SQLException {				
@@ -224,41 +226,20 @@ public class UserDao {
 				pstmt.setString(2, password);
 			}
 		};
-		
-		PreparedStatementSetter pss2 = new PreparedStatementSetter() {
+		pss[1] = new PreparedStatementSetter() {
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setLong(1, id);
+			}
+		};
+		pss[2] = new PreparedStatementSetter() {
 			
 			@Override
 			public void setParameters(PreparedStatement pstmt) throws SQLException {				
 				pstmt.setLong(1, id);
 			}
 		};
-		
-		PreparedStatementSetter pss3 = new PreparedStatementSetter() {
-			
-			@Override
-			public void setParameters(PreparedStatement pstmt) throws SQLException {				
-				pstmt.setLong(1, id);
-			}
-		};
-		template.excuteUpdate(query1, pss1);
-		template.excuteUpdate(query2, pss2);
-		template.excuteUpdate(query3, pss3);
-//		try {
-//			con = dbConnection.getConnection();
-//
-//			// transaction block start
-//			con.setAutoCommit(false);
-//
-//			
-//			// transcation block end
-//			con.commit();
-//		
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			con.rollback();
-//		} finally {
-//			con.setAutoCommit(true);
-//		}
+		template.excuteTransaction(query, pss);
 	}
 //	public void delete(Long id, String password) throws SQLException {
 //		Connection con = null;
