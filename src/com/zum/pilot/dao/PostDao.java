@@ -1,24 +1,22 @@
 package com.zum.pilot.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zum.db.DBConnection;
 import com.zum.db.JdbcTemplate;
 import com.zum.db.PreparedStatementSetter;
 import com.zum.db.RowMapper;
 import com.zum.pilot.vo.PostVo;
 
 public class PostDao {
-	private DBConnection dbConnection;
-
-	public PostDao(DBConnection dbConnection) {
-		this.dbConnection = dbConnection;
-	}
+//	private DBConnection dbConnection;
+//
+//	public PostDao(DBConnection dbConnection) {
+//		this.dbConnection = dbConnection;
+//	}
 
 	// 게시글의 총 갯수
 	public Long totalNumberOfPost() {
@@ -162,46 +160,82 @@ public class PostDao {
 
 	// 게시글 삭제
 	public void delete(Long postId, Long userId) throws SQLException {
-		Connection con = null;
-		PreparedStatement pstmt1 = null;
-		PreparedStatement pstmt2 = null;
-
+		JdbcTemplate template = new JdbcTemplate();
 		String query1 = "update post set delete_flag=1 where id=? and user_id=?";
 		String query2 = "update comment set delete_flag=1 where post_id=?";
-		try {
-			con = dbConnection.getConnection();
-
-			// transcaction block start
-			con.setAutoCommit(false);
-			pstmt1 = con.prepareStatement(query1);
-			pstmt1.setLong(1, postId);
-			pstmt1.setLong(2, userId);
-			pstmt1.executeUpdate();
-
-			pstmt2 = con.prepareStatement(query2);
-			pstmt2.setLong(1, postId);
-			pstmt2.executeUpdate();
-
-			// transaction block end
-			con.commit();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			con.rollback();
-		} finally {
-			con.setAutoCommit(true);
-			try {
-				if (pstmt1 != null)
-					pstmt1.close();
-				if (pstmt2 != null)
-					pstmt2.close();
-				if (con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+		
+		PreparedStatementSetter pss1 = new PreparedStatementSetter() {
+			
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {
+				pstmt.setLong(1, postId);
+				pstmt.setLong(2, userId);
 			}
-		}
+		};
+		PreparedStatementSetter pss2 = new PreparedStatementSetter() {
+			
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {
+				pstmt.setLong(1, postId);
+			}
+		};
+		template.excuteUpdate(query1, pss1);
+		template.excuteUpdate(query2, pss2);
+//		try {
+//			// transcaction block start
+//			con.setAutoCommit(false);
+//			
+//			// transaction block end
+//			con.commit();
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			con.rollback();
+//		} finally {
+//			con.setAutoCommit(true);
+//		}
 	}
+	//	public void delete(Long postId, Long userId) throws SQLException {
+//		Connection con = null;
+//		PreparedStatement pstmt1 = null;
+//		PreparedStatement pstmt2 = null;
+//
+//		String query1 = "update post set delete_flag=1 where id=? and user_id=?";
+//		String query2 = "update comment set delete_flag=1 where post_id=?";
+//		try {
+//			con = dbConnection.getConnection();
+//
+//			// transcaction block start
+//			con.setAutoCommit(false);
+//			pstmt1 = con.prepareStatement(query1);
+//			pstmt1.setLong(1, postId);
+//			pstmt1.setLong(2, userId);
+//			pstmt1.executeUpdate();
+//
+//			pstmt2 = con.prepareStatement(query2);
+//			pstmt2.setLong(1, postId);
+//			pstmt2.executeUpdate();
+//
+//			// transaction block end
+//			con.commit();
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			con.rollback();
+//		} finally {
+//			con.setAutoCommit(true);
+//			try {
+//				if (pstmt1 != null)
+//					pstmt1.close();
+//				if (pstmt2 != null)
+//					pstmt2.close();
+//				if (con != null)
+//					con.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
 	// 조회수 증가
 	public void hitIncrease(Long number) {

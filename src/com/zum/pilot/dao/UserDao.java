@@ -1,23 +1,21 @@
 package com.zum.pilot.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.zum.db.DBConnection;
 import com.zum.db.JdbcTemplate;
 import com.zum.db.PreparedStatementSetter;
 import com.zum.db.RowMapper;
 import com.zum.pilot.vo.UserVo;
 
 public class UserDao {
-	private DBConnection dbConnection;
-
-	public UserDao() {}
-	public UserDao(DBConnection dbConnection) {
-		this.dbConnection = dbConnection;
-	}
+//	private DBConnection dbConnection;
+//
+//	public UserDao() {}
+//	public UserDao(DBConnection dbConnection) {
+//		this.dbConnection = dbConnection;
+//	}
 	
 	// id를 이용해 user 정보 가져오기
 	public UserVo get(Long number) {
@@ -212,54 +210,105 @@ public class UserDao {
 	
 	// 회원탈퇴
 	public void delete(Long id, String password) throws SQLException {
-		Connection con = null;
-		PreparedStatement pstmt1 = null;
-		PreparedStatement pstmt2 = null;
-		PreparedStatement pstmt3 = null;
+		JdbcTemplate template = new JdbcTemplate();
 		
 		String query1 = "update user set delete_flag=1 where id=? and passwd=?";
 		String query2 = "update post set delete_flag=1 where user_id=?";
 		String query3 = "update comment set delete_flag=1 where user_id=?";
 		
-		try {
-			con = dbConnection.getConnection();
-
-			// transaction block start
-			con.setAutoCommit(false);
-			pstmt1 = con.prepareStatement(query1);
-			pstmt1.setLong(1, id);
-			pstmt1.setString(2, password);
-			pstmt1.executeUpdate();
+		PreparedStatementSetter pss1 = new PreparedStatementSetter() {
 			
-			pstmt2 = con.prepareStatement(query2);
-			pstmt2.setLong(1, id);
-			pstmt2.executeUpdate();
-				
-			pstmt3 = con.prepareStatement(query3);
-			pstmt3.setLong(1, id);
-			pstmt3.executeUpdate();
-			
-			// transcation block end
-			con.commit();
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-			con.rollback();
-		} finally {
-			con.setAutoCommit(true);
-			try {
-				if(pstmt1 != null)
-					pstmt1.close();
-				if(pstmt2 != null)
-					pstmt2.close();
-				if(pstmt3 != null)
-					pstmt3.close();
-				if(con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setLong(1, id);
+				pstmt.setString(2, password);
 			}
-		}
+		};
+		
+		PreparedStatementSetter pss2 = new PreparedStatementSetter() {
+			
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setLong(1, id);
+			}
+		};
+		
+		PreparedStatementSetter pss3 = new PreparedStatementSetter() {
+			
+			@Override
+			public void setParameters(PreparedStatement pstmt) throws SQLException {				
+				pstmt.setLong(1, id);
+			}
+		};
+		template.excuteUpdate(query1, pss1);
+		template.excuteUpdate(query2, pss2);
+		template.excuteUpdate(query3, pss3);
+//		try {
+//			con = dbConnection.getConnection();
+//
+//			// transaction block start
+//			con.setAutoCommit(false);
+//
+//			
+//			// transcation block end
+//			con.commit();
+//		
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			con.rollback();
+//		} finally {
+//			con.setAutoCommit(true);
+//		}
 	}
+//	public void delete(Long id, String password) throws SQLException {
+//		Connection con = null;
+//		PreparedStatement pstmt1 = null;
+//		PreparedStatement pstmt2 = null;
+//		PreparedStatement pstmt3 = null;
+//		
+//		String query1 = "update user set delete_flag=1 where id=? and passwd=?";
+//		String query2 = "update post set delete_flag=1 where user_id=?";
+//		String query3 = "update comment set delete_flag=1 where user_id=?";
+//		
+//		try {
+//			con = dbConnection.getConnection();
+//
+//			// transaction block start
+//			con.setAutoCommit(false);
+//			pstmt1 = con.prepareStatement(query1);
+//			pstmt1.setLong(1, id);
+//			pstmt1.setString(2, password);
+//			pstmt1.executeUpdate();
+//			
+//			pstmt2 = con.prepareStatement(query2);
+//			pstmt2.setLong(1, id);
+//			pstmt2.executeUpdate();
+//				
+//			pstmt3 = con.prepareStatement(query3);
+//			pstmt3.setLong(1, id);
+//			pstmt3.executeUpdate();
+//			
+//			// transcation block end
+//			con.commit();
+//		
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			con.rollback();
+//		} finally {
+//			con.setAutoCommit(true);
+//			try {
+//				if(pstmt1 != null)
+//					pstmt1.close();
+//				if(pstmt2 != null)
+//					pstmt2.close();
+//				if(pstmt3 != null)
+//					pstmt3.close();
+//				if(con != null)
+//					con.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
 }
