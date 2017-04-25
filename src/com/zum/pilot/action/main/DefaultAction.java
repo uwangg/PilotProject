@@ -27,7 +27,8 @@ public class DefaultAction implements Action {
 		List<PostVo> postList = null;
 		
 //		PostDao postDao = new PostDao(new MySQLConnection());
-		PostDao postDao = new PostDao();
+//		PostDao postDao = new PostDao();
+		PostDao postDao = PostDao.INSTANCE;
 		
 		totalPostNum = postDao.totalNumberOfPost();
 		totalPageNum = (int)((totalPostNum - 1) / postUnit + 1);

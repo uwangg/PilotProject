@@ -11,7 +11,8 @@ import com.zum.db.PreparedStatementSetter;
 import com.zum.db.RowMapper;
 import com.zum.pilot.vo.PostVo;
 
-public class PostDao {
+public enum PostDao {
+	INSTANCE;
 //	private DBConnection dbConnection;
 //
 //	public PostDao(DBConnection dbConnection) {

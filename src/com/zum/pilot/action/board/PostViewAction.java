@@ -24,7 +24,8 @@ public class PostViewAction implements Action {
 		// 게시글 id를 이용해 게시물 불러오기
 		Long postId = Long.parseLong(request.getParameter("id"));
 //		PostDao postDao = new PostDao(new MySQLConnection());
-		PostDao postDao = new PostDao();
+//		PostDao postDao = new PostDao();
+		PostDao postDao = PostDao.INSTANCE;
 		postDao.hitIncrease(postId);
 		PostVo postVo = postDao.get(postId);
 		

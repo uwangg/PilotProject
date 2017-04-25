@@ -64,7 +64,8 @@ public class PostModifyAction implements Action {
 		if(authUser.getId() == userId) {
 			PostVo vo = new PostVo(id, title, content, imagePath, userId);
 //			PostDao postDao = new PostDao(new MySQLConnection());
-			PostDao postDao = new PostDao();
+//			PostDao postDao = new PostDao();
+			PostDao postDao = PostDao.INSTANCE;
 			
 			// 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
 			if(changedImage) {

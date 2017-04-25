@@ -53,7 +53,8 @@ public class PostWriteAction implements Action {
 		// 게시글 입력
 		PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
 //		PostDao postDao = new PostDao(new MySQLConnection());
-		PostDao postDao = new PostDao();
+//		PostDao postDao = new PostDao();
+		PostDao postDao = PostDao.INSTANCE;
 		postDao.insert(postVo);
 		WebUtil.redirect(request, response, "/pilot-project/board");
 	}

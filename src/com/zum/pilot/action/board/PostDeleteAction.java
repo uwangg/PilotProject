@@ -32,7 +32,8 @@ public class PostDeleteAction implements Action {
 		
 		if(userId == authId) {		
 //			PostDao postDao = new PostDao(new MySQLConnection());
-			PostDao postDao = new PostDao();
+//			PostDao postDao = new PostDao();
+			PostDao postDao = PostDao.INSTANCE;
 			
 			// 이미지가 있다면 삭제
 			PostVo postVo = postDao.get(id);

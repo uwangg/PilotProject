@@ -32,7 +32,8 @@ public class PostModifyFormAction implements Action {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 
 //		PostDao postDao = new PostDao(new MySQLConnection());
-		PostDao postDao = new PostDao();
+//		PostDao postDao = new PostDao();
+		PostDao postDao = PostDao.INSTANCE;
 		PostVo vo = postDao.get(id);
 		
 		// id값이 범위를 벗어날때
