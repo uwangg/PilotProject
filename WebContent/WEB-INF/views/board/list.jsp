@@ -1,14 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<div style="width: 1400px; margin: auto; margin-top: 80px">
-	<div style="margin-bottom: 30px; text-align: center;">
+<div class="container" style="margin-top:5%">
+	<div style=" text-align: center;">
 		<h1 class="title">게시판</h1>
 	</div>
 	<hr />
 
 	<table class="table table-striped"
-		style="margin-top: 50px; margin-bottom: 50px; width: 1000px; margin-left: auto; margin-right: auto">
+		style="border-collapse: separate; padding:3%">
 		<thead>
 			<tr>
 				<th class="text-center" style="width:7%">번호</th>
