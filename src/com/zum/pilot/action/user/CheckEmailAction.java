@@ -19,7 +19,8 @@ public class CheckEmailAction implements Action {
 		PrintWriter out = response.getWriter();
 		
 //		UserDao userDao = new UserDao(new MySQLConnection());
-		UserDao userDao = new UserDao();
+//		UserDao userDao = new UserDao();
+		UserDao userDao = UserDao.INSTANCE;
 		
 		// 이메일 중복체크
 		if(userDao.checkEmail(email))

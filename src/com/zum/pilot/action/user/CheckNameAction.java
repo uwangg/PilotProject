@@ -32,7 +32,8 @@ public class CheckNameAction implements Action {
 
 		System.out.println("check name = " + name);
 //		UserDao userDao = new UserDao(new MySQLConnection());
-		UserDao userDao = new UserDao();
+//		UserDao userDao = new UserDao();
+		UserDao userDao = UserDao.INSTANCE;
 
 		// 닉네임 중복체크
 		if (userDao.checkName(name)) {

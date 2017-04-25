@@ -33,7 +33,8 @@ public class JoinAction implements Action {
 		System.out.println("join: name="+name+",email="+email+",password="+passwd);
 		
 //		UserDao userDao = new UserDao(new MySQLConnection());
-		UserDao userDao = new UserDao();
+//		UserDao userDao = new UserDao();
+		UserDao userDao = UserDao.INSTANCE;
 		
 		UserVo userVo = new UserVo(email, name, SecurityUtil.encryptSHA256(passwd));
 		userDao.insert(userVo);

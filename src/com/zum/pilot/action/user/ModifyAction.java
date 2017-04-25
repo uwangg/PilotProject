@@ -36,7 +36,8 @@ public class ModifyAction implements Action {
 		}
 		
 //		UserDao userDao = new UserDao(new MySQLConnection());
-		UserDao userDao = new UserDao();
+//		UserDao userDao = new UserDao();
+		UserDao userDao = UserDao.INSTANCE;
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();

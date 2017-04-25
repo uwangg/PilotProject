@@ -9,7 +9,8 @@ import com.zum.db.PreparedStatementSetter;
 import com.zum.db.RowMapper;
 import com.zum.pilot.vo.UserVo;
 
-public class UserDao {
+public enum UserDao {
+	INSTANCE;
 //	private DBConnection dbConnection;
 //
 //	public UserDao() {}

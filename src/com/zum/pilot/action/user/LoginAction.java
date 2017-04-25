@@ -34,7 +34,8 @@ public class LoginAction implements Action {
 			
 		// 유저정보 가져오기
 //		UserDao userDao = new UserDao(new MySQLConnection());
-		UserDao userDao = new UserDao();
+//		UserDao userDao = new UserDao();
+		UserDao userDao = UserDao.INSTANCE;
 		UserVo authUser = userDao.get(userVo);
 		
 		// 로그인성공시
