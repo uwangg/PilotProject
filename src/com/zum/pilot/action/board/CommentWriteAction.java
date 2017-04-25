@@ -38,7 +38,8 @@ public class CommentWriteAction implements Action {
 		commentVo.setDepth(depth);
 		
 //		CommentDao commentDao = new CommentDao(new MySQLConnection());
-		CommentDao commentDao = new CommentDao();
+//		CommentDao commentDao = new CommentDao();
+		CommentDao commentDao = CommentDao.INSTANCE;
 		int thread = 0;
 		
 		if(depth == 0) {	// 댓글을 다는 경우

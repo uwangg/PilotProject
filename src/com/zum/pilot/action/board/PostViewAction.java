@@ -42,7 +42,8 @@ public class PostViewAction implements Action {
 		// 게시물 id에 맞는 댓글 불러오기
 		List<CommentVo> commentList = null;
 //		CommentDao commentDao = new CommentDao(new MySQLConnection());
-		CommentDao commentDao = new CommentDao();
+//		CommentDao commentDao = new CommentDao();
+		CommentDao commentDao = CommentDao.INSTANCE;
 		
 		totalCommentNum = commentDao.totalNumberOfComment(postId);
 		totalPageNum = (int)((totalCommentNum - 1) / commentUnit + 1);

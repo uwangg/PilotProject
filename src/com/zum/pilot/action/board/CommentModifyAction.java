@@ -29,7 +29,8 @@ public class CommentModifyAction implements Action {
 		
 		
 //		CommentDao commentDao = new CommentDao(new MySQLConnection());
-		CommentDao commentDao = new CommentDao();
+//		CommentDao commentDao = new CommentDao();
+		CommentDao commentDao = CommentDao.INSTANCE;
 		
 		CommentVo commentVo = new CommentVo();
 		commentVo.setId(id);

@@ -11,7 +11,8 @@ import com.zum.db.PreparedStatementSetter;
 import com.zum.db.RowMapper;
 import com.zum.pilot.vo.CommentVo;
 
-public class CommentDao {
+public enum CommentDao {
+	INSTANCE;
 //	private DBConnection dbConnection;
 //
 //	public CommentDao(DBConnection dbConnection) {
