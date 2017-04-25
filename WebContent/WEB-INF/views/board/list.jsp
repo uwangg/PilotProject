@@ -37,7 +37,7 @@
 
 	<c:choose>
 		<c:when test="${sessionScope.authUser != null }">
-			<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/board?a=writeform"
+			<a class="btn btn-success pull-right" href="${pageContext.request.contextPath}/board?a=writeform"
 				style="padding:">글쓰기</a>
 		</c:when>
 	</c:choose>
@@ -68,5 +68,8 @@
 				<li><a href="${pageContext.request.contextPath}/?begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
 			</c:if>
 		</ul>
+<!-- 		<style>
+		.pagination li a .active{background: green; color:white;}
+		</style> -->
 	</div>
 </div>

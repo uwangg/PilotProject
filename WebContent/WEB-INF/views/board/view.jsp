@@ -126,11 +126,11 @@ h1 {
 
 				<!-- 수정 / 삭제 -->
 				<div class="text-right">
-					<a class="btn btn-primary pull-left" href="${pageContext.request.contextPath}/" style="padding:">목록보기</a>
+					<a class="btn btn-success pull-left" href="${pageContext.request.contextPath}/" style="padding:">목록보기</a>
 					<c:choose>
 						<c:when test="${sessionScope.authUser.id == postVo.userId }">
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=modifyform&id=${postVo.id }">수정하기</a>
-							<a class="btn btn-primary" href="${pageContext.request.contextPath}/board?a=delete&id=${postVo.id }&user_id=${postVo.userId}">삭제하기</a>
+							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?a=modifyform&id=${postVo.id }">수정하기</a>
+							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?a=delete&id=${postVo.id }&user_id=${postVo.userId}">삭제하기</a>
 						</c:when>
 					</c:choose>
 				</div>

@@ -14,7 +14,7 @@
 			<textarea class="form-control" rows="3" id="comment" name="content"
 				placeholder="댓글을 입력해주세요"></textarea>
 		</div>
-			<button type="submit" class="btn btn-primary pull-right">확인</button>
+			<button type="submit" class="btn btn-success pull-right">확인</button>
 		<div class="clearfix"></div>
 	</form>
 	</div>

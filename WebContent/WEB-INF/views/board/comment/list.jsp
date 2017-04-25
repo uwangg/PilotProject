@@ -65,7 +65,7 @@
 							<textarea rows="2" class="form-control" ng-model="user.comment" name="content">${vo.content }</textarea>
 						</div>
 						<div>
-							<button type="submit" class="btn btn-default btn-sm">수정완료</button>
+							<button type="submit" class="btn btn-success btn-sm">수정완료</button>
 						</div>
 						<div class="clearfix"></div>
 					</form>
@@ -84,7 +84,7 @@
 							<textarea rows="3" class="form-control" id="comment" name="content"
 								placeholder="답글을 입력해주세요" ng-model="user.comment"></textarea>
 						</div>
-						<button type="submit" class="pull-right btn btn-default btn-sm">확인</button>
+						<button type="submit" class="pull-right btn btn-success btn-sm">확인</button>
 					</form>
 				</div>
 			</div>
