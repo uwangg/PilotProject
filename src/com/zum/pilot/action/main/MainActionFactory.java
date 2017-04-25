@@ -8,7 +8,7 @@ public enum MainActionFactory implements ActionFactory {
 	
 	@Override
 	public Action getAction(String actionName) {
-		return new DefaultAction();
+		return DefaultAction.INSTANCE;
 	}
 
 }

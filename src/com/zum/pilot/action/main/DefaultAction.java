@@ -12,8 +12,9 @@ import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.PostVo;
 
-public class DefaultAction implements Action {
-
+public enum DefaultAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 게시글 페이지네이션
