@@ -4,8 +4,9 @@ import com.zum.pilot.action.Action;
 import com.zum.pilot.action.ActionFactory;
 import com.zum.pilot.action.BoardConstant;
 
-public class BoardActionFactory implements ActionFactory {
-
+public enum BoardActionFactory implements ActionFactory {
+	INSTANCE;
+	
 	@Override
 	public Action getAction(String actionName) {
 		Action action = null;
