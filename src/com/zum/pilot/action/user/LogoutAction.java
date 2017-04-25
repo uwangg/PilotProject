@@ -10,8 +10,9 @@ import javax.servlet.http.HttpSession;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.util.WebUtil;
 
-public class LogoutAction implements Action {
-
+public enum LogoutAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();

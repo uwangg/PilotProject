@@ -11,8 +11,9 @@ import com.zum.pilot.action.Action;
 import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.UserVo;
 
-public class ModifyFormAction implements Action {
-
+public enum ModifyFormAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();

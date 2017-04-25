@@ -12,8 +12,9 @@ import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.vo.UserVo;
 
-public class CheckNameAction implements Action {
-
+public enum CheckNameAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

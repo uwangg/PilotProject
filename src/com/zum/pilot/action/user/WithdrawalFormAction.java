@@ -5,13 +5,13 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.zum.pilot.action.Action;
 import com.zum.pilot.util.WebUtil;
 
-public class WithdrawalFormAction implements Action {
-
+public enum WithdrawalFormAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		WebUtil.forward(request, response, "/WEB-INF/views/user/withdrawalform.jsp");

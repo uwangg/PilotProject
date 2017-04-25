@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.util.WebUtil;
 
-public class DefaultAction implements Action {
-
+public enum DefaultAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		WebUtil.redirect(request, response, "/pilot-project/");

@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.UserDao;
 
-public class CheckEmailAction implements Action {
-
+public enum CheckEmailAction implements Action {
+	INSTANCE;
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		request.setCharacterEncoding("utf-8");

@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.util.WebUtil;
 
-public class JoinFormAction implements Action {
-
+public enum JoinFormAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		WebUtil.forward(request, response, "/WEB-INF/views/user/joinform.jsp");

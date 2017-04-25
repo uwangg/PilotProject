@@ -12,8 +12,9 @@ import com.zum.pilot.util.SecurityUtil;
 import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.UserVo;
 
-public class JoinAction implements Action {
-
+public enum JoinAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

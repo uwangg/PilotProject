@@ -14,8 +14,9 @@ import com.zum.pilot.util.SecurityUtil;
 import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.UserVo;
 
-public class ModifyAction implements Action {
-
+public enum ModifyAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		request.setCharacterEncoding("utf-8");
