@@ -12,8 +12,9 @@ import com.zum.pilot.dao.CommentDao;
 import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.UserVo;
 
-public class CommentDeleteAction implements Action {
-
+public enum CommentDeleteAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();

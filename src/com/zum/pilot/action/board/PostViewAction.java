@@ -14,8 +14,9 @@ import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.CommentVo;
 import com.zum.pilot.vo.PostVo;
 
-public class PostViewAction implements Action {
-
+public enum PostViewAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

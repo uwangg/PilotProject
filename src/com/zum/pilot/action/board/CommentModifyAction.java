@@ -13,8 +13,9 @@ import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.CommentVo;
 import com.zum.pilot.vo.UserVo;
 
-public class CommentModifyAction implements Action {
-
+public enum CommentModifyAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		request.setCharacterEncoding("utf-8");

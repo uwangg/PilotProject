@@ -11,26 +11,26 @@ public enum BoardActionFactory implements ActionFactory {
 	public Action getAction(String actionName) {
 		Action action = null;
 		if(BoardConstant.WRITE_FORM.equals(actionName)) {	// 글쓰기
-			action = new PostWriteFormAction();
+			action = PostWriteFormAction.INSTANCE;
 		} else if(BoardConstant.WRITE.equals(actionName)) {
-			action = new PostWriteAction();
+			action = PostWriteAction.INSTANCE;
 		} else if(BoardConstant.VIEW.equals(actionName)) {	// 글보기
-			action = new PostViewAction();
+			action = PostViewAction.INSTANCE;
 		} else if(BoardConstant.MODIFY_FORM.equals(actionName)) {	// 글 수정
-			action = new PostModifyFormAction();
+			action = PostModifyFormAction.INSTANCE;
 		} else if(BoardConstant.MODIFY.equals(actionName)) {
-			action = new PostModifyAction();
+			action = PostModifyAction.INSTANCE;
 		} else if(BoardConstant.DELETE.equals(actionName)) {	// 글 삭제
-			action = new PostDeleteAction();
+			action = PostDeleteAction.INSTANCE;
 		} else if(BoardConstant.COMMENT_WRITE.equals(actionName)) {	// 댓글 쓰기
-			action = new CommentWriteAction();
+			action = CommentWriteAction.INSTANCE;
 		} else if(BoardConstant.COMMENT_MODIFY.equals(actionName)) {	// 댓글 수정
-			action = new CommentModifyAction();
+			action = CommentModifyAction.INSTANCE;
 		} else if(BoardConstant.COMMENT_DELETE.equals(actionName)) {	// 댓글 삭제
-			action = new CommentDeleteAction();
+			action = CommentDeleteAction.INSTANCE;
 		}
 		else {
-			action = new DefaultAction();
+			action = DefaultAction.INSTANCE;
 		}
 		return action;
 	}

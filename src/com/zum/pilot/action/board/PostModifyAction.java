@@ -18,8 +18,9 @@ import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
 
 @MultipartConfig
-public class PostModifyAction implements Action {
-
+public enum PostModifyAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		request.setCharacterEncoding("utf-8");

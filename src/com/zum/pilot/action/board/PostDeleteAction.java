@@ -15,8 +15,9 @@ import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
 
-public class PostDeleteAction implements Action {
-
+public enum PostDeleteAction implements Action {
+	INSTANCE;
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
