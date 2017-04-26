@@ -1,6 +1,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+<style>
+.pagination>li>a {
+	border: 1px solid #5cb85c;
+	color: #5cb85c;
+}
+.pagination>li.active>a {
+	border: 1px solid #5cb85c;
+	background: #5cb85c;
+	color: #fff;
+}
+</style>
 <div class="container" style="margin-top:5%">
 	<div style=" text-align: center;">
 		<h1 class="title">게시판</h1>
@@ -64,6 +76,5 @@
 				<li><a href="${pageContext.request.contextPath}/?begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
 			</c:if>
 		</ul>
-
 	</div>
 </div>

@@ -4,6 +4,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<style>
+.pagination>li>a {
+	border: 1px solid #5cb85c;
+	color: #5cb85c;
+}
+.pagination>li.active>a {
+	border: 1px solid #5cb85c;
+	background: #5cb85c;
+	color: #fff;
+}
+</style>
 
 <label for="accordion">댓글:</label>
 <div class="comment-group" id="accordion">
