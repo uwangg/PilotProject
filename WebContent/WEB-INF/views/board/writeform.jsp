@@ -11,9 +11,13 @@
 </head>	
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
-	
+	<div class="container">
+	<div class="row">
+	<div class="col-lg-2"></div>
+	<div class="col-lg-8">
 	<form action="${pageContext.request.contextPath}/board?a=write" method="post" enctype="multipart/form-data" id="writeForm"
-		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;">
+			style="margin-top:6%; margin-left: 5%; margin-right: 5%">
+<!-- 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;"> -->
 <!-- 		<input type="hidden" name="a" value="write"> -->
 		<div class="panel-title text-center" style="padding: 10px;">
 			<h2 class="title">글쓰기</h2>
@@ -47,6 +51,9 @@
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">취소</a>
 		</div>
 	</form>
+	</div>
+	</div>
+	</div>
 	
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<!-- validate -->

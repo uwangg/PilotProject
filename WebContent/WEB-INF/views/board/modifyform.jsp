@@ -11,8 +11,13 @@
 </head>
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
+	<div class="container">
+	<div class="row">
+	<div class="col-lg-2"></div>
+	<div class="col-lg-8">
 	<form action="${pageContext.request.contextPath}/board?a=modify" method="post" enctype="multipart/form-data" id="modifyForm"
-		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;">
+			style="margin-top:6%;margin-left: 5%; margin-right: 5%">
+<!-- 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;"> -->
 		<input type="hidden" name="id" value="${vo.id }">
 		<input type="hidden" name="user_id" value="${vo.userId }">
 		<input type="hidden" name="old_imgpath" value="${vo.imagePath }">
@@ -31,10 +36,7 @@
 		<div class="form-group">
 			<label for="exampleInputFile">이미지 첨부</label> <input type="file"
 				class="form-control-file" id="exampleInputFile"
-				aria-describedby="fileHelp" name="image_path"> <small
-				id="fileHelp" class="form-text text-muted">This is some
-				placeholder block-level help text for the above input. It's a bit
-				lighter and easily wraps to a new line.</small>
+				aria-describedby="fileHelp" name="image_path"> 
 		</div>
 
 		<div class="text-center">
@@ -44,6 +46,9 @@
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">취소</a>
 		</div>
 	</form>
+	</div>
+	</div>
+	</div>
 	
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<!-- validate -->

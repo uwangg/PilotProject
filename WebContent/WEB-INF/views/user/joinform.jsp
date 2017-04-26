@@ -27,11 +27,16 @@
 <body>
 
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
-	<div style="width:400px;margin:auto;margin-top:100px;
+<!-- 	<div style="width:400px;margin:auto;margin-top:100px;
 				border:1px solid;border-radius:10px;
 				border-color:#dcdcdc;padding:60px;padding-top:40px" 
-		class="container">
-			<div class="row main">
+		class="container"> -->
+	<div class="container">
+	<div class="row">
+	<div class="col-lg-4"></div>
+	<div class="col-lg-4" style="margin-top: 6%; border:1px solid;border-radius:10px;
+				border-color:#dcdcdc;padding:2%">
+			<div class="main" style="padding:6%">
 				<div class="panel-heading">
 	               <div class="panel-title text-center">
 	               		<h1 class="title">회원가입</h1>
@@ -91,6 +96,9 @@
 					</form>
 				</div>
 			</div>
+		</div>
+		<div class="col-lg-4"></div>
+		</div>
 		</div>
 
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
