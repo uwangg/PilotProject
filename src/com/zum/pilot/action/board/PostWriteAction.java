@@ -20,8 +20,7 @@ public enum PostWriteAction implements Action {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-//		request.setCharacterEncoding("utf-8");
+
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
@@ -34,7 +33,6 @@ public enum PostWriteAction implements Action {
 		String fileName = "";
 		
 		// 파일이 업로드될 실제 tomcat 폴더의 경로
-//		String savePath = request.getServletContext().getRealPath("upload");
 		String savePath = "D:\\test\\upload";
 		System.out.println("savePath = " + savePath);
 		try {
@@ -53,8 +51,6 @@ public enum PostWriteAction implements Action {
 		
 		// 게시글 입력
 		PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
-//		PostDao postDao = new PostDao(new MySQLConnection());
-//		PostDao postDao = new PostDao();
 		PostDao postDao = PostDao.INSTANCE;
 		postDao.insert(postVo);
 		WebUtil.redirect(request, response, "/pilot-project/board");

@@ -20,12 +20,8 @@ public enum PostViewAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-//		request.setCharacterEncoding("utf-8");
-		
 		// 게시글 id를 이용해 게시물 불러오기
 		Long postId = Long.parseLong(request.getParameter("id"));
-//		PostDao postDao = new PostDao(new MySQLConnection());
-//		PostDao postDao = new PostDao();
 		PostDao postDao = PostDao.INSTANCE;
 		postDao.hitIncrease(postId);
 		PostVo postVo = postDao.get(postId);
@@ -42,8 +38,6 @@ public enum PostViewAction implements Action {
 		
 		// 게시물 id에 맞는 댓글 불러오기
 		List<CommentVo> commentList = null;
-//		CommentDao commentDao = new CommentDao(new MySQLConnection());
-//		CommentDao commentDao = new CommentDao();
 		CommentDao commentDao = CommentDao.INSTANCE;
 		
 		totalCommentNum = commentDao.totalNumberOfComment(postId);

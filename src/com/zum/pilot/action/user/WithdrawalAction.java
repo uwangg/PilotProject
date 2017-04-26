@@ -19,16 +19,12 @@ public enum WithdrawalAction implements Action {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
 
-		
 		// db에서 회원정보 삭제
 		UserVo userVo = (UserVo)session.getAttribute("authUser");
 		String password = SecurityUtil.encryptSHA256(request.getParameter("passwd"));
 
-//		UserDao userDao = new UserDao(new MySQLConnection());
-//		UserDao userDao = new UserDao();
 		UserDao userDao = UserDao.INSTANCE;
 
 		response.setCharacterEncoding("UTF-8");

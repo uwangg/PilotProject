@@ -18,9 +18,7 @@ public enum CommentWriteAction implements Action {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("utf-8");
-		
-//		Long countOfComment = 0L;
+
 		final int thrUnit = 1000;
 		Long postId = Long.parseLong(request.getParameter("post_id"));
 		int depth = Integer.parseInt(request.getParameter("depth"));
@@ -38,8 +36,6 @@ public enum CommentWriteAction implements Action {
 		commentVo.setContent(content);
 		commentVo.setDepth(depth);
 		
-//		CommentDao commentDao = new CommentDao(new MySQLConnection());
-//		CommentDao commentDao = new CommentDao();
 		CommentDao commentDao = CommentDao.INSTANCE;
 		int thread = 0;
 		

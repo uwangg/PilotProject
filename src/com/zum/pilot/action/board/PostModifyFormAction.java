@@ -18,7 +18,6 @@ public enum PostModifyFormAction implements Action {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("utf-8");
 		
 		// 로그인하지 않은 사용자
 		HttpSession session = request.getSession();
@@ -32,8 +31,6 @@ public enum PostModifyFormAction implements Action {
 		Long id = Long.parseLong(request.getParameter("id"));
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 
-//		PostDao postDao = new PostDao(new MySQLConnection());
-//		PostDao postDao = new PostDao();
 		PostDao postDao = PostDao.INSTANCE;
 		PostVo vo = postDao.get(id);
 		

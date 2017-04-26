@@ -23,7 +23,6 @@ public enum PostModifyAction implements Action {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("utf-8");
 		System.out.println("postmodifyaction");
 
 		// 업로드용 폴더 이름
@@ -37,7 +36,6 @@ public enum PostModifyAction implements Action {
 		Long userId = -1L;
 		
 		// 파일이 업로드될 실제 tomcat 폴더의 경로
-//		String savePath = request.getServletContext().getRealPath("upload");
 		String savePath = "D:\\test\\upload";
 		boolean changedImage = false;
 		
@@ -64,15 +62,12 @@ public enum PostModifyAction implements Action {
 		// 작성자만 수정 가능
 		if(authUser.getId() == userId) {
 			PostVo vo = new PostVo(id, title, content, imagePath, userId);
-//			PostDao postDao = new PostDao(new MySQLConnection());
-//			PostDao postDao = new PostDao();
 			PostDao postDao = PostDao.INSTANCE;
 			
 			// 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
 			if(changedImage) {
 				PostVo postVo = postDao.get(id);
 					
-//				String uploadFileName = request.getServletContext().getRealPath("upload");
 				String uploadFileName = "D:\\test\\upload";
 				File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
 					

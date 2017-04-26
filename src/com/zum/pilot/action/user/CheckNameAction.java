@@ -18,7 +18,6 @@ public enum CheckNameAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//		request.setCharacterEncoding("utf-8");
 		String name = request.getParameter("name");
 		PrintWriter out = response.getWriter();
 
@@ -32,8 +31,6 @@ public enum CheckNameAction implements Action {
 		}
 
 		System.out.println("check name = " + name);
-//		UserDao userDao = new UserDao(new MySQLConnection());
-//		UserDao userDao = new UserDao();
 		UserDao userDao = UserDao.INSTANCE;
 
 		// 닉네임 중복체크

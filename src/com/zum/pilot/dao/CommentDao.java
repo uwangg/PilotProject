@@ -13,12 +13,7 @@ import com.zum.pilot.vo.CommentVo;
 
 public enum CommentDao {
 	INSTANCE;
-//	private DBConnection dbConnection;
-//
-//	public CommentDao(DBConnection dbConnection) {
-//		this.dbConnection = dbConnection;
-//	}
-
+	
 	// 댓글의 총 갯수
 	public Long totalNumberOfComment(Long postId) {
 		JdbcTemplate template = new JdbcTemplate();

@@ -22,11 +22,12 @@ public class UserLoginFilter implements Filter {
     public UserLoginFilter() {
     }
 
+    @Override
 	public void destroy() {
 	}
 
+    @Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//		request.setCharacterEncoding("utf-8");
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
 		
@@ -36,7 +37,6 @@ public class UserLoginFilter implements Filter {
 			params.add(filterParam[i]);
 		}
 		String actionName = request.getParameter("a");
-//		System.out.println("actionName = " + actionName);
 		if(params.contains(actionName)) {
 			HttpSession session = req.getSession();
 			if(session.getAttribute("authUser") == null) {	// 로그인한 사용자가 아닐때
@@ -51,6 +51,7 @@ public class UserLoginFilter implements Filter {
 		}
 	}
 
+    @Override
 	public void init(FilterConfig fConfig) throws ServletException {
 	}
 

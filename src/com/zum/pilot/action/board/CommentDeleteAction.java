@@ -23,8 +23,7 @@ public enum CommentDeleteAction implements Action {
 		Long userId = authUser.getId();
 		Long postId = Long.parseLong(request.getParameter("post_id"));
 		Long commentId = Long.parseLong(request.getParameter("id"));
-//		CommentDao commentDao = new CommentDao(new MySQLConnection());
-//		CommentDao commentDao = new CommentDao();
+
 		CommentDao commentDao = CommentDao.INSTANCE;
 		commentDao.delete(commentId, userId);
 		

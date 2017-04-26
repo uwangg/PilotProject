@@ -13,11 +13,6 @@ import com.zum.pilot.vo.PostVo;
 
 public enum PostDao {
 	INSTANCE;
-//	private DBConnection dbConnection;
-//
-//	public PostDao(DBConnection dbConnection) {
-//		this.dbConnection = dbConnection;
-//	}
 
 	// 게시글의 총 갯수
 	public Long totalNumberOfPost() {
@@ -185,47 +180,6 @@ public enum PostDao {
 		};
 		template.excuteTransaction(query, pss);
 	}
-	//	public void delete(Long postId, Long userId) throws SQLException {
-//		Connection con = null;
-//		PreparedStatement pstmt1 = null;
-//		PreparedStatement pstmt2 = null;
-//
-//		String query1 = "update post set delete_flag=1 where id=? and user_id=?";
-//		String query2 = "update comment set delete_flag=1 where post_id=?";
-//		try {
-//			con = dbConnection.getConnection();
-//
-//			// transcaction block start
-//			con.setAutoCommit(false);
-//			pstmt1 = con.prepareStatement(query1);
-//			pstmt1.setLong(1, postId);
-//			pstmt1.setLong(2, userId);
-//			pstmt1.executeUpdate();
-//
-//			pstmt2 = con.prepareStatement(query2);
-//			pstmt2.setLong(1, postId);
-//			pstmt2.executeUpdate();
-//
-//			// transaction block end
-//			con.commit();
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			con.rollback();
-//		} finally {
-//			con.setAutoCommit(true);
-//			try {
-//				if (pstmt1 != null)
-//					pstmt1.close();
-//				if (pstmt2 != null)
-//					pstmt2.close();
-//				if (con != null)
-//					con.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
 
 	// 조회수 증가
 	public void hitIncrease(Long number) {

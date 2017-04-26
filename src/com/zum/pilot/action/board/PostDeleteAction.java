@@ -21,8 +21,6 @@ public enum PostDeleteAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-//		request.setCharacterEncoding("utf-8");
-		
 		HttpSession session = request.getSession();
 		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
@@ -32,8 +30,6 @@ public enum PostDeleteAction implements Action {
 		Long userId = Long.parseLong(request.getParameter("user_id"));	// 게시글 작성자
 		
 		if(userId == authId) {		
-//			PostDao postDao = new PostDao(new MySQLConnection());
-//			PostDao postDao = new PostDao();
 			PostDao postDao = PostDao.INSTANCE;
 			
 			// 이미지가 있다면 삭제
@@ -51,7 +47,6 @@ public enum PostDeleteAction implements Action {
 			try {
 				postDao.delete(id, authUser.getId());
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

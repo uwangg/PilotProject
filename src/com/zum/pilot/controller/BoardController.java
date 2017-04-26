@@ -30,9 +30,7 @@ public class BoardController extends HttpServlet {
 	}
 
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("utf-8");
 		String actionName = request.getParameter("a");
-//		ActionFactory actionFactory = new BoardActionFactory();
 		ActionFactory actionFactory = BoardActionFactory.INSTANCE;
 		Action action = actionFactory.getAction(actionName);
 		action.execute(request, response);

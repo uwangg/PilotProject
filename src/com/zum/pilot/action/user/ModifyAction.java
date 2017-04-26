@@ -19,7 +19,6 @@ public enum ModifyAction implements Action {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("utf-8");
 		
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
@@ -36,8 +35,6 @@ public enum ModifyAction implements Action {
 			return;
 		}
 		
-//		UserDao userDao = new UserDao(new MySQLConnection());
-//		UserDao userDao = new UserDao();
 		UserDao userDao = UserDao.INSTANCE;
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");

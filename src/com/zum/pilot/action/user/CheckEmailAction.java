@@ -14,12 +14,9 @@ public enum CheckEmailAction implements Action {
 	INSTANCE;
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("utf-8");
 		String email = request.getParameter("email");
 		PrintWriter out = response.getWriter();
 		
-//		UserDao userDao = new UserDao(new MySQLConnection());
-//		UserDao userDao = new UserDao();
 		UserDao userDao = UserDao.INSTANCE;
 		
 		// 이메일 중복체크

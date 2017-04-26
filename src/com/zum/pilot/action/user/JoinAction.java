@@ -18,8 +18,6 @@ public enum JoinAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-//		request.setCharacterEncoding("utf-8");
-		
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String passwd = request.getParameter("passwd");
@@ -33,8 +31,6 @@ public enum JoinAction implements Action {
 		
 		System.out.println("join: name="+name+",email="+email+",password="+passwd);
 		
-//		UserDao userDao = new UserDao(new MySQLConnection());
-//		UserDao userDao = new UserDao();
 		UserDao userDao = UserDao.INSTANCE;
 		
 		UserVo userVo = new UserVo(email, name, SecurityUtil.encryptSHA256(passwd));

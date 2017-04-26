@@ -28,9 +28,6 @@ public enum CommentModifyAction implements Action {
 		Long id = Long.parseLong(request.getParameter("id"));
 		String content = request.getParameter("content");
 		
-		
-//		CommentDao commentDao = new CommentDao(new MySQLConnection());
-//		CommentDao commentDao = new CommentDao();
 		CommentDao commentDao = CommentDao.INSTANCE;
 		
 		CommentVo commentVo = new CommentVo();

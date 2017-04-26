@@ -19,8 +19,6 @@ public enum LoginAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-//		request.setCharacterEncoding("utf-8");
-		
 		String email = request.getParameter("email");
 		String password = SecurityUtil.encryptSHA256(request.getParameter("password"));
 		
@@ -34,8 +32,6 @@ public enum LoginAction implements Action {
 		}
 			
 		// 유저정보 가져오기
-//		UserDao userDao = new UserDao(new MySQLConnection());
-//		UserDao userDao = new UserDao();
 		UserDao userDao = UserDao.INSTANCE;
 		UserVo authUser = userDao.get(userVo);
 		

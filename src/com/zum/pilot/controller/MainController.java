@@ -29,9 +29,7 @@ public class MainController extends HttpServlet {
 	}
 
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("utf-8");
 		String actionName = request.getParameter("a");
-//		ActionFactory actionFactory = new MainActionFactory();
 		ActionFactory actionFactory = MainActionFactory.INSATNCE;
 		Action action = actionFactory.getAction(actionName);
 		action.execute(request, response);
