@@ -13,14 +13,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 <!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <!-- 부가적인 테마 -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <style>
 @import url(http://fonts.googleapis.com/earlyaccess/hanna.css);
 
@@ -28,9 +26,6 @@ h1 {
 	font-family: 'Hanna';
 }
 </style>
-<link
-	href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
-	rel="stylesheet">
 </head>
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
@@ -142,12 +137,5 @@ h1 {
 
 
 	</div>
-	<!-- /.container -->
-
-	<!-- jQuery -->
-<!-- 	<script src="js/jquery.js"></script> -->
-
-	<!-- Bootstrap Core JavaScript -->
-<!-- 	<script src="js/bootstrap.min.js"></script> -->
 </body>
 </html>

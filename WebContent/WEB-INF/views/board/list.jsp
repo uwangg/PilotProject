@@ -59,17 +59,11 @@
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
-<!-- 			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li class="active"><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li> -->
+
 			<c:if test="${end < totalPageNum }">
 				<li><a href="${pageContext.request.contextPath}/?begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
 			</c:if>
 		</ul>
-<!-- 		<style>
-		.pagination li a .active{background: green; color:white;}
-		</style> -->
+
 	</div>
 </div>
