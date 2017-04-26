@@ -19,41 +19,41 @@ public enum UserDao {
 //	}
 	
 	// id를 이용해 user 정보 가져오기
-	public UserVo get(Long number) {
-		JdbcTemplate template = new JdbcTemplate();
-		String query = "select id, email, name from user where no=? and delete_flag=0";
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-			
-			@Override
-			public void setParameters(PreparedStatement pstmt) throws SQLException {
-				pstmt.setLong(1, number);	// 첫번째  ?에 id값
-			}
-		};
-		RowMapper rm = new RowMapper() {
-			
-			@Override
-			public Object mapRow(ResultSet rs) throws SQLException {
-				UserVo userVo = null;
-				while(rs.next()) {
-					Long id = rs.getLong("id");
-					String email = rs.getString("email");
-					String name = rs.getString("name");
-					
-					userVo = new UserVo();
-					userVo.setId(id);
-					userVo.setEmail(email);
-					userVo.setName(name);
-				}
-				return userVo;
-			}
-		};
-		return (UserVo)template.executeQuery(query, pss, rm);
-	}
+//	public UserVo get(Long number) {
+//		JdbcTemplate template = new JdbcTemplate();
+//		String query = "select id, email, name from user where id = ? and delete_flag=0";
+//		PreparedStatementSetter pss = new PreparedStatementSetter() {
+//			
+//			@Override
+//			public void setParameters(PreparedStatement pstmt) throws SQLException {
+//				pstmt.setLong(1, number);	// 첫번째  ?에 id값
+//			}
+//		};
+//		RowMapper rm = new RowMapper() {
+//			
+//			@Override
+//			public Object mapRow(ResultSet rs) throws SQLException {
+//				UserVo userVo = null;
+//				while(rs.next()) {
+//					Long id = rs.getLong("id");
+//					String email = rs.getString("email");
+//					String name = rs.getString("name");
+//					
+//					userVo = new UserVo();
+//					userVo.setId(id);
+//					userVo.setEmail(email);
+//					userVo.setName(name);
+//				}
+//				return userVo;
+//			}
+//		};
+//		return (UserVo)template.executeQuery(query, pss, rm);
+//	}
 	
 	// 회원인증시
 	public UserVo get(UserVo vo) {		
 		JdbcTemplate template = new JdbcTemplate();
-		String query = "select id, email, name from user where email=? and passwd=? and delete_flag=0";
+		String query = "select id, email, name from user where email = ? and passwd=? and delete_flag=0";
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			
 			@Override

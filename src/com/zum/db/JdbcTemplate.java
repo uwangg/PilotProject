@@ -40,7 +40,7 @@ public class JdbcTemplate {
 //	}
 	public void excuteUpdate(String query, PreparedStatementSetter pss) {
 		
-		try ( Connection con = DBConnection.getConnection();
+		try ( Connection con = ConnectionPool.INSTANCE.getConnection();
 			  PreparedStatement pstmt = con.prepareStatement(query); ) {
 			pss.setParameters(pstmt);
 			pstmt.executeUpdate();
@@ -52,7 +52,7 @@ public class JdbcTemplate {
 	public Object executeQuery(String query, PreparedStatementSetter pss, RowMapper rm) {
 		Object vo = null;
 		
-		try ( Connection con = DBConnection.getConnection();
+		try ( Connection con = ConnectionPool.INSTANCE.getConnection();
 			  PreparedStatement pstmt = con.prepareStatement(query); ) {
 			
 			pss.setParameters(pstmt);
@@ -71,7 +71,7 @@ public class JdbcTemplate {
 //		PreparedStatement pstmt = null;
 		
 		try {
-			con = DBConnection.getConnection();
+			con = ConnectionPool.INSTANCE.getConnection();
 			
 			// transaction block start
 			con.setAutoCommit(false);
