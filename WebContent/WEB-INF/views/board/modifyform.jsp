@@ -8,28 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<!-- validate -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-	$('#modifyForm').validate({
-		// 규칙
-		rules: {
-			title: {
-				required: true,
-			}
-		},
-		// 규칙 실패시 출력될 메세지
-		messages: {
-			title: {
-				required: "제목을 입력해주세요"
-			}
-		}
-	});
-});
-</script>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
@@ -66,5 +44,28 @@ $(document).ready(function() {
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">취소</a>
 		</div>
 	</form>
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<!-- validate -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#modifyForm').validate({
+			// 규칙
+			rules: {
+				title: {
+					required: true,
+				}
+			},
+			// 규칙 실패시 출력될 메세지
+			messages: {
+				title: {
+					required: "제목을 입력해주세요"
+				}
+			}
+		});
+	});
+	</script>
 </body>
 </html>

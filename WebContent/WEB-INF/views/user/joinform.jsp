@@ -23,72 +23,6 @@
 <!-- Google Fonts -->
 <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<!-- validate -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-	$('#joinForm').validate({
-		// validation이 끝난 이후 submit 직전할 것
- 		submitHandler: function() {
-			var f = confirm("회원가입을 완료하시겠습니까?");
-			if(f) {
-				return true;
-			} else {
-				return false;
-			}
-		},
-		// 규칙
-		rules: {
-			name: {
-				required: true,
-				remote: "user?a=checkname"
-			},
-			email: {
-				required: true,
-				email: true,
-				remote: "user?a=checkemail"
-			},
-			passwd: {
-				required: true,
-				minlength: 6
-			},
-			confirm: {
-				required: true,
-				minlength: 6,
-				equalTo: "#passwd"
-			}
-		},
-		// 규칙 실패시 출력될 메세지
-		messages: {
-			name: {
-				required: "필수 입력사항 입니다",
-				remote: "존재하는 닉네임 입니다"
-			},
-			email: {
-				required: "필수 입력사항 입니다",
-				email: "이메일 규칙에 어긋납니다",
-				remote: "존재하는 이메일 입니다"
-			},
-			passwd: {
-				required: "필수 입력사항 입니다",
-				minlength: "최소 {0}글자 이상이어야 합니다"
-			},
-			confirm: {
-				required: "필수 입력사항 입니다",
-				minlength: "최소 {0}글자 이상이어야 합니다",
-				equalTo: "비밀번호가 일치하지 않습니다"
-			}
-		},
-/* 		valid: function(form) {
-			form.submit();
-		} */
-	});
-});
-</script>
 </head>
 <body>
 
@@ -159,5 +93,71 @@ $(document).ready(function() {
 			</div>
 		</div>
 
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<!-- validate -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#joinForm').validate({
+		// validation이 끝난 이후 submit 직전할 것
+ 		submitHandler: function() {
+			var f = confirm("회원가입을 완료하시겠습니까?");
+			if(f) {
+				return true;
+			} else {
+				return false;
+			}
+		},
+		// 규칙
+		rules: {
+			name: {
+				required: true,
+				remote: "user?a=checkname"
+			},
+			email: {
+				required: true,
+				email: true,
+				remote: "user?a=checkemail"
+			},
+			passwd: {
+				required: true,
+				minlength: 6
+			},
+			confirm: {
+				required: true,
+				minlength: 6,
+				equalTo: "#passwd"
+			}
+		},
+		// 규칙 실패시 출력될 메세지
+		messages: {
+			name: {
+				required: "필수 입력사항 입니다",
+				remote: "존재하는 닉네임 입니다"
+			},
+			email: {
+				required: "필수 입력사항 입니다",
+				email: "이메일 규칙에 어긋납니다",
+				remote: "존재하는 이메일 입니다"
+			},
+			passwd: {
+				required: "필수 입력사항 입니다",
+				minlength: "최소 {0}글자 이상이어야 합니다"
+			},
+			confirm: {
+				required: "필수 입력사항 입니다",
+				minlength: "최소 {0}글자 이상이어야 합니다",
+				equalTo: "비밀번호가 일치하지 않습니다"
+			}
+		},
+/* 		valid: function(form) {
+			form.submit();
+		} */
+	});
+});
+</script>
 </body>
 </html>

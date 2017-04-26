@@ -4,22 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-<script>
-	$(document).ready(function() {
-		$(".modify_form").hide();
-		
-		$(".comment_modify").click(function() {
-			var no = $(this).attr("id");
-			var comment_content = "#comment_content" + no;
-			var modify_form = "#modify_form" + no;
-			$(comment_content).toggle();
-			$(modify_form).toggle();
-		});
-	});
-</script>
 
 <label for="accordion">댓글:</label>
 <div class="comment-group" id="accordion">
@@ -91,3 +75,20 @@
 
 	</c:forEach>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$(".modify_form").hide();
+		
+		$(".comment_modify").click(function() {
+			var no = $(this).attr("id");
+			var comment_content = "#comment_content" + no;
+			var modify_form = "#modify_form" + no;
+			$(comment_content).toggle();
+			$(modify_form).toggle();
+		});
+	});
+</script>

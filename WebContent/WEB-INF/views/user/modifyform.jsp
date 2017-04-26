@@ -25,56 +25,6 @@
 <!-- Google Fonts -->
 <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-<!-- validate -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-	$('#modifyForm').validate({
-		// validation이 끝난 이후 submit 직전할 것
- 		submitHandler: function() {
-			var f = confirm("회원수정을 하시겠습니까?");
-			if(f) {
-				return true;
-			} else {
-				return false;
-			}
-		},
-		// 규칙
-		rules: {
-			name: {
-				remote: "user?a=checkname"
-			},
-			passwd: {
-				required: true,
-			},
-			change_passwd: {
-				minlength: 6
-			},
-			change_confirm: {
-				minlength: 6,
-				equalTo: "#change_passwd"
-			}
-		},
-		// 규칙 실패시 출력될 메세지
-		messages: {
-			name: {
-				remote: "존재하는 닉네임입니다"
-			},
-			passwd: {
-				required: "필수입력사항입니다",
-			},
-			change_passwd: {
-				minlength: "최소 {0}글자 이상이어야 합니다"
-			},
-			change_confirm: {
-				minlength: "최소 {0}글자 이상이어야 합니다",
-				equalTo: "바꿀 비밀번호와 다릅니다."
-			}
-		},
-	});
-});
-</script>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
@@ -141,5 +91,55 @@ $(document).ready(function() {
 			</div>
 		</div>
 
+	<!-- validate -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#modifyForm').validate({
+			// validation이 끝난 이후 submit 직전할 것
+	 		submitHandler: function() {
+				var f = confirm("회원수정을 하시겠습니까?");
+				if(f) {
+					return true;
+				} else {
+					return false;
+				}
+			},
+			// 규칙
+			rules: {
+				name: {
+					remote: "user?a=checkname"
+				},
+				passwd: {
+					required: true,
+				},
+				change_passwd: {
+					minlength: 6
+				},
+				change_confirm: {
+					minlength: 6,
+					equalTo: "#change_passwd"
+				}
+			},
+			// 규칙 실패시 출력될 메세지
+			messages: {
+				name: {
+					remote: "존재하는 닉네임입니다"
+				},
+				passwd: {
+					required: "필수입력사항입니다",
+				},
+				change_passwd: {
+					minlength: "최소 {0}글자 이상이어야 합니다"
+				},
+				change_confirm: {
+					minlength: "최소 {0}글자 이상이어야 합니다",
+					equalTo: "바꿀 비밀번호와 다릅니다."
+				}
+			},
+		});
+	});
+	</script>
 </body>
 </html>
