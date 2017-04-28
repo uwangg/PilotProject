@@ -20,7 +20,7 @@ public enum CommentWriteAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		final int thrUnit = 1000;
-		Long postId = Long.parseLong(request.getParameter("postId"));
+		Long postId = Long.parseLong(request.getParameter("post_id"));
 		int depth = Integer.parseInt(request.getParameter("depth"));
 		String content = request.getParameter("content");
 		

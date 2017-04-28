@@ -44,14 +44,14 @@ public enum PostModifyAction implements Action {
 			id = Long.parseLong(multi.getParameter("id"));
 			title = multi.getParameter("title");
 			content = multi.getParameter("content");
-			oldPath = multi.getParameter("oldimgpath");
-			imagePath = multi.getFilesystemName("imagePath");
+			oldPath = multi.getParameter("old_imgpath");
+			imagePath = multi.getFilesystemName("image_path");
 			if(imagePath == null || imagePath.equals(""))
 				imagePath = oldPath;
 			else {
 				changedImage = true;
 			}
-			userId = Long.parseLong(multi.getParameter("userId"));
+			userId = Long.parseLong(multi.getParameter("user_id"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

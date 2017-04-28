@@ -27,7 +27,7 @@ public enum PostDeleteAction implements Action {
 		Long authId = authUser.getId();	// 글을 확인하는 사람
 	
 		Long id = Long.parseLong(request.getParameter("id"));
-		Long userId = Long.parseLong(request.getParameter("userId"));	// 게시글 작성자
+		Long userId = Long.parseLong(request.getParameter("user_id"));	// 게시글 작성자
 		
 		if(userId == authId) {		
 			PostDao postDao = PostDao.INSTANCE;
