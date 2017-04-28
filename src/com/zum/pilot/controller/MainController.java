@@ -30,7 +30,7 @@ public class MainController extends HttpServlet {
 
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String actionName = request.getParameter("a");
-		ActionFactory actionFactory = MainActionFactory.INSATNCE;
+		ActionFactory actionFactory = MainActionFactory.INSTANCE;
 		Action action = actionFactory.getAction(actionName);
 		action.execute(request, response);
 	}
