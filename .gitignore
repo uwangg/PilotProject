@@ -6,9 +6,11 @@
 .settings/
  
 # Intellij
-.idea/
 *.iml
+*.ipr
 *.iws
+.idea/
+out/
  
 # Mac
 .DS_Store
