@@ -35,8 +35,8 @@
 			<tr>
 				<td class="text-center">${vo.id}</td>
 				<td class="text-center">
-					<%-- <a href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}&currentPageNum=${currentPageNum }&begin=${begin}"> --%>
-					<a href="${pageContext.request.contextPath }/board?a=view&id=${vo.id}">
+					<%-- <a href="${pageContext.request.contextPath }/board?action=view&id=${vo.id}&currentPageNum=${currentPageNum }&begin=${begin}"> --%>
+					<a href="${pageContext.request.contextPath }/board?action=view&id=${vo.id}">
 							${vo.title }</a></td>
 				<td class="text-center">${vo.userName}</td>
 				<td class="text-center">${vo.createTime}</td>
@@ -49,7 +49,7 @@
 
 	<c:choose>
 		<c:when test="${sessionScope.authUser != null }">
-			<a class="btn btn-success pull-right" href="${pageContext.request.contextPath}/board?a=writeform"
+			<a class="btn btn-success pull-right" href="${pageContext.request.contextPath}/board?action=writeform"
 				style="padding:">글쓰기</a>
 		</c:when>
 	</c:choose>

@@ -45,7 +45,7 @@
             </div> 
 			<div class="main-login main-center">
 				<form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/user" id="withdrawalForm">
-					<input type="hidden" name="a" value="withdrawal">
+					<input type="hidden" name="action" value="withdrawal">
 
 					<!-- 패스워드 폼 -->
 					<div class="form-group">

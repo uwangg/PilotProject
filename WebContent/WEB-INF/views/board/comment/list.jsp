@@ -40,7 +40,7 @@
 						</c:if>
 						<c:if test="${sessionScope.authUser.id == vo.userId }">
 						<a class="comment_modify" id="${vo.id }">수정</a> 
-						<a href="${pageContext.request.contextPath}/board?a=commentdelete&id=${vo.id}&post_id=${postVo.id}">삭제</a>
+						<a href="${pageContext.request.contextPath}/board?action=commentdelete&id=${vo.id}&post_id=${postVo.id}">삭제</a>
 						
 						</c:if>
 					</small>
@@ -50,7 +50,7 @@
 					${vo.content }</p>
 				<div class="modify_form" id="modify_form${vo.id }">
 					<form role="form" style="margin: 10px" method="post" action="${pageContext.request.contextPath}/board">
-					<input type="hidden" name="a" value="commentmodify">
+					<input type="hidden" name="action" value="commentmodify">
 					<input type="hidden" name="id" value="${vo.id }">
 					<input type="hidden" name="post_id" value="${postVo.id }">
 						<div class="form-group">
@@ -67,7 +67,7 @@
 				<hr/>
 				<div class="panel-body">
 					<form role="form" method="post" action="${pageContext.request.contextPath}/board">
-					<input type="hidden" name="a" value="commentwrite">
+					<input type="hidden" name="action" value="commentwrite">
 					<input type="hidden" name="post_id" value="${postVo.id }">
 					<input type="hidden" name="depth" value="${vo.depth+1 }">
 					<input type="hidden" name="thread" value="${vo.thread-1 }">

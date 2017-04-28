@@ -15,7 +15,7 @@
 	<div class="row">
 	<div class="col-lg-2"></div>
 	<div class="col-lg-8">
-	<form action="${pageContext.request.contextPath}/board?a=modify" method="post" enctype="multipart/form-data" id="modifyForm"
+	<form action="${pageContext.request.contextPath}/board?action=modify" method="post" enctype="multipart/form-data" id="modifyForm"
 			style="margin-top:6%;margin-left: 5%; margin-right: 5%">
 <!-- 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;"> -->
 		<input type="hidden" name="id" value="${vo.id }">
@@ -42,7 +42,7 @@
 		<div class="text-center">
 			<button type="submit" class="btn btn-success"
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">확인</button>
-			<a href="${pageContext.request.contextPath}/board?a=view&id=${vo.id }" class="btn btn-success"
+			<a href="${pageContext.request.contextPath}/board?action=view&id=${vo.id }" class="btn btn-success"
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">취소</a>
 		</div>
 	</form>

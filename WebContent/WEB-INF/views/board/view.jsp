@@ -95,7 +95,7 @@ h1 {
 				<div class="text-center">
 						<ul class="pagination">
 							<c:if test="${begin > 1 }">
-								<li><a href="${pageContext.request.contextPath}/board?a=view&id=${postVo.id }&begin=${begin-pageNumUnit}&currentPageNum=${currentPageNum-1}">&laquo;</a></li>
+								<li><a href="${pageContext.request.contextPath}/board?action=view&id=${postVo.id }&begin=${begin-pageNumUnit}&currentPageNum=${currentPageNum-1}">&laquo;</a></li>
 							</c:if>
 							
 							<c:forEach begin="${begin }" end="${end }" step="1" var="count" >
@@ -104,13 +104,13 @@ h1 {
 										<li class="active"><a>${count }</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="${pageContext.request.contextPath}/board?a=view&id=${postVo.id }
+										<li><a href="${pageContext.request.contextPath}/board?action=view&id=${postVo.id }
 												&currentPageNum=${count}&begin=${begin}">${count }</a></li>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
 							<c:if test="${end < totalPageNum }">
-								<li><a href="${pageContext.request.contextPath}/board?a=view&id=${postVo.id }&begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
+								<li><a href="${pageContext.request.contextPath}/board?action=view&id=${postVo.id }&begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
 							</c:if>
 						</ul>
 					</div>
@@ -122,8 +122,8 @@ h1 {
 					<a class="btn btn-success pull-left" href="${pageContext.request.contextPath}/" style="padding:">목록보기</a>
 					<c:choose>
 						<c:when test="${sessionScope.authUser.id == postVo.userId }">
-							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?a=modifyform&id=${postVo.id }">수정하기</a>
-							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?a=delete&id=${postVo.id }&user_id=${postVo.userId}">삭제하기</a>
+							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?action=modifyform&id=${postVo.id }">수정하기</a>
+							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?action=delete&id=${postVo.id }&user_id=${postVo.userId}">삭제하기</a>
 						</c:when>
 					</c:choose>
 				</div>

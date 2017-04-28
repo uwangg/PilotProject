@@ -46,7 +46,7 @@
 	            </div> 
 				<div class="main-login main-center">
 					<form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/user" id="modifyForm">
-						<input type="hidden" name="a" value="modify">
+						<input type="hidden" name="action" value="modify">
 						
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">닉네임</label>
@@ -117,7 +117,7 @@
 			// 규칙
 			rules: {
 				name: {
-					remote: "user?a=checkname"
+					remote: "user?action=checkname"
 				},
 				passwd: {
 					required: true,

@@ -6,7 +6,7 @@
 <div class="commentform-group">
 	<div class="commentform-default">
 	<form role="form" method="post" action="${pageContext.request.contextPath}/board">
-		<input type="hidden" name="a" value="commentwrite">
+		<input type="hidden" name="action" value="commentwrite">
 		<input type="hidden" name="post_id" value="${postVo.id }">
 		<input type="hidden" name="depth" value="0">
 		<div class="form-group">
