@@ -1,4 +1,6 @@
 *.class
+*/META-INF/
+/build/
 
 # Eclipse
 .classpath
@@ -11,7 +13,6 @@
 *.iws
 .idea/
 out/
-context.xml
  
 # Mac
 .DS_Store
