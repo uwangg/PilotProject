@@ -123,7 +123,7 @@ h1 {
 					<c:choose>
 						<c:when test="${sessionScope.authUser.id == postVo.userId }">
 							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?action=modifyform&id=${postVo.id }">수정하기</a>
-							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?action=delete&id=${postVo.id }&user_id=${postVo.userId}">삭제하기</a>
+							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?action=delete&id=${postVo.id }&userId=${postVo.userId}">삭제하기</a>
 						</c:when>
 					</c:choose>
 				</div>

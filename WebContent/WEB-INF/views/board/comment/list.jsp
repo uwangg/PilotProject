@@ -39,20 +39,20 @@
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse${vo.id }"> 답글 </a> 
 						</c:if>
 						<c:if test="${sessionScope.authUser.id == vo.userId }">
-						<a class="comment_modify" id="${vo.id }">수정</a> 
-						<a href="${pageContext.request.contextPath}/board?action=commentdelete&id=${vo.id}&post_id=${postVo.id}">삭제</a>
+						<a class="commentModify" id="${vo.id }">수정</a>
+						<a href="${pageContext.request.contextPath}/board?action=commentdelete&id=${vo.id}&postId=${postVo.id}">삭제</a>
 						
 						</c:if>
 					</small>
 				</h4>
-				<p class="comment_content" id="comment_content${vo.id }">
+				<p class="commentContent" id="commentContent${vo.id }">
 					<c:if test="${vo.depth>0 }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 					${vo.content }</p>
-				<div class="modify_form" id="modify_form${vo.id }">
+				<div class="modifyForm" id="modifyForm${vo.id }">
 					<form role="form" style="margin: 10px" method="post" action="${pageContext.request.contextPath}/board">
 					<input type="hidden" name="action" value="commentmodify">
 					<input type="hidden" name="id" value="${vo.id }">
-					<input type="hidden" name="post_id" value="${postVo.id }">
+					<input type="hidden" name="postId" value="${postVo.id }">
 						<div class="form-group">
 							<textarea rows="2" class="form-control" ng-model="user.comment" name="content">${vo.content }</textarea>
 						</div>
@@ -68,7 +68,7 @@
 				<div class="panel-body">
 					<form role="form" method="post" action="${pageContext.request.contextPath}/board">
 					<input type="hidden" name="action" value="commentwrite">
-					<input type="hidden" name="post_id" value="${postVo.id }">
+					<input type="hidden" name="postId" value="${postVo.id }">
 					<input type="hidden" name="depth" value="${vo.depth+1 }">
 					<input type="hidden" name="thread" value="${vo.thread-1 }">
 						<div class="form-group">
@@ -92,14 +92,14 @@
 
 <script>
 	$(document).ready(function() {
-		$(".modify_form").hide();
+		$(".modifyForm").hide();
 		
-		$(".comment_modify").click(function() {
+		$(".commentModify").click(function() {
 			var no = $(this).attr("id");
-			var comment_content = "#comment_content" + no;
-			var modify_form = "#modify_form" + no;
-			$(comment_content).toggle();
-			$(modify_form).toggle();
+			var commentContent = "#commentContent" + no;
+			var modifyForm = "#modifyForm" + no;
+			$(commentContent).toggle();
+			$(modifyForm).toggle();
 		});
 	});
 </script>

@@ -40,7 +40,7 @@
 		<div class="form-group">
 			<label for="exampleInputFile">이미지 첨부</label> 
 			<input type="file" class="form-control-file" id="exampleInputFile"
-				aria-describedby="fileHelp" name="image_path"> 
+				aria-describedby="fileHelp" name="imagePath">
 				<small id="fileHelp" class="form-text text-muted">파일을 선택해주세요</small>
 		</div>
 

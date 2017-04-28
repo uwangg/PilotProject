@@ -19,8 +19,8 @@
 			style="margin-top:6%;margin-left: 5%; margin-right: 5%">
 <!-- 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;"> -->
 		<input type="hidden" name="id" value="${vo.id }">
-		<input type="hidden" name="user_id" value="${vo.userId }">
-		<input type="hidden" name="old_imgpath" value="${vo.imagePath }">
+		<input type="hidden" name="userId" value="${vo.userId }">
+		<input type="hidden" name="oldImgpath" value="${vo.imagePath }">
 		<div class="panel-title text-center" style="padding: 10px;">
 			<h2 class="title">글수정하기</h2>
 			<hr />
@@ -36,7 +36,7 @@
 		<div class="form-group">
 			<label for="exampleInputFile">이미지 첨부</label> <input type="file"
 				class="form-control-file" id="exampleInputFile"
-				aria-describedby="fileHelp" name="image_path"> 
+				aria-describedby="fileHelp" name="imagePath">
 		</div>
 
 		<div class="text-center">

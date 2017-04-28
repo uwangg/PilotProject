@@ -73,7 +73,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" class="form-control" name="change_passwd" id="change_passwd"  placeholder="Enter your Password"/>
+									<input type="password" class="form-control" name="changePasswd" id="changePasswd"  placeholder="Enter your Password"/>
 								</div>
 							</div>
 						</div>
@@ -83,7 +83,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" class="form-control" name="change_confirm" id="change_confirm"  placeholder="Confirm your Password"/>
+									<input type="password" class="form-control" name="changeConfirm" id="changeConfirm"  placeholder="Confirm your Password"/>
 								</div>
 							</div>
 						</div>
@@ -122,12 +122,12 @@
 				passwd: {
 					required: true,
 				},
-				change_passwd: {
+				changePasswd: {
 					minlength: 6
 				},
-				change_confirm: {
+				changeConfirm: {
 					minlength: 6,
-					equalTo: "#change_passwd"
+					equalTo: "#changePasswd"
 				}
 			},
 			// 규칙 실패시 출력될 메세지
@@ -138,10 +138,10 @@
 				passwd: {
 					required: "필수입력사항입니다",
 				},
-				change_passwd: {
+				changePasswd: {
 					minlength: "최소 {0}글자 이상이어야 합니다"
 				},
-				change_confirm: {
+				changeConfirm: {
 					minlength: "최소 {0}글자 이상이어야 합니다",
 					equalTo: "바꿀 비밀번호와 다릅니다."
 				}
