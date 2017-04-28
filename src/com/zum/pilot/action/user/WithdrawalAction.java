@@ -35,7 +35,7 @@ public enum WithdrawalAction implements Action {
 		if(!userDao.checkPassword(userVo.getId(), password)) {
 			System.out.println("비밀번호 틀림");
 			out.println("<script language=\"javascript\">");
-			out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user?a=withdrawalform\"");
+			out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user?action=withdrawalform\"");
 			out.println("</script>");
 			out.close();
 			return;

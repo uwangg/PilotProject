@@ -27,7 +27,7 @@ public enum CommentDeleteAction implements Action {
 		CommentDao commentDao = CommentDao.INSTANCE;
 		commentDao.delete(commentId, userId);
 		
-		WebUtil.redirect(response, "/pilot-project/board?a=view&id="+postId);
+		WebUtil.redirect(response, "/pilot-project/board?action=view&id="+postId);
 	}
 
 }

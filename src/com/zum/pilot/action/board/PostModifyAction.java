@@ -77,7 +77,7 @@ public enum PostModifyAction implements Action {
 			postDao.update(vo);
 		}
 		
-		WebUtil.redirect(response, "/pilot-project/board?a=view&id="+id);
+		WebUtil.redirect(response, "/pilot-project/board?action=view&id="+id);
 	}
 
 }

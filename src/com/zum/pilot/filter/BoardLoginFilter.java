@@ -31,7 +31,7 @@ public class BoardLoginFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
 		
-		String actionName = request.getParameter("a");
+		String actionName = request.getParameter("action");
 
 		if(BoardConstant.VIEW.equals(actionName) || actionName == null) {
 			chain.doFilter(request, response);

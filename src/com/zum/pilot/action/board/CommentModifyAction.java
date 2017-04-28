@@ -37,7 +37,7 @@ public enum CommentModifyAction implements Action {
 		
 		commentDao.update(commentVo);
 		
-		WebUtil.redirect(response, "/pilot-project/board?a=view&id="+postId);
+		WebUtil.redirect(response, "/pilot-project/board?action=view&id="+postId);
 	}
 
 }

@@ -36,7 +36,7 @@ public class UserLoginFilter implements Filter {
 		for(int i=0 ; i<filterParam.length ; i++) {
 			params.add(filterParam[i]);
 		}
-		String actionName = request.getParameter("a");
+		String actionName = request.getParameter("action");
 		if(params.contains(actionName)) {
 			HttpSession session = req.getSession();
 			if(session.getAttribute("authUser") == null) {	// 로그인한 사용자가 아닐때
