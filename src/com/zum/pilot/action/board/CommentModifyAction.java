@@ -24,7 +24,7 @@ public enum CommentModifyAction implements Action {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
 		Long userId = authUser.getId();
-		Long postId = Long.parseLong(request.getParameter("post_id"));
+		Long postId = Long.parseLong(request.getParameter("postId"));
 		Long id = Long.parseLong(request.getParameter("id"));
 		String content = request.getParameter("content");
 		
