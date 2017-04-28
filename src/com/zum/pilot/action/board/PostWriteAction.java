@@ -39,7 +39,7 @@ public enum PostWriteAction implements Action {
 			multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 			title = multi.getParameter("title");
 			content = multi.getParameter("content");
-			fileName = multi.getFilesystemName("image_path");
+			fileName = multi.getFilesystemName("imagePath");
 			imagePath = fileName;
 		} catch (Exception e) {
 			e.printStackTrace();
