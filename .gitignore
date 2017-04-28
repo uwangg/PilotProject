@@ -1,6 +1,4 @@
 *.class
-*/META-INF/
-/build/
 
 # Eclipse
 .classpath
@@ -20,3 +18,6 @@ out/
 # Maven
 log/
 target/
+
+#Context
+META-INF/context.xml
