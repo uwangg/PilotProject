@@ -53,7 +53,7 @@ public enum PostWriteAction implements Action {
 		PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
 		PostDao postDao = PostDao.INSTANCE;
 		postDao.insert(postVo);
-		WebUtil.redirect(request, response, "/pilot-project/board");
+		WebUtil.redirect(response, "/pilot-project/board");
 	}
 
 }

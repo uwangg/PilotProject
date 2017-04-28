@@ -27,7 +27,7 @@ public enum LoginAction implements Action {
 		userVo.setPassword(password);
 		
 		if(email.equals("") || password.equals("")) {
-			WebUtil.redirect(request, response, "/pilot-project/");
+			WebUtil.redirect(response, "/pilot-project/");
 			return;
 		}
 			
@@ -42,7 +42,7 @@ public enum LoginAction implements Action {
 			session.setAttribute("authUser", authUser);
 		}
 	
-		WebUtil.redirect(request, response, "/pilot-project/");
+		WebUtil.redirect(response, "/pilot-project/");
 	}
 
 }

@@ -50,7 +50,7 @@ public enum PostDeleteAction implements Action {
 				e.printStackTrace();
 			}
 		}
-		WebUtil.redirect(request, response, "/pilot-project/board");
+		WebUtil.redirect(response, "/pilot-project/board");
 	}
 
 }

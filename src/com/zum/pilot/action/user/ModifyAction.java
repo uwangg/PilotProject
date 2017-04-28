@@ -31,7 +31,7 @@ public enum ModifyAction implements Action {
 		// 새 비밀번호 != 비밀번호 확인
 		if(!changePassword.equals(changeConfirm)) {
 			System.out.println("새비밀번호와 일치하지않음");
-			WebUtil.redirect(request, response, "/pilot-project/user?a=modifyform");
+			WebUtil.redirect(response, "/pilot-project/user?a=modifyform");
 			return;
 		}
 		
@@ -63,7 +63,7 @@ public enum ModifyAction implements Action {
 		
 		System.out.println("바뀐 세션 = " + ((UserVo)session.getAttribute("authUser")).getName() + ", " + ((UserVo)session.getAttribute("authUser")).getPassword());
 		
-		WebUtil.redirect(request, response, "/pilot-project/main");
+		WebUtil.redirect(response, "/pilot-project/main");
 	}
 
 }

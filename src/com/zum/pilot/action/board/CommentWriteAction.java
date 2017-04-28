@@ -52,7 +52,7 @@ public enum CommentWriteAction implements Action {
 		}
 		
 		commentDao.insert(commentVo);
-		WebUtil.redirect(request, response, "/pilot-project/board?a=view&id="+postId);
+		WebUtil.redirect(response, "/pilot-project/board?a=view&id="+postId);
 	}
 
 }

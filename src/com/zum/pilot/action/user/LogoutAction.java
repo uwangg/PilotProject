@@ -20,7 +20,7 @@ public enum LogoutAction implements Action {
 		//로그아웃 처리
 		session.removeAttribute("authUser");	// 세션 삭제
 		session.invalidate();	// 세션 종료
-		WebUtil.redirect(request, response, "/pilot-project/");
+		WebUtil.redirect(response, "/pilot-project/");
 	}
 
 }

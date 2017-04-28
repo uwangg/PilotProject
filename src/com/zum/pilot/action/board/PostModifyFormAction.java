@@ -24,7 +24,7 @@ public enum PostModifyFormAction implements Action {
 		
 		if(request.getParameter("id") == null)
 		{
-			WebUtil.redirect(request, response, "/pilot-project/board");
+			WebUtil.redirect(response, "/pilot-project/board");
 			return;
 		}
 		
@@ -36,12 +36,12 @@ public enum PostModifyFormAction implements Action {
 		
 		// id값이 범위를 벗어날때
 		if(vo == null) {
-			WebUtil.redirect(request, response, "/pilot-project/board");
+			WebUtil.redirect(response, "/pilot-project/board");
 			return;
 		}
 		// 작성자와 로그인한 유저가 다를때
 		if(vo.getUserId() != authUser.getId()) {
-			WebUtil.redirect(request, response, "/pilot-project/board");
+			WebUtil.redirect(response, "/pilot-project/board");
 			return;
 		}
 		request.setAttribute("vo", vo);

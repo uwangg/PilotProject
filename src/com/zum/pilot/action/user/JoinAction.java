@@ -25,7 +25,7 @@ public enum JoinAction implements Action {
 		
 		if(!passwd.equals(confirm)) {
 			System.out.println("패스워드 != 패스워드확인");
-			WebUtil.redirect(request, response, "/pilot-project/user?a=joinform");
+			WebUtil.redirect(response, "/pilot-project/user?a=joinform");
 			return;
 		}
 		
@@ -35,7 +35,7 @@ public enum JoinAction implements Action {
 		
 		UserVo userVo = new UserVo(email, name, SecurityUtil.encryptSHA256(passwd));
 		userDao.insert(userVo);
-		WebUtil.redirect(request, response, "/pilot-project/user?a=joinsuccess");
+		WebUtil.redirect(response, "/pilot-project/user?a=joinsuccess");
 	}
 
 }
