@@ -48,7 +48,7 @@
 			<button type="submit" class="btn btn-success"
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">확인</button>
 			<a href="${pageContext.request.contextPath}/" class="btn btn-success"
-				style="padding-left: 30px; padding-right: 30px; margin: 5px">취소</a>
+               style="padding-left: 30px; padding-right: 30px; margin: 5px">취소</a>
 		</div>
 	</form>
 	</div>
