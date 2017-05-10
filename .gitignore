@@ -21,3 +21,8 @@ target/
 
 #Context
 META-INF/context.xml
+
+# Package Files #
+*.jar
+*.war
+*.ear
