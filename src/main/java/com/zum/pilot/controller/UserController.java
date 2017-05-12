@@ -1,34 +1,77 @@
 package com.zum.pilot.controller;
 
-import java.io.IOException;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.zum.pilot.action.UserConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.zum.pilot.action.Action;
-import com.zum.pilot.action.ActionFactory;
-import com.zum.pilot.action.user.UserActionFactory;
+@Controller
+@RequestMapping("/user2/*")
+public class UserController {
 
-@WebServlet("/user")
-public class UserController extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+  private static final Logger logger =
+          LoggerFactory.getLogger(UserController.class);
 
-
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    doAction(request, response);
+  // 회원가입
+  @RequestMapping(value = UserConstant.JOIN_FORM, method = RequestMethod.GET)
+  public void joinForm() {
+    logger.info("joinform");
   }
 
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    doAction(request, response);
+  @RequestMapping(value = UserConstant.JOIN)
+  public void join() {
+
   }
 
-  protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String actionName = request.getParameter("action");
-    ActionFactory actionFactory = UserActionFactory.INSTANCE;
-    Action action = actionFactory.getAction(actionName);
-    action.execute(request, response);
+  @RequestMapping(value = UserConstant.JOIN_SUCCESS)
+  public void joinSuccess() {
+
+  }
+
+  // 유효성 검사
+  @RequestMapping(value = UserConstant.CHECK_EMAIL)
+  public void checkEmail() {
+
+  }
+
+  @RequestMapping(value = UserConstant.CHECK_NAME)
+  public void checkName() {
+
+  }
+
+  // 로그인 & 로그아웃
+  @RequestMapping(value = UserConstant.LOGIN)
+  public void login() {
+
+  }
+
+  @RequestMapping(value = UserConstant.LOGOUT)
+  public void logout() {
+
+  }
+
+  // 회원 수정
+  @RequestMapping(value = UserConstant.MODIFY_FORM)
+  public void modifyForm() {
+
+  }
+
+  @RequestMapping(value = UserConstant.MODIFY)
+  public void modify() {
+
+  }
+
+  // 회원탈퇴
+  @RequestMapping(value = UserConstant.WITHDRAWAL_FORM)
+  public void withdrawalForm() {
+
+  }
+
+  @RequestMapping(value = UserConstant.WITHDRAWAL)
+  public void withdrawal() {
+
   }
 }
