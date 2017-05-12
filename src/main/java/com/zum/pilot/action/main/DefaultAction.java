@@ -51,8 +51,6 @@ public enum DefaultAction implements Action {
     if (end > totalPageNum)
       end = totalPageNum;
 
-    System.out.println("begin = " + begin + ", end = " + end);
-
     request.setAttribute("begin", begin);
     request.setAttribute("end", end);
     request.setAttribute("totalPageNum", totalPageNum);

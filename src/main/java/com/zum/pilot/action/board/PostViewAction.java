@@ -13,9 +13,14 @@ import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.CommentVo;
 import com.zum.pilot.vo.PostVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public enum PostViewAction implements Action {
   INSTANCE;
+
+  private static final Logger logger =
+          LoggerFactory.getLogger(PostViewAction.class);
 
   @Override
   public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +47,7 @@ public enum PostViewAction implements Action {
 
     totalCommentNum = commentDao.totalNumberOfComment(postId);
     totalPageNum = (int) ((totalCommentNum - 1) / commentUnit + 1);
-    System.out.println("댓글수 : " + totalCommentNum + ", 페이지번호수 : " + totalPageNum);
+    logger.info("댓글 수 : " + totalCommentNum + ", 페이지 번호 수 : " + totalPageNum);
 
     // 현재 눌린 페이지 가져오기
     if (request.getParameter("currentPageNum") == null) {

@@ -13,9 +13,14 @@ import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.util.SecurityUtil;
 import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.UserVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public enum ModifyAction implements Action {
   INSTANCE;
+
+  private static final Logger logger =
+          LoggerFactory.getLogger(ModifyAction.class);
 
   @Override
   public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,7 +35,7 @@ public enum ModifyAction implements Action {
 
     // 새 비밀번호 != 비밀번호 확인
     if (!changePassword.equals(changeConfirm)) {
-      System.out.println("새비밀번호와 일치하지않음");
+      logger.info("새 비밀번호와 일치하지 않음");
       WebUtil.redirect(response, "/pilot-project/user?a=modifyform");
       return;
     }
@@ -60,8 +65,6 @@ public enum ModifyAction implements Action {
     // 세션 정보 변경
     authUser.setPassword("");
     session.setAttribute("authUser", authUser);
-
-    System.out.println("바뀐 세션 = " + ((UserVo) session.getAttribute("authUser")).getName() + ", " + ((UserVo) session.getAttribute("authUser")).getPassword());
 
     WebUtil.redirect(response, "/pilot-project/main");
   }

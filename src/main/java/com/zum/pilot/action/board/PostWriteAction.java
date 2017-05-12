@@ -14,9 +14,14 @@ import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public enum PostWriteAction implements Action {
   INSTANCE;
+
+  private static final Logger logger =
+          LoggerFactory.getLogger(PostWriteAction.class);
 
   @Override
   public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,7 +39,7 @@ public enum PostWriteAction implements Action {
 
     // 파일이 업로드될 실제 tomcat 폴더의 경로
     String savePath = "D:\\test\\upload";
-    System.out.println("savePath = " + savePath);
+    logger.info("savePath = " + savePath);
     try {
       multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
       title = multi.getParameter("title");
@@ -44,10 +49,6 @@ public enum PostWriteAction implements Action {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    System.out.println("title = " + title);
-    System.out.println("content = " + content);
-    System.out.println("imagePath = " + imagePath);
 
     // 게시글 입력
     PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());

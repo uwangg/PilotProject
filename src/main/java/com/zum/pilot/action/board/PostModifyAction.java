@@ -23,7 +23,6 @@ public enum PostModifyAction implements Action {
 
   @Override
   public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    System.out.println("postmodifyaction");
 
     // 업로드용 폴더 이름
     MultipartRequest multi = null;

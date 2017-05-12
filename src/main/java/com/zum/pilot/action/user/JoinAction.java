@@ -24,12 +24,9 @@ public enum JoinAction implements Action {
     String confirm = request.getParameter("confirm");
 
     if (!passwd.equals(confirm)) {
-      System.out.println("패스워드 != 패스워드확인");
       WebUtil.redirect(response, "/pilot-project/user?action=joinform");
       return;
     }
-
-    System.out.println("join: name=" + name + ",email=" + email + ",password=" + passwd);
 
     UserDao userDao = UserDao.INSTANCE;
 

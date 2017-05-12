@@ -42,7 +42,6 @@ public enum CommentWriteAction implements Action {
     if (depth == 0) {    // 댓글을 다는 경우
       thread = commentDao.getMaxThread(postId);
       thread = (thread / thrUnit) * thrUnit + thrUnit;
-      System.out.println("thread = " + thread);
       commentVo.setThread(thread);
     } else {    // 답글을 다는 경우
       thread = Integer.parseInt(request.getParameter("thread"));

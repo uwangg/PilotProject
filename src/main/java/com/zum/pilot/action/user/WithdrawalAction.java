@@ -13,9 +13,14 @@ import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.util.SecurityUtil;
 import com.zum.pilot.vo.UserVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public enum WithdrawalAction implements Action {
   INSTANCE;
+
+  private static final Logger logger =
+          LoggerFactory.getLogger(WithdrawalAction.class);
 
   @Override
   public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,7 +38,7 @@ public enum WithdrawalAction implements Action {
 
     // id, password가 동일한지 체크
     if (!userDao.checkPassword(userVo.getId(), password)) {
-      System.out.println("비밀번호 틀림");
+      logger.info("비밀번호 틀림");
       out.println("<script language=\"javascript\">");
       out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user?action=withdrawalform\"");
       out.println("</script>");
