@@ -31,7 +31,7 @@ public class UserLoginFilter implements Filter {
     HttpServletRequest req = (HttpServletRequest) request;
     HttpServletResponse res = (HttpServletResponse) response;
 
-    String[] filterParam = {UserConstant.LOGOUT, UserConstant.MODIFY_FORM, UserConstant.MODIFY, UserConstant.WITHDRAWAL_FORM, UserConstant.WITHDRWAL};
+    String[] filterParam = {UserConstant.LOGOUT, UserConstant.MODIFY_FORM, UserConstant.MODIFY, UserConstant.WITHDRAWAL_FORM, UserConstant.WITHDRAWAL};
     HashSet<String> params = new HashSet<String>();
     for (int i = 0; i < filterParam.length; i++) {
       params.add(filterParam[i]);

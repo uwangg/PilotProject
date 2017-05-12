@@ -11,5 +11,5 @@ public class UserConstant {
   public final static String MODIFY_FORM = "modifyform";
   public final static String MODIFY = "modify";
   public final static String WITHDRAWAL_FORM = "withdrawalform";
-  public final static String WITHDRWAL = "withdrawal";
+  public final static String WITHDRAWAL = "withdrawal";
 }

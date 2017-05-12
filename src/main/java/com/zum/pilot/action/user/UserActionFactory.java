@@ -24,19 +24,14 @@ public enum UserActionFactory implements ActionFactory {
       action = LoginAction.INSTANCE;
     } else if (UserConstant.LOGOUT.equals(actionName)) {    // 로그아웃
       action = LogoutAction.INSTANCE;
-      ;
     } else if (UserConstant.MODIFY_FORM.equals(actionName)) {    // 회원수정
       action = ModifyFormAction.INSTANCE;
-      ;
     } else if (UserConstant.MODIFY.equals(actionName)) {
       action = ModifyAction.INSTANCE;
-      ;
     } else if (UserConstant.WITHDRAWAL_FORM.equals(actionName)) {    // 회원탈퇴
       action = WithdrawalFormAction.INSTANCE;
-      ;
-    } else if (UserConstant.WITHDRWAL.equals(actionName)) {
+    } else if (UserConstant.WITHDRAWAL.equals(actionName)) {
       action = WithdrawalAction.INSTANCE;
-      ;
     } else {
       action = DefaultAction.INSTANCE;
     }

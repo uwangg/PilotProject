@@ -18,7 +18,6 @@ public enum CommentModifyAction implements Action {
 
   @Override
   public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("utf-8");
 
     HttpSession session = request.getSession();
     UserVo authUser = (UserVo) session.getAttribute("authUser");
