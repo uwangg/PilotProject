@@ -16,44 +16,44 @@ import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
 
 public enum PostWriteAction implements Action {
-	INSTANCE;
-	
-	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  INSTANCE;
 
-		HttpSession session = request.getSession();
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		
-		// 업로드용 폴더 이름
-		MultipartRequest multi = null;
-		int maxSize = 5*1024*1024;	// 10M
-		String title = "";
-		String content = "";
-		String imagePath = "";
-		String fileName = "";
-		
-		// 파일이 업로드될 실제 tomcat 폴더의 경로
-		String savePath = "D:\\test\\upload";
-		System.out.println("savePath = " + savePath);
-		try {
-			multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
-			title = multi.getParameter("title");
-			content = multi.getParameter("content");
-			fileName = multi.getFilesystemName("imagePath");
-			imagePath = fileName;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println("title = " + title);
-		System.out.println("content = " + content);
-		System.out.println("imagePath = " + imagePath);
-		
-		// 게시글 입력
-		PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
-		PostDao postDao = PostDao.INSTANCE;
-		postDao.insert(postVo);
-		WebUtil.redirect(response, "/pilot-project/board");
-	}
+  @Override
+  public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    HttpSession session = request.getSession();
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
+
+    // 업로드용 폴더 이름
+    MultipartRequest multi = null;
+    int maxSize = 5 * 1024 * 1024;    // 10M
+    String title = "";
+    String content = "";
+    String imagePath = "";
+    String fileName = "";
+
+    // 파일이 업로드될 실제 tomcat 폴더의 경로
+    String savePath = "D:\\test\\upload";
+    System.out.println("savePath = " + savePath);
+    try {
+      multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
+      title = multi.getParameter("title");
+      content = multi.getParameter("content");
+      fileName = multi.getFilesystemName("imagePath");
+      imagePath = fileName;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    System.out.println("title = " + title);
+    System.out.println("content = " + content);
+    System.out.println("imagePath = " + imagePath);
+
+    // 게시글 입력
+    PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
+    PostDao postDao = PostDao.INSTANCE;
+    postDao.insert(postVo);
+    WebUtil.redirect(response, "/pilot-project/board");
+  }
 
 }

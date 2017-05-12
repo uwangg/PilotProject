@@ -7,62 +7,62 @@ import java.sql.SQLException;
 
 public class JdbcTemplate {
 
-	public void excuteUpdate(String query, PreparedStatementSetter pss) {
-		
-		try ( Connection con = ConnectionPool.INSTANCE.getConnection();
-			  PreparedStatement pstmt = con.prepareStatement(query); ) {
-			pss.setParameters(pstmt);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
-	}
-	
-	public Object executeQuery(String query, PreparedStatementSetter pss, RowMapper rm) {
-		Object vo = null;
-		
-		try ( Connection con = ConnectionPool.INSTANCE.getConnection();
-			  PreparedStatement pstmt = con.prepareStatement(query); ) {
-			
-			pss.setParameters(pstmt);
-			
-			try ( ResultSet rs = pstmt.executeQuery(); ) {
-				vo = rm.mapRow(rs);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 	
-		return vo;
-	}
-	
-	public void excuteTransaction(String[] query, PreparedStatementSetter[] pss) throws SQLException {
-		Connection con = null;
-		
-		try {
-			con = ConnectionPool.INSTANCE.getConnection();
-			
-			// transaction block start
-			con.setAutoCommit(false);
-			for(int i=0 ; i<query.length ; i++) {
-				try (PreparedStatement pstmt = con.prepareStatement(query[i]); ) {
-					pss[i].setParameters(pstmt);
-					pstmt.executeUpdate();
-				}
-			}
-			// transaction block end
-			con.commit();
+  public void excuteUpdate(String query, PreparedStatementSetter pss) {
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			con.rollback();
-		} finally {
-			con.setAutoCommit(true);
-			try {
-				if(con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    try (Connection con = ConnectionPool.INSTANCE.getConnection();
+         PreparedStatement pstmt = con.prepareStatement(query);) {
+      pss.setParameters(pstmt);
+      pstmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public Object executeQuery(String query, PreparedStatementSetter pss, RowMapper rm) {
+    Object vo = null;
+
+    try (Connection con = ConnectionPool.INSTANCE.getConnection();
+         PreparedStatement pstmt = con.prepareStatement(query);) {
+
+      pss.setParameters(pstmt);
+
+      try (ResultSet rs = pstmt.executeQuery();) {
+        vo = rm.mapRow(rs);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return vo;
+  }
+
+  public void excuteTransaction(String[] query, PreparedStatementSetter[] pss) throws SQLException {
+    Connection con = null;
+
+    try {
+      con = ConnectionPool.INSTANCE.getConnection();
+
+      // transaction block start
+      con.setAutoCommit(false);
+      for (int i = 0; i < query.length; i++) {
+        try (PreparedStatement pstmt = con.prepareStatement(query[i]);) {
+          pss[i].setParameters(pstmt);
+          pstmt.executeUpdate();
+        }
+      }
+      // transaction block end
+      con.commit();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      con.rollback();
+    } finally {
+      con.setAutoCommit(true);
+      try {
+        if (con != null)
+          con.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+  }
 }

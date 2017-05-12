@@ -14,24 +14,24 @@ import com.zum.pilot.action.main.MainActionFactory;
 
 @WebServlet("/")
 public class MainController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public MainController() {
-        super();
-    }
+  private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doAction(request, response);
-	}
+  public MainController() {
+    super();
+  }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doAction(request, response);
-	}
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    doAction(request, response);
+  }
 
-	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String actionName = request.getParameter("action");
-		ActionFactory actionFactory = MainActionFactory.INSTANCE;
-		Action action = actionFactory.getAction(actionName);
-		action.execute(request, response);
-	}
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    doAction(request, response);
+  }
+
+  protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String actionName = request.getParameter("action");
+    ActionFactory actionFactory = MainActionFactory.INSTANCE;
+    Action action = actionFactory.getAction(actionName);
+    action.execute(request, response);
+  }
 }

@@ -10,11 +10,11 @@ import com.zum.pilot.action.Action;
 import com.zum.pilot.util.WebUtil;
 
 public enum DefaultAction implements Action {
-	INSTANCE;
-	
-	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		WebUtil.redirect(response, "/pilot-project/");
-	}
+  INSTANCE;
+
+  @Override
+  public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    WebUtil.redirect(response, "/pilot-project/");
+  }
 
 }

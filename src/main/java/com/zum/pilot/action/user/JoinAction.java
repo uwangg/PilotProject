@@ -13,29 +13,29 @@ import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.UserVo;
 
 public enum JoinAction implements Action {
-	INSTANCE;
-	
-	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String name = request.getParameter("name");
-		String email = request.getParameter("email");
-		String passwd = request.getParameter("passwd");
-		String confirm = request.getParameter("confirm");
-		
-		if(!passwd.equals(confirm)) {
-			System.out.println("패스워드 != 패스워드확인");
-			WebUtil.redirect(response, "/pilot-project/user?action=joinform");
-			return;
-		}
-		
-		System.out.println("join: name="+name+",email="+email+",password="+passwd);
-		
-		UserDao userDao = UserDao.INSTANCE;
-		
-		UserVo userVo = new UserVo(email, name, SecurityUtil.encryptSHA256(passwd));
-		userDao.insert(userVo);
-		WebUtil.redirect(response, "/pilot-project/user?action=joinsuccess");
-	}
+  INSTANCE;
+
+  @Override
+  public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    String name = request.getParameter("name");
+    String email = request.getParameter("email");
+    String passwd = request.getParameter("passwd");
+    String confirm = request.getParameter("confirm");
+
+    if (!passwd.equals(confirm)) {
+      System.out.println("패스워드 != 패스워드확인");
+      WebUtil.redirect(response, "/pilot-project/user?action=joinform");
+      return;
+    }
+
+    System.out.println("join: name=" + name + ",email=" + email + ",password=" + passwd);
+
+    UserDao userDao = UserDao.INSTANCE;
+
+    UserVo userVo = new UserVo(email, name, SecurityUtil.encryptSHA256(passwd));
+    userDao.insert(userVo);
+    WebUtil.redirect(response, "/pilot-project/user?action=joinsuccess");
+  }
 
 }

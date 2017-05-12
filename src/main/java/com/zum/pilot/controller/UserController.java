@@ -14,21 +14,21 @@ import com.zum.pilot.action.user.UserActionFactory;
 
 @WebServlet("/user")
 public class UserController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+  private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doAction(request, response);
-	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doAction(request, response);
-	}
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    doAction(request, response);
+  }
 
-	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String actionName = request.getParameter("action");
-		ActionFactory actionFactory = UserActionFactory.INSTANCE;
-		Action action = actionFactory.getAction(actionName);
-		action.execute(request, response);
-	}
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    doAction(request, response);
+  }
+
+  protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String actionName = request.getParameter("action");
+    ActionFactory actionFactory = UserActionFactory.INSTANCE;
+    Action action = actionFactory.getAction(actionName);
+    action.execute(request, response);
+  }
 }

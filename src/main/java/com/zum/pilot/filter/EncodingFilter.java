@@ -13,25 +13,25 @@ import javax.servlet.annotation.WebFilter;
 @WebFilter(filterName = "EncodingFilter")
 public class EncodingFilter implements Filter {
 
-    /**
-     * Default constructor. 
-     */
-    public EncodingFilter() {
-    }
+  /**
+   * Default constructor.
+   */
+  public EncodingFilter() {
+  }
 
-    @Override
-	public void destroy() {
-	}
+  @Override
+  public void destroy() {
+  }
 
-    @Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		request.setCharacterEncoding("utf-8");
-		System.out.println("encoding filter");
-		chain.doFilter(request, response);
-	}
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    request.setCharacterEncoding("utf-8");
+    System.out.println("encoding filter");
+    chain.doFilter(request, response);
+  }
 
-    @Override
-	public void init(FilterConfig fConfig) throws ServletException {
-	}
+  @Override
+  public void init(FilterConfig fConfig) throws ServletException {
+  }
 
 }

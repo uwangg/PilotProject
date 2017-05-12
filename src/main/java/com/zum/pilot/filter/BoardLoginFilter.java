@@ -18,35 +18,35 @@ import com.zum.pilot.action.BoardConstant;
 @WebFilter(filterName = "BoardLoginFilter")
 public class BoardLoginFilter implements Filter {
 
-    public BoardLoginFilter() {
+  public BoardLoginFilter() {
+  }
+
+  @Override
+  public void destroy() {
+  }
+
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    request.setCharacterEncoding("utf-8");
+    HttpServletRequest req = (HttpServletRequest) request;
+    HttpServletResponse res = (HttpServletResponse) response;
+
+    String actionName = request.getParameter("action");
+
+    if (BoardConstant.VIEW.equals(actionName) || actionName == null) {
+      chain.doFilter(request, response);
+    } else {
+      HttpSession session = req.getSession();
+      if (session.getAttribute("authUser") == null) {    // 로그인한 사용자가 아닐때
+        res.sendRedirect(req.getContextPath() + "/board");
+      } else {
+        chain.doFilter(request, response);
+      }
     }
+  }
 
-    @Override
-	public void destroy() {
-	}
-
-    @Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		request.setCharacterEncoding("utf-8");
-		HttpServletRequest req = (HttpServletRequest)request;
-		HttpServletResponse res = (HttpServletResponse)response;
-		
-		String actionName = request.getParameter("action");
-
-		if(BoardConstant.VIEW.equals(actionName) || actionName == null) {
-			chain.doFilter(request, response);
-		} else {
-			HttpSession session = req.getSession();
-			if(session.getAttribute("authUser") == null) {	// 로그인한 사용자가 아닐때
-				res.sendRedirect(req.getContextPath() + "/board");
-			} else {
-				chain.doFilter(request, response);
-			}
-		}
-	}
-
-    @Override
-	public void init(FilterConfig fConfig) throws ServletException {
-	}
+  @Override
+  public void init(FilterConfig fConfig) throws ServletException {
+  }
 
 }

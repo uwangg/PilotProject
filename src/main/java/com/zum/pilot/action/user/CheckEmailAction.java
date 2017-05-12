@@ -11,21 +11,21 @@ import com.zum.pilot.action.Action;
 import com.zum.pilot.dao.UserDao;
 
 public enum CheckEmailAction implements Action {
-	INSTANCE;
-	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		PrintWriter out = response.getWriter();
-		
-		UserDao userDao = UserDao.INSTANCE;
-		
-		// 이메일 중복체크
-		if(userDao.checkEmail(email))
-		{
-			out.println("false");	// email 중복
-		} else {
-			out.println("true");
-		}
-	}
+  INSTANCE;
+
+  @Override
+  public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String email = request.getParameter("email");
+    PrintWriter out = response.getWriter();
+
+    UserDao userDao = UserDao.INSTANCE;
+
+    // 이메일 중복체크
+    if (userDao.checkEmail(email)) {
+      out.println("false");    // email 중복
+    } else {
+      out.println("true");
+    }
+  }
 
 }

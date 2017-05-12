@@ -14,25 +14,25 @@ import com.zum.pilot.action.board.BoardActionFactory;
 
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    public BoardController() {
-        super();
-    }
+  private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doAction(request, response);
-	}
+  public BoardController() {
+    super();
+  }
+
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    doAction(request, response);
+  }
 
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doAction(request, response);
-	}
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    doAction(request, response);
+  }
 
-	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String actionName = request.getParameter("action");
-		ActionFactory actionFactory = BoardActionFactory.INSTANCE;
-		Action action = actionFactory.getAction(actionName);
-		action.execute(request, response);
-	}
+  protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String actionName = request.getParameter("action");
+    ActionFactory actionFactory = BoardActionFactory.INSTANCE;
+    Action action = actionFactory.getAction(actionName);
+    action.execute(request, response);
+  }
 }
