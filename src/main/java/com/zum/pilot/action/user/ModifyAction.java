@@ -30,13 +30,13 @@ public enum ModifyAction implements Action {
 
     String name = request.getParameter("name");
     String password = request.getParameter("passwd");
-    String changePassword = request.getParameter("change_passwd");
-    String changeConfirm = request.getParameter("change_confirm");
+    String changePassword = request.getParameter("changePasswd");
+    String changeConfirm = request.getParameter("changeConfirm");
 
     // 새 비밀번호 != 비밀번호 확인
     if (!changePassword.equals(changeConfirm)) {
       logger.info("새 비밀번호와 일치하지 않음");
-      WebUtil.redirect(response, "/pilot-project/user?a=modifyform");
+      WebUtil.redirect(response, "/pilot-project/user?action=modifyform");
       return;
     }
 
@@ -45,8 +45,9 @@ public enum ModifyAction implements Action {
     response.setContentType("text/html; charset=UTF-8");
     PrintWriter out = response.getWriter();
     if (!userDao.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(password))) {
+      logger.info("비밀번호가 틀렸습니다");
       out.println("<script language=\"javascript\">");
-      out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user?a=modifyform\"");
+      out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user?action=modifyform\"");
       out.println("</script>");
       out.close();
       return;
@@ -66,7 +67,7 @@ public enum ModifyAction implements Action {
     authUser.setPassword("");
     session.setAttribute("authUser", authUser);
 
-    WebUtil.redirect(response, "/pilot-project/main");
+    WebUtil.redirect(response, "/pilot-project/");
   }
 
 }
