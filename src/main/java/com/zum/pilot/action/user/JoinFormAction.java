@@ -14,7 +14,7 @@ public enum JoinFormAction implements Action {
 
   @Override
   public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    WebUtil.forward(request, response, "/WEB-INF/views/user/joinform.jsp");
+    WebUtil.forward(request, response, "/WEB-INF/views/user/join.jsp");
   }
 
 }

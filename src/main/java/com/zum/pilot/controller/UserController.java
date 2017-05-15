@@ -19,17 +19,17 @@ public class UserController {
   @RequestMapping(value = UserConstant.JOIN_FORM, method = RequestMethod.GET)
   public String joinForm() {
     logger.info("joinform");
-    return "user/joinform";
+    return "user/join";
   }
 
   @RequestMapping(value = UserConstant.JOIN)
   public void join() {
-
+    logger.info("join");
   }
 
   @RequestMapping(value = UserConstant.JOIN_SUCCESS)
   public void joinSuccess() {
-
+    logger.info("joinSuccess");
   }
 
   // 유효성 검사
@@ -40,39 +40,39 @@ public class UserController {
 
   @RequestMapping(value = UserConstant.CHECK_NAME)
   public void checkName() {
-
+    logger.info("checkName");
   }
 
   // 로그인 & 로그아웃
   @RequestMapping(value = UserConstant.LOGIN)
   public void login() {
-
+    logger.info("login");
   }
 
   @RequestMapping(value = UserConstant.LOGOUT)
   public void logout() {
-
+    logger.info("logout");
   }
 
   // 회원 수정
   @RequestMapping(value = UserConstant.MODIFY_FORM)
   public void modifyForm() {
-
+    logger.info("modifyForm");
   }
 
   @RequestMapping(value = UserConstant.MODIFY)
   public void modify() {
-
+    logger.info("modify");
   }
 
   // 회원탈퇴
   @RequestMapping(value = UserConstant.WITHDRAWAL_FORM)
   public void withdrawalForm() {
-
+    logger.info("withdrawalForm");
   }
 
   @RequestMapping(value = UserConstant.WITHDRAWAL)
   public void withdrawal() {
-
+    logger.info("withdrawal");
   }
 }
