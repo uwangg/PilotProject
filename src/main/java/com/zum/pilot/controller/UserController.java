@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/user2/*")
+@RequestMapping("/user/*")
 public class UserController {
 
   private static final Logger logger =
@@ -17,8 +17,9 @@ public class UserController {
 
   // 회원가입
   @RequestMapping(value = UserConstant.JOIN_FORM, method = RequestMethod.GET)
-  public void joinForm() {
+  public String joinForm() {
     logger.info("joinform");
+    return "user/joinform";
   }
 
   @RequestMapping(value = UserConstant.JOIN)

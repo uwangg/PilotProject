@@ -21,7 +21,7 @@
 
 		<button type="submit" class="btn btn-success">로그인</button>
 		<a class="btn btn-success"
-			href="${pageContext.request.contextPath}/user?action=joinform">회원가입</a>
+			href="${pageContext.request.contextPath}/user/joinform">회원가입</a>
 	</form>
 
 </div>
