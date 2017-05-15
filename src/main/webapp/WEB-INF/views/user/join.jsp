@@ -120,15 +120,15 @@ $(document).ready(function() {
 		},
 		// 규칙
 		rules: {
-//			name: {
-//				required: true,
-//				remote: "user2?action=checkname"
-//			},
-//			email: {
-//				required: true,
-//				email: true,
-//				remote: "user2?action=checkemail"
-//			},
+			name: {
+                required: true,
+                remote: "${pageContext.request.contextPath}/user/checkname"
+            },
+			email: {
+				required: true,
+				email: true,
+				remote: "${pageContext.request.contextPath}/user/checkemail"
+			},
 			password: {
 				required: true,
 				minlength: 6
@@ -137,20 +137,19 @@ $(document).ready(function() {
 			    equalTo: "#passwd",
 				required: true,
 				minlength: 6
-//				equalTo: "#passwd"
 			}
 		},
 		// 규칙 실패시 출력될 메세지
 		messages: {
-//			name: {
-//				required: "필수 입력사항 입니다",
-//				remote: "존재하는 닉네임 입니다"
-//			},
-//			email: {
-//				required: "필수 입력사항 입니다",
-//				email: "이메일 규칙에 어긋납니다",
-//				remote: "존재하는 이메일 입니다"
-//			},
+			name: {
+				required: "필수 입력사항 입니다",
+				remote: "존재하는 닉네임 입니다"
+			},
+			email: {
+				required: "필수 입력사항 입니다",
+				email: "이메일 규칙에 어긋납니다",
+				remote: "존재하는 이메일 입니다"
+			},
 			password: {
 				required: "필수 입력사항 입니다",
 				minlength: "최소 {0}글자 이상이어야 합니다"
