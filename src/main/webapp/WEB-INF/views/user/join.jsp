@@ -44,8 +44,7 @@
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/user" id="joinForm">
-						<input type="hidden" name="action" value="join">
+					<form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/user/join" id="joinForm">
 						<!-- 닉네임 폼 -->
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">닉네임</label>
