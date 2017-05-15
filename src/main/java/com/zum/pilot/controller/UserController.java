@@ -11,10 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 
 @Controller
 @RequestMapping("/user/*")
@@ -43,8 +44,8 @@ public class UserController {
     UserDao userDao = UserDao.INSTANCE;
 
     userVo.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
-    logger.info("password = " + userVo.getPassword());
-    userDao.insert(userVo);
+    logger.info("통과");
+//    userDao.insert(userVo);
 
     return "redirect:/user/"+UserConstant.JOIN_SUCCESS;
   }
@@ -57,13 +58,40 @@ public class UserController {
 
   // 유효성 검사
   @RequestMapping(value = UserConstant.CHECK_EMAIL)
-  public void checkEmail() {
+  @ResponseBody
+  public String checkEmail(@RequestParam("email") String email) {
     logger.info(UserConstant.CHECK_EMAIL);
+
+    UserDao userDao = UserDao.INSTANCE;
+    // 이메일 중복체크
+    if (userDao.checkEmail(email)) {
+      return "false";
+    } else {
+      return "true";
+    }
   }
 
   @RequestMapping(value = UserConstant.CHECK_NAME)
-  public void checkName() {
+  @ResponseBody
+  public String checkName(@RequestParam("name") String name, HttpServletRequest request) {
     logger.info(UserConstant.CHECK_NAME);
+
+    HttpSession session = request.getSession();
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
+    if (authUser != null) {
+      if (authUser.getName().equals(name)) {
+        return "true";
+      }
+    }
+
+    UserDao userDao = UserDao.INSTANCE;
+
+    // 닉네임 중복체크
+    if (userDao.checkName(name)) {
+      return "false"; // id 중복
+    } else {
+      return "true";
+    }
   }
 
   // 로그인 & 로그아웃
