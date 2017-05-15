@@ -9,9 +9,12 @@ import com.zum.pilot.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/user/*")
@@ -21,29 +24,27 @@ public class UserController {
           LoggerFactory.getLogger(UserController.class);
 
   // 회원가입
-  @RequestMapping(value = UserConstant.JOIN, method = RequestMethod.GET)
+  @RequestMapping(value = "/"+ UserConstant.JOIN, method = RequestMethod.GET)
   public void joinForm() {
     logger.info(UserConstant.JOIN_FORM);
-//    return "user/" + UserConstant.JOIN;
   }
 
-  @RequestMapping(value = UserConstant.JOIN, method = RequestMethod.POST)
-  public String join(@ModelAttribute UserVo vo) {
+  @RequestMapping(value = "/"+ UserConstant.JOIN, method = RequestMethod.POST)
+  public String join(@RequestParam(value = "confirm", defaultValue = "") String confirm, @ModelAttribute UserVo userVo, BindingResult result, Model model) {
     logger.info(UserConstant.JOIN);
-
-//    String name = request.getParameter("name");
-//    String email = request.getParameter("email");
-//    String passwd = request.getParameter("passwd");
-//    String confirm = request.getParameter("confirm");
-//
-//    if (!passwd.equals(confirm)) {
-//      return "redirect:user/" + UserConstant.JOIN_FORM;
+//    if(result.hasErrors()) {  // name, email, passwd, confirm이 빈칸인지 아닌지 검사
+//      model.addAttribute(result.getModel());
+//      model.addAttribute("userVo", userVo);
+//      return "user/" + UserConstant.JOIN;
 //    }
-//
-//    UserDao userDao = UserDao.INSTANCE;
-//
-//    UserVo userVo = new UserVo(email, name, SecurityUtil.encryptSHA256(passwd));
-//    userDao.insert(userVo);
+    if (!userVo.getPassword().equals(confirm)) {
+      return "redirect:user/" + UserConstant.JOIN;
+    }
+    UserDao userDao = UserDao.INSTANCE;
+
+    userVo.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
+    logger.info("password = " + userVo.getPassword());
+    userDao.insert(userVo);
 
     return "redirect:/user/"+UserConstant.JOIN_SUCCESS;
   }

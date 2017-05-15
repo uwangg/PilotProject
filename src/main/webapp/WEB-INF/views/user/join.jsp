@@ -51,7 +51,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="name" id="name"  placeholder="김은진"/>
+									<input type="text" class="form-control" name="name" id="name"  placeholder="김은진" value="${userVo.name}"/>
 								</div>
 							</div>
 						</div>
@@ -62,18 +62,18 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input type="email" class="form-control" name="email" id="email"  placeholder="example@example.com"/>
+									<input type="email" class="form-control" name="email" id="email"  placeholder="example@example.com" value="${userVo.email}"/>
 								</div>
 							</div>
 						</div>
 
 						<!-- 패스워드 폼 -->
 						<div class="form-group">
-							<label for="password" class="cols-sm-2 control-label">패스워드</label>
+							<label for="passwd" class="cols-sm-2 control-label">패스워드</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" class="form-control" name="passwd" id="passwd"  placeholder="6자리이상"/>
+									<input type="password" class="form-control" name="password" id="passwd"  placeholder="6자리이상"/>
 								</div>
 							</div>
 						</div>
@@ -120,46 +120,47 @@ $(document).ready(function() {
 		},
 		// 규칙
 		rules: {
-			name: {
-				required: true,
-				remote: "user?action=checkname"
-			},
-			email: {
-				required: true,
-				email: true,
-				remote: "user?action=checkemail"
-			},
-			passwd: {
+//			name: {
+//				required: true,
+//				remote: "user2?action=checkname"
+//			},
+//			email: {
+//				required: true,
+//				email: true,
+//				remote: "user2?action=checkemail"
+//			},
+			password: {
 				required: true,
 				minlength: 6
 			},
 			confirm: {
+			    equalTo: "#passwd",
 				required: true,
-				minlength: 6,
-				equalTo: "#passwd"
+				minlength: 6
+//				equalTo: "#passwd"
 			}
 		},
 		// 규칙 실패시 출력될 메세지
 		messages: {
-			name: {
-				required: "필수 입력사항 입니다",
-				remote: "존재하는 닉네임 입니다"
-			},
-			email: {
-				required: "필수 입력사항 입니다",
-				email: "이메일 규칙에 어긋납니다",
-				remote: "존재하는 이메일 입니다"
-			},
-			passwd: {
+//			name: {
+//				required: "필수 입력사항 입니다",
+//				remote: "존재하는 닉네임 입니다"
+//			},
+//			email: {
+//				required: "필수 입력사항 입니다",
+//				email: "이메일 규칙에 어긋납니다",
+//				remote: "존재하는 이메일 입니다"
+//			},
+			password: {
 				required: "필수 입력사항 입니다",
 				minlength: "최소 {0}글자 이상이어야 합니다"
 			},
 			confirm: {
+                equalTo: "비밀번호가 일치하지 않습니다",
 				required: "필수 입력사항 입니다",
-				minlength: "최소 {0}글자 이상이어야 합니다",
-				equalTo: "비밀번호가 일치하지 않습니다"
+				minlength: "최소 {0}글자 이상이어야 합니다"
 			}
-		},
+		}
 /* 		valid: function(form) {
 			form.submit();
 		} */
