@@ -95,7 +95,7 @@ h1 {
 				<div class="text-center">
 						<ul class="pagination">
 							<c:if test="${begin > 1 }">
-								<li><a href="${pageContext.request.contextPath}/board?action=view&id=${postVo.id }&begin=${begin-pageNumUnit}&currentPageNum=${currentPageNum-1}">&laquo;</a></li>
+								<li><a href="${pageContext.request.contextPath}/board/${postVo.id }?begin=${begin-pageNumUnit}&currentPageNum=${currentPageNum-1}">&laquo;</a></li>
 							</c:if>
 							
 							<c:forEach begin="${begin }" end="${end }" step="1" var="count" >
@@ -104,13 +104,13 @@ h1 {
 										<li class="active"><a>${count }</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="${pageContext.request.contextPath}/board?action=view&id=${postVo.id }
-												&currentPageNum=${count}&begin=${begin}">${count }</a></li>
+										<li><a href="${pageContext.request.contextPath}/board/${postVo.id }
+												?currentPageNum=${count}&begin=${begin}">${count }</a></li>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
 							<c:if test="${end < totalPageNum }">
-								<li><a href="${pageContext.request.contextPath}/board?action=view&id=${postVo.id }&begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
+								<li><a href="${pageContext.request.contextPath}/board/${postVo.id }?begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
 							</c:if>
 						</ul>
 					</div>
