@@ -12,11 +12,11 @@ import com.zum.pilot.action.Action;
 import com.zum.pilot.action.ActionFactory;
 import com.zum.pilot.action.board.BoardActionFactory;
 
-@WebServlet("/board")
-public class BoardController extends HttpServlet {
+@WebServlet("/board2")
+public class BoardController2 extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  public BoardController() {
+  public BoardController2() {
     super();
   }
 
