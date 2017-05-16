@@ -78,17 +78,20 @@ public class UserController {
 
   @RequestMapping(value = UserConstant.CHECK_NAME)
   @ResponseBody
-  public String checkName(@RequestParam("name") String name, HttpServletRequest request) {
+  public String checkName(@RequestParam("name") String name, HttpSession session) {
     logger.info(UserConstant.CHECK_NAME);
 
-    HttpSession session = request.getSession();
+    // 회원 수정시 닉네임 중복체크
     UserVo authUser = (UserVo) session.getAttribute("authUser");
     if (authUser != null) {
       if (authUser.getName().equals(name)) {
         return "true";
+      } else {
+        return "false";
       }
     }
 
+    // 회원 가입시 닉네임 중복체크
     UserDao userDao = UserDao.INSTANCE;
 
     // 닉네임 중복체크
