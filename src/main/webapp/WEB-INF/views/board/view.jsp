@@ -54,7 +54,7 @@ h1 {
 				<!-- 이미지 -->
 				<c:if test="${postVo.imagePath != null && postVo.imagePath != \"\"}">
 					<hr>
-					<img class="img-responsive" src="upload/${postVo.imagePath }"/`>
+					<img class="img-responsive" src="${pageContext.request.contextPath }/upload/${postVo.imagePath }"/>
 				</c:if>
 <%-- 				<c:choose>
 					<c:when test="${postVo.imagePath != null && postVo.imagePath != \"\"}">
