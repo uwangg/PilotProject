@@ -21,7 +21,7 @@ public enum ModifyFormAction implements Action {
 
     request.setAttribute("name", authUser.getName());
 
-    WebUtil.forward(request, response, "/WEB-INF/views/user/modifyform.jsp");
+    WebUtil.forward(request, response, "/WEB-INF/views/user/modify.jsp");
   }
 
 }

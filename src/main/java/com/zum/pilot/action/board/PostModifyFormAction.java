@@ -44,7 +44,7 @@ public enum PostModifyFormAction implements Action {
       return;
     }
     request.setAttribute("vo", vo);
-    WebUtil.forward(request, response, "/WEB-INF/views/board/modifyform.jsp");
+    WebUtil.forward(request, response, "/WEB-INF/views/board/modify.jsp");
   }
 
 }

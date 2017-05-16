@@ -45,9 +45,8 @@
                     </div>
                 </div>
                 <div class="main-login main-center">
-                    <form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/user"
+                    <form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/user/modify"
                           id="modifyForm">
-                        <input type="hidden" name="action" value="modify">
 
                         <div class="form-group">
                             <label for="name" class="cols-sm-2 control-label">닉네임</label>
@@ -56,7 +55,7 @@
                                     <span class="input-group-addon"><i class="fa fa-user fa"
                                                                        aria-hidden="true"></i></span>
                                     <input type="text" class="form-control" name="name" id="name"
-                                           placeholder="Enter your Name" value="${name }"/>
+                                           placeholder="Enter your Name" value="${sessionScope.authUser.name }"/>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +122,7 @@
             // 규칙
             rules: {
                 name: {
-                    remote: "user?action=checkname"
+                    remote: "${pageContext.request.contextPath}/user/checkname"
                 },
                 passwd: {
                     required: true,

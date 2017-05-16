@@ -1,6 +1,7 @@
 package com.zum.pilot.controller;
 
 
+import com.sun.javafx.sg.prism.NGShape;
 import com.zum.pilot.action.UserConstant;
 import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.util.SecurityUtil;
@@ -13,8 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 @Controller
@@ -114,14 +116,61 @@ public class UserController {
   }
 
   // 회원 수정
-  @RequestMapping(value = UserConstant.MODIFY_FORM)
+  @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.GET)
   public void modifyForm() {
-    logger.info(UserConstant.MODIFY_FORM);
+    logger.info(UserConstant.MODIFY_FORM + "[GET]");
   }
 
-  @RequestMapping(value = UserConstant.MODIFY)
-  public void modify() {
-    logger.info(UserConstant.MODIFY);
+  @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.POST)
+  public String modify(
+          @ModelAttribute UserVo userVo,
+          @RequestParam(value = "changePasswd", defaultValue = "") String changePassword,
+          @RequestParam(value = "changeConfirm", defaultValue = "") String changeConfirm,
+          HttpSession session,
+          HttpServletResponse response ) {
+    logger.info(UserConstant.MODIFY + "[POST]");
+
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
+
+    // 새 비밀번호 != 비밀번호 확인
+    if (!changePassword.equals(changeConfirm)) {
+      logger.info("새 비밀번호와 일치하지 않음");
+      return "redirect:user/modify";
+    }
+//    logger.info("test.....................");
+//    UserDao userDao = UserDao.INSTANCE;
+//    response.setCharacterEncoding("UTF-8");
+//    response.setContentType("text/html; charset=UTF-8");
+//    PrintWriter out = null;
+//    try {
+//      out = response.getWriter();
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//    if (!userDao.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
+//      logger.info("비밀번호가 틀렸습니다");
+//      out.println("<script language=\"javascript\">");
+//      out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/modify\"");
+//      out.println("</script>");
+//      out.close();
+//      return "redirect:user/modify";
+//    }
+//    logger.info("test2.....................");
+//    // 회원 수정
+//    authUser.setName(userVo.getName());
+//    authUser.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
+//
+//    if (changePassword.equals("") || changePassword == null) {
+//      userDao.update(authUser, "");
+//    } else {
+//      userDao.update(authUser, SecurityUtil.encryptSHA256(changePassword));
+//    }
+//
+//    // 세션 정보 변경
+//    authUser.setPassword("");
+//    session.setAttribute("authUser", authUser);
+//
+//    return "redirect:/";
   }
 
   // 회원탈퇴
