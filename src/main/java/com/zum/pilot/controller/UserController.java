@@ -18,11 +18,16 @@ import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 
 @Controller
-@RequestMapping("/user/*")
+@RequestMapping("/user")
 public class UserController {
 
   private static final Logger logger =
           LoggerFactory.getLogger(UserController.class);
+
+  @RequestMapping("")
+  public String main() {
+    return "redirect:/";
+  }
 
   // 회원가입
   @RequestMapping(value = "/"+ UserConstant.JOIN, method = RequestMethod.GET)

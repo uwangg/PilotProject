@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
+@RequestMapping("/")
 public class MainController {
 
-  @RequestMapping("/")
+  @RequestMapping("")
   public String main(
           @RequestParam(value = "currentPageNum", defaultValue = "1") int currentPageNum, // 선택된 페이지 번호
           @RequestParam(value = "begin", defaultValue = "1") int begin,
