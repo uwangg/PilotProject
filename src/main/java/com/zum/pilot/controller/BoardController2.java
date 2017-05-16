@@ -13,10 +13,10 @@ import com.zum.pilot.action.ActionFactory;
 import com.zum.pilot.action.board.BoardActionFactory;
 
 @WebServlet("/board")
-public class BoardController2 extends HttpServlet {
+public class BoardController extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  public BoardController2() {
+  public BoardController() {
     super();
   }
 
