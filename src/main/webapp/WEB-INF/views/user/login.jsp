@@ -3,8 +3,7 @@
 	
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	<form id="signin" class="navbar-form navbar-right" role="form"
-		action="${pageContext.request.contextPath}/user">
-		<input type="hidden" name="action" value="login">
+		action="${pageContext.request.contextPath}/user/login" method="post">
 		<div class="input-group">
 			<span class="input-group-addon"><i
 				class="glyphicon glyphicon-user"></i></span> <input id="email" type="email"

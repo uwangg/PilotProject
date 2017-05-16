@@ -100,7 +100,7 @@ public class UserController {
   }
 
   // 로그인 & 로그아웃
-  @RequestMapping(value = UserConstant.LOGIN)
+  @RequestMapping(value = "/" + UserConstant.LOGIN, method = RequestMethod.POST)
   public void login() {
     logger.info(UserConstant.LOGIN);
   }

@@ -16,7 +16,7 @@
 
         <c:choose>
             <c:when test="${sessionScope.authUser == null }">
-                <c:import url="/WEB-INF/views/user/loginform.jsp"></c:import>
+                <c:import url="/WEB-INF/views/user/login.jsp"></c:import>
             </c:when>
             <c:otherwise>
                 <c:import url="/WEB-INF/views/user/loginsuccess.jsp"></c:import>
