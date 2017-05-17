@@ -1,5 +1,7 @@
 package com.zum.pilot.controller;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.action.ActionFactory;
 import com.zum.pilot.action.BoardConstant;
@@ -9,6 +11,7 @@ import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.CommentVo;
 import com.zum.pilot.vo.PostVo;
+import com.zum.pilot.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,11 +45,43 @@ public class BoardController{
   // 글 쓰기
   @RequestMapping(value = "/" + BoardConstant.WRITE, method = RequestMethod.GET)
   public void writeForm() {
+    logger.info(BoardConstant.WRITE_FORM);
   }
 
   @RequestMapping(value = "/" + BoardConstant.WRITE, method = RequestMethod.POST)
-  public void write() {
+  public String write(
+                    HttpSession session,
+                    HttpServletRequest request) {
+    logger.info(BoardConstant.WRITE);
 
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
+
+    // 업로드용 폴더 이름
+    MultipartRequest multi = null;
+    int maxSize = 5 * 1024 * 1024;    // 10M
+    String title = "";
+    String content = "";
+    String imagePath = "";
+    String fileName = "";
+
+    // 파일이 업로드될 실제 tomcat 폴더의 경로
+    String savePath = "D:\\test\\upload";
+    logger.info("savePath = " + savePath);
+    try {
+      multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
+      title = multi.getParameter("title");
+      content = multi.getParameter("content");
+      fileName = multi.getFilesystemName("imagePath");
+      imagePath = fileName;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    // 게시글 입력
+    PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
+    PostDao postDao = PostDao.INSTANCE;
+    postDao.insert(postVo);
+    return "redirect:/board";
   }
 
   // 글 보기

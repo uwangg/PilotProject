@@ -49,7 +49,7 @@
 
 	<c:choose>
 		<c:when test="${sessionScope.authUser != null }">
-			<a class="btn btn-success pull-right" href="${pageContext.request.contextPath}/board?action=writeform"
+			<a class="btn btn-success pull-right" href="${pageContext.request.contextPath}/board/write"
 				style="padding:">글쓰기</a>
 		</c:when>
 	</c:choose>

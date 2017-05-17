@@ -15,7 +15,7 @@
 	<div class="row">
 	<div class="col-lg-2"></div>
 	<div class="col-lg-8">
-	<form action="${pageContext.request.contextPath}/board?action=write" method="post" enctype="multipart/form-data" id="writeForm"
+	<form action="${pageContext.request.contextPath}/board/write" method="post" enctype="multipart/form-data" id="writeForm"
 			style="margin-top:6%; margin-left: 5%; margin-right: 5%">
 <!-- 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;"> -->
 <!-- 		<input type="hidden" name="a" value="write"> -->
