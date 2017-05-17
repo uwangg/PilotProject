@@ -46,7 +46,7 @@ public class UserController {
 //      return "user/" + UserConstant.JOIN;
 //    }
     if (!userVo.getPassword().equals(confirm)) {
-      return "redirect:user/" + UserConstant.JOIN;
+      return "redirect:/user/" + UserConstant.JOIN;
     }
     UserDao userDao = UserDao.INSTANCE;
 
@@ -133,7 +133,7 @@ public class UserController {
     // 새 비밀번호 != 비밀번호 확인
     if (!changePassword.equals(changeConfirm)) {
       logger.info("새 비밀번호와 일치하지 않음");
-      return "redirect:user/modify";
+      return "redirect:/user/modify";
     }
     UserDao userDao = UserDao.INSTANCE;
     response.setCharacterEncoding("UTF-8");
@@ -150,7 +150,7 @@ public class UserController {
       out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user/modify\"");
       out.println("</script>");
       out.close();
-      return "redirect:user/modify";
+      return "redirect:/user/modify";
     }
     // 회원 수정
     authUser.setName(userVo.getName());
