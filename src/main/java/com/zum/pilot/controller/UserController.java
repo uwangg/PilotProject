@@ -87,8 +87,6 @@ public class UserController {
     if (authUser != null) {
       if (authUser.getName().equals(name)) {
         return "true";
-      } else {
-        return "false";
       }
     }
 
@@ -136,39 +134,37 @@ public class UserController {
       logger.info("새 비밀번호와 일치하지 않음");
       return "redirect:user/modify";
     }
-//    logger.info("test.....................");
-//    UserDao userDao = UserDao.INSTANCE;
-//    response.setCharacterEncoding("UTF-8");
-//    response.setContentType("text/html; charset=UTF-8");
-//    PrintWriter out = null;
-//    try {
-//      out = response.getWriter();
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-//    if (!userDao.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
-//      logger.info("비밀번호가 틀렸습니다");
-//      out.println("<script language=\"javascript\">");
-//      out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/modify\"");
-//      out.println("</script>");
-//      out.close();
-//      return "redirect:user/modify";
-//    }
-//    logger.info("test2.....................");
-//    // 회원 수정
-//    authUser.setName(userVo.getName());
-//    authUser.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
-//
-//    if (changePassword.equals("") || changePassword == null) {
-//      userDao.update(authUser, "");
-//    } else {
-//      userDao.update(authUser, SecurityUtil.encryptSHA256(changePassword));
-//    }
-//
-//    // 세션 정보 변경
-//    authUser.setPassword("");
-//    session.setAttribute("authUser", authUser);
-//
+    UserDao userDao = UserDao.INSTANCE;
+    response.setCharacterEncoding("UTF-8");
+    response.setContentType("text/html; charset=UTF-8");
+    PrintWriter out = null;
+    try {
+      out = response.getWriter();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    if (!userDao.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
+      logger.info("비밀번호가 틀렸습니다");
+      out.println("<script language=\"javascript\">");
+      out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user/modify\"");
+      out.println("</script>");
+      out.close();
+      return "redirect:user/modify";
+    }
+    // 회원 수정
+    authUser.setName(userVo.getName());
+    authUser.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
+
+    if (changePassword.equals("") || changePassword == null) {
+      userDao.update(authUser, "");
+    } else {
+      userDao.update(authUser, SecurityUtil.encryptSHA256(changePassword));
+    }
+
+    // 세션 정보 변경
+    authUser.setPassword("");
+    session.setAttribute("authUser", authUser);
+
     return "redirect:/";
   }
 

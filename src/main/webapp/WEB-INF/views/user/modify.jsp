@@ -65,7 +65,7 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                                    <input type="password" class="form-control" name="passwd" id="passwd"
+                                    <input type="password" class="form-control" name="password" id="passwd"
                                            placeholder="Enter your Password"/>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                 name: {
                     remote: "${pageContext.request.contextPath}/user/checkname"
                 },
-                passwd: {
+                password: {
                     required: true,
                 },
                 changePasswd: {
@@ -140,7 +140,7 @@
                 name: {
                     remote: "존재하는 닉네임입니다"
                 },
-                passwd: {
+                password: {
                     required: "필수입력사항입니다",
                 },
                 changePasswd: {
