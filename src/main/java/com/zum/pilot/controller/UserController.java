@@ -1,7 +1,6 @@
 package com.zum.pilot.controller;
 
 
-import com.sun.javafx.sg.prism.NGShape;
 import com.zum.pilot.action.UserConstant;
 import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.util.SecurityUtil;
@@ -170,16 +169,16 @@ public class UserController {
 //    authUser.setPassword("");
 //    session.setAttribute("authUser", authUser);
 //
-//    return "redirect:/";
+    return "redirect:/";
   }
 
   // 회원탈퇴
-  @RequestMapping(value = UserConstant.WITHDRAWAL_FORM)
+  @RequestMapping(value = UserConstant.WITHDRAWAL, method = RequestMethod.GET)
   public void withdrawalForm() {
     logger.info(UserConstant.WITHDRAWAL_FORM);
   }
 
-  @RequestMapping(value = UserConstant.WITHDRAWAL)
+  @RequestMapping(value = UserConstant.WITHDRAWAL, method = RequestMethod.POST)
   public void withdrawal() {
     logger.info(UserConstant.WITHDRAWAL);
   }
