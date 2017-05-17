@@ -53,7 +53,7 @@
 						<div class="cols-sm-10">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-								<input type="password" class="form-control" name="passwd" id="passwd"  placeholder="패스워드를입력해주세요"/>
+								<input type="password" class="form-control" name="password" id="password"  placeholder="패스워드를입력해주세요"/>
 							</div>
 						</div>
 					</div>
@@ -87,13 +87,13 @@
 			},
 			// 규칙
 			rules: {
-				passwd: {
+				password: {
 					required: true,
 				}
 			},
 			// 규칙 실패시 출력될 메세지
 			messages: {
-				passwd: {
+				password: {
 					required: "필수입력사항입니다",
 				}
 			}

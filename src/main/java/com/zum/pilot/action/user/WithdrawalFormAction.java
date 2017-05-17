@@ -14,7 +14,7 @@ public enum WithdrawalFormAction implements Action {
 
   @Override
   public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    WebUtil.forward(request, response, "/WEB-INF/views/user/withdrawalform.jsp");
+    WebUtil.forward(request, response, "/WEB-INF/views/user/withdrawal.jsp");
   }
 
 }
