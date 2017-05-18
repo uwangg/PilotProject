@@ -15,7 +15,7 @@
 	<div class="row">
 	<div class="col-lg-2"></div>
 	<div class="col-lg-8">
-	<form action="${pageContext.request.contextPath}/board?action=modify" method="post" enctype="multipart/form-data" id="modifyForm"
+	<form action="${pageContext.request.contextPath}/board/${vo.id}/modify" method="post" enctype="multipart/form-data" id="modifyForm"
 			style="margin-top:6%;margin-left: 5%; margin-right: 5%">
 <!-- 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;"> -->
 		<input type="hidden" name="id" value="${vo.id }">

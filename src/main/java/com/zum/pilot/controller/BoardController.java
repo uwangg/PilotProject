@@ -2,6 +2,7 @@ package com.zum.pilot.controller;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.sun.javafx.sg.prism.NGShape;
 import com.zum.pilot.action.Action;
 import com.zum.pilot.action.ActionFactory;
 import com.zum.pilot.action.BoardConstant;
@@ -14,25 +15,29 @@ import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController{
+
+  @Autowired
+  private  ServletContext context;
 
   private static final Logger logger =
           LoggerFactory.getLogger(BoardController.class);
@@ -66,6 +71,7 @@ public class BoardController{
 
     // 파일이 업로드될 실제 tomcat 폴더의 경로
     String savePath = "D:\\test\\upload";
+//    String savePath = context.getRealPath("upload");
     logger.info("savePath = " + savePath);
     try {
       multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
@@ -131,15 +137,133 @@ public class BoardController{
   }
 
   // 글 수정
-  @RequestMapping(value = "/" + BoardConstant.MODIFY, method = RequestMethod.GET)
-  public void modifyForm() {}
+  @RequestMapping(value = "/{postId}/" + BoardConstant.MODIFY, method = RequestMethod.GET)
+  public String modifyForm(@PathVariable Long postId,
+                           Model model,
+                           HttpSession session) {
+    logger.info(BoardConstant.MODIFY_FORM);
 
-  @RequestMapping(value = "/" + BoardConstant.MODIFY, method = RequestMethod.POST)
-  public void modify() {}
+    // 로그인하지 않은 사용자
+//    if (postId == null) {
+//      WebUtil.redirect(response, "/pilot-project/board");
+//      return;
+//    }
+
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
+
+    PostDao postDao = PostDao.INSTANCE;
+    PostVo vo = postDao.get(postId);
+
+    // id값이 범위를 벗어날때
+    if (vo == null) {
+      return "redirect:/board";
+    }
+    // 작성자와 로그인한 유저가 다를때
+    if (vo.getUserId() != authUser.getId()) {
+      return "redirect:/board";
+    }
+    model.addAttribute("vo", vo);
+    return "board/" + BoardConstant.MODIFY;
+  }
+
+  @RequestMapping(value = "/{postId}/" + BoardConstant.MODIFY, method = RequestMethod.POST)
+  public String modify(@PathVariable Long postId,
+                     HttpServletRequest request) {
+    logger.info(BoardConstant.MODIFY);
+
+    // 업로드용 폴더 이름
+    MultipartRequest multi = null;
+    int maxSize = 5 * 1024 * 1024;    // 10M
+    Long id = -1L;
+    String title = "";
+    String content = "";
+    String oldPath = "";
+    String imagePath = "";
+    Long userId = -1L;
+
+    // 파일이 업로드될 실제 tomcat 폴더의 경로
+    String savePath = "D:\\test\\upload";
+//    String savePath = context.getRealPath("upload");
+    boolean changedImage = false;
+
+    try {
+      multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
+      id = Long.parseLong(multi.getParameter("id"));
+      title = multi.getParameter("title");
+      content = multi.getParameter("content");
+      oldPath = multi.getParameter("oldimgpath");
+      imagePath = multi.getFilesystemName("imagePath");
+      if (imagePath == null || imagePath.equals(""))
+        imagePath = oldPath;
+      else {
+        changedImage = true;
+      }
+      userId = Long.parseLong(multi.getParameter("userId"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    HttpSession session = request.getSession();
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
+
+    // 작성자만 수정 가능
+    if (authUser.getId() == userId) {
+      PostVo vo = new PostVo(id, title, content, imagePath, userId);
+      PostDao postDao = PostDao.INSTANCE;
+
+      // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
+      if (changedImage) {
+        PostVo postVo = postDao.get(id);
+
+        String uploadFileName = "D:\\test\\upload";
+        File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
+
+        if (uploadFile.exists() && uploadFile.isFile())
+          uploadFile.delete();
+      }
+      postDao.update(vo);
+    }
+
+    return "redirect:/board/{postId}";
+  }
 
   // 글 삭제
-  @RequestMapping(value = "/" + BoardConstant.DELETE)
-  public void delete() {}
+  @RequestMapping(value = "/{postId}/" + BoardConstant.DELETE)
+  public String delete(
+          @PathVariable Long postId,
+          HttpSession session) {
+    logger.info(BoardConstant.DELETE);
+
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
+    Long authId = authUser.getId();    // 글을 확인하는 사람
+
+    PostDao postDao = PostDao.INSTANCE;
+    // 이미지가 있다면 삭제
+    PostVo postVo = postDao.get(postId);
+
+    if (postVo.getUserId() == authId) {
+      // 이미지가 있다면 삭제
+      if (postVo.getImagePath() != null && !postVo.getImagePath().equals("")) {
+
+//        String uploadFileName = request.getServletContext().getRealPath("upload");
+//        String uploadFileName = context.getRealPath("upload");
+        String uploadFileName = "D:\\test\\upload";
+        logger.info("file path = " + uploadFileName);
+        File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
+
+        if (uploadFile.exists() && uploadFile.isFile())
+          uploadFile.delete();
+      }
+
+      // 게시글 삭제
+      try {
+        postDao.delete(postId, authUser.getId());
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+    return "redirect:/board";
+  }
 
   // 댓글 쓰기
   @RequestMapping(value = "/" + BoardConstant.COMMENT_WRITE)
