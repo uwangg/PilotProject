@@ -49,10 +49,7 @@
 					<c:if test="${vo.depth>0 }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 					${vo.content }</p>
 				<div class="modifyForm" id="modifyForm${vo.id }">
-					<form role="form" style="margin: 10px" method="post" action="${pageContext.request.contextPath}/board">
-					<input type="hidden" name="action" value="commentmodify">
-					<input type="hidden" name="id" value="${vo.id }">
-					<input type="hidden" name="postId" value="${postVo.id }">
+					<form role="form" style="margin: 10px" method="post" action="${pageContext.request.contextPath}/board/${postVo.id}/commentmodify/${vo.id}">
 						<div class="form-group">
 							<textarea rows="2" class="form-control" ng-model="user.comment" name="content">${vo.content }</textarea>
 						</div>

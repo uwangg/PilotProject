@@ -86,7 +86,7 @@ h1 {
 				
 				<c:if test="${sessionScope.authUser != null }">
 				<!-- 댓글 작성폼 -->
-				<c:import url="/WEB-INF/views/board/comment/writeform.jsp"></c:import>
+				<c:import url="/WEB-INF/views/board/comment/write.jsp"></c:import>
 				</c:if>
 
 				<c:import url="/WEB-INF/views/board/comment/list.jsp"></c:import>

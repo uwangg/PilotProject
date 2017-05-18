@@ -304,8 +304,27 @@ public class BoardController{
   }
 
   // 댓글 수정
-  @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_MODIFY)
-  public void commentModify() {}
+  @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_MODIFY + "/{commentId}")
+  public String commentModify(@PathVariable Long postId,
+                            @PathVariable Long commentId,
+                            @RequestParam("content") String content,
+                            HttpSession session) {
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
+
+    Long userId = authUser.getId();
+
+    CommentDao commentDao = CommentDao.INSTANCE;
+
+    CommentVo commentVo = new CommentVo();
+    commentVo.setId(commentId);
+    commentVo.setContent(content);
+    commentVo.setUserId(userId);
+
+    commentDao.update(commentVo);
+
+//    WebUtil.redirect(response, "/pilot-project/board?action=view&id=" + postId);
+    return "redirect:/board/{postId}";
+  }
 
   // 댓글 삭제
   @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_DELETE)
