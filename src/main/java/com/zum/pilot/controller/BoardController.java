@@ -266,14 +266,48 @@ public class BoardController{
   }
 
   // 댓글 쓰기
-  @RequestMapping(value = "/" + BoardConstant.COMMENT_WRITE)
-  public void commentWrite() {}
+  @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_WRITE)
+  public String commentWrite(@PathVariable Long postId,
+                             @RequestParam("depth") int depth,
+                             @RequestParam(value = "thread", defaultValue = "0") int thread,
+                             @RequestParam("content") String content,
+                             HttpSession session) {
+    logger.info(BoardConstant.COMMENT_WRITE);
+    final int thrUnit = 1000;
+
+    logger.info("댓글 내용 : " + content);
+    // 댓글 작성자 정보 가져오기
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
+    Long userId = authUser.getId();
+
+    CommentVo commentVo = new CommentVo();
+    commentVo.setPostId(postId);
+    commentVo.setUserId(userId);
+    commentVo.setContent(content);
+    commentVo.setDepth(depth);
+
+    CommentDao commentDao = CommentDao.INSTANCE;
+
+    if (depth == 0) {    // 댓글을 다는 경우
+      thread = commentDao.getMaxThread(postId);
+      thread = (thread / thrUnit) * thrUnit + thrUnit;
+      commentVo.setThread(thread);
+    } else {    // 답글을 다는 경우
+      commentVo.setThread(thread);
+      int precommentThread = (thread / thrUnit) * thrUnit;
+      commentDao.updateThread(precommentThread, thread + 1);
+    }
+
+    commentDao.insert(commentVo);
+//    WebUtil.redirect(response, "/pilot-project/board?action=view&id=" + postId);
+    return "redirect:/board/{postId}";
+  }
 
   // 댓글 수정
-  @RequestMapping(value = "/" + BoardConstant.COMMENT_MODIFY)
+  @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_MODIFY)
   public void commentModify() {}
 
   // 댓글 삭제
-  @RequestMapping(value = "/" + BoardConstant.COMMENT_DELETE)
+  @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_DELETE)
   public void commentDelete() {}
 }

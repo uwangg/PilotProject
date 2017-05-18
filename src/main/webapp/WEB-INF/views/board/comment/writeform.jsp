@@ -5,9 +5,7 @@
 <!-- 댓글 폼 -->
 <div class="commentform-group">
 	<div class="commentform-default">
-	<form role="form" method="post" action="${pageContext.request.contextPath}/board">
-		<input type="hidden" name="action" value="commentwrite">
-		<input type="hidden" name="postId" value="${postVo.id }">
+	<form role="form" method="post" action="${pageContext.request.contextPath}/board/${postVo.id}/commentwrite">
 		<input type="hidden" name="depth" value="0">
 		<div class="form-group">
 			<label for="comment">댓글입력란:</label>
