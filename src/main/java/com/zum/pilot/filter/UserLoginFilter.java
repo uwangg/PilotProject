@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zum.pilot.action.UserConstant;
+import com.zum.pilot.constant.UserConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

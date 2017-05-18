@@ -1,4 +1,4 @@
-package com.zum.pilot.action;
+package com.zum.pilot.constant;
 
 public class UserConstant {
   public final static String JOIN_FORM = "joinform";

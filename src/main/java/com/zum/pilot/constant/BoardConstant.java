@@ -1,4 +1,4 @@
-package com.zum.pilot.action;
+package com.zum.pilot.constant;
 
 public class BoardConstant {
   public final static String WRITE_FORM = "writeform";

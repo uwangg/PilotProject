@@ -2,14 +2,10 @@ package com.zum.pilot.controller;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.sun.javafx.sg.prism.NGShape;
-import com.zum.pilot.action.Action;
-import com.zum.pilot.action.ActionFactory;
-import com.zum.pilot.action.BoardConstant;
+import com.zum.pilot.constant.BoardConstant;
 import com.zum.pilot.action.board.BoardActionFactory;
 import com.zum.pilot.dao.CommentDao;
 import com.zum.pilot.dao.PostDao;
-import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.CommentVo;
 import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
@@ -21,14 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 

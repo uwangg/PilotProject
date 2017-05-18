@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.zum.pilot.action.BoardConstant;
+import com.zum.pilot.constant.BoardConstant;
 
 @WebFilter(filterName = "BoardLoginFilter")
 public class BoardLoginFilter implements Filter {

@@ -1,10 +1,9 @@
 package com.zum.pilot.controller;
 
 
-import com.zum.pilot.action.UserConstant;
+import com.zum.pilot.constant.UserConstant;
 import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.util.SecurityUtil;
-import com.zum.pilot.util.WebUtil;
 import com.zum.pilot.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
