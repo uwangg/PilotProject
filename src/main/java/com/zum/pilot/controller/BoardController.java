@@ -75,7 +75,8 @@ public class BoardController{
 
     // 게시글 입력
     PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
-    PostDao postDao = PostDao.INSTANCE;
+//    PostDao postDao = PostDao.INSTANCE;
+    PostDao postDao = new PostDao();
     postDao.insert(postVo);
     return "redirect:/board";
   }
@@ -89,7 +90,8 @@ public class BoardController{
           Model model) {
     logger.info(BoardConstant.VIEW);
     // 게시글 id를 이용해 게시물 불러오기
-    PostDao postDao = PostDao.INSTANCE;
+//    PostDao postDao = PostDao.INSTANCE;
+    PostDao postDao = new PostDao();
     postDao.hitIncrease(postId);
     PostVo postVo = postDao.get(postId);
 
@@ -141,7 +143,8 @@ public class BoardController{
 
     UserVo authUser = (UserVo) session.getAttribute("authUser");
 
-    PostDao postDao = PostDao.INSTANCE;
+//    PostDao postDao = PostDao.INSTANCE;
+    PostDao postDao = new PostDao();
     PostVo vo = postDao.get(postId);
 
     // id값이 범위를 벗어날때
@@ -199,7 +202,8 @@ public class BoardController{
     // 작성자만 수정 가능
     if (authUser.getId() == userId) {
       PostVo vo = new PostVo(id, title, content, imagePath, userId);
-      PostDao postDao = PostDao.INSTANCE;
+//      PostDao postDao = PostDao.INSTANCE;
+      PostDao postDao = new PostDao();
 
       // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
       if (changedImage) {
@@ -227,7 +231,9 @@ public class BoardController{
     UserVo authUser = (UserVo) session.getAttribute("authUser");
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
-    PostDao postDao = PostDao.INSTANCE;
+//    PostDao postDao = PostDao.INSTANCE;
+    PostDao postDao = new PostDao();
+
     // 이미지가 있다면 삭제
     PostVo postVo = postDao.get(postId);
 
