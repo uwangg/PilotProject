@@ -27,7 +27,6 @@ public class MainController {
           Model model) {
 
     // 게시글 페이지네이션
-//    Long totalPostNum = 0L;    // 게시글의 총 갯수
     int totalPageNum = 0;    // 총 페이지 번호의 수
     int postUnit = 10;    // 한 페이지당 보여줄 글의 최대 갯수
     int pageNumUnit = 5;    // 한 페이지 블락당 보여줄 번호의 최대 갯수
@@ -35,13 +34,7 @@ public class MainController {
     List<PostVo> postList = null;
 
     totalPageNum = postService.totalNumberOfPage(postUnit);
-    postList = postService.getList((totalPageNum - currentPageNum) * postUnit, postUnit);
-//    PostDao postDao = PostDao.INSTANCE;
-//
-//    totalPostNum = postDao.totalNumberOfPost();
-//    totalPageNum = (int) ((totalPostNum - 1) / postUnit + 1);
-
-//    postList = postDao.getList((totalPageNum - currentPageNum) * postUnit, postUnit);    // 선택된 페이지번호, 보여줄 글의갯수
+    postList = postService.getList((totalPageNum - currentPageNum) * postUnit, postUnit); // 선택된 페이지번호, 보여줄 글의갯수
 
     end = (begin - 1) + pageNumUnit;
     if (end > totalPageNum)
