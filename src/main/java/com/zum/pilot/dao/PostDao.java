@@ -98,7 +98,7 @@ public enum PostDao {
   public PostVo get(Long number) {
     JdbcTemplate template = new JdbcTemplate();
     String query = "select a.id, title, content, image_path, a.create_time, user_id, name "
-            + "from (select * from post where id=?)as a, user as u " + "where a.user_id=u.id";
+            + "from (select * from post where id=? and delete_flag = 0)as a, user as u where a.user_id=u.id";
     PreparedStatementSetter pss = new PreparedStatementSetter() {
 
       @Override
