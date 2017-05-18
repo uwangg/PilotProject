@@ -299,7 +299,6 @@ public class BoardController{
     }
 
     commentDao.insert(commentVo);
-//    WebUtil.redirect(response, "/pilot-project/board?action=view&id=" + postId);
     return "redirect:/board/{postId}";
   }
 
@@ -322,11 +321,23 @@ public class BoardController{
 
     commentDao.update(commentVo);
 
-//    WebUtil.redirect(response, "/pilot-project/board?action=view&id=" + postId);
     return "redirect:/board/{postId}";
   }
 
   // 댓글 삭제
-  @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_DELETE)
-  public void commentDelete() {}
+  @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_DELETE + "/{commentId}")
+  public String commentDelete(@PathVariable Long postId,
+                            @PathVariable Long commentId,
+                            HttpSession session) {
+    logger.info(BoardConstant.COMMENT_DELETE);
+
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
+
+    Long userId = authUser.getId();
+
+    CommentDao commentDao = CommentDao.INSTANCE;
+    commentDao.delete(commentId, userId);
+
+    return "redirect:/board/{postId}";
+  }
 }

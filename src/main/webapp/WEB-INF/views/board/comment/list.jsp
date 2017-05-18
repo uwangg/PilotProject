@@ -40,7 +40,7 @@
 						</c:if>
 						<c:if test="${sessionScope.authUser.id == vo.userId }">
 						<a class="commentModify" id="${vo.id }">수정</a>
-						<a href="${pageContext.request.contextPath}/board?action=commentdelete&id=${vo.id}&postId=${postVo.id}">삭제</a>
+						<a href="${pageContext.request.contextPath}/board/${postVo.id}/commentdelete/${vo.id}">삭제</a>
 						
 						</c:if>
 					</small>
@@ -63,9 +63,7 @@
 			<div id="collapse${vo.id }" class="comment-collapse collapse">
 				<hr/>
 				<div class="panel-body">
-					<form role="form" method="post" action="${pageContext.request.contextPath}/board">
-					<input type="hidden" name="action" value="commentwrite">
-					<input type="hidden" name="postId" value="${postVo.id }">
+					<form role="form" method="post" action="${pageContext.request.contextPath}/board/${postVo.id}/commentwrite">
 					<input type="hidden" name="depth" value="${vo.depth+1 }">
 					<input type="hidden" name="thread" value="${vo.thread-1 }">
 						<div class="form-group">
