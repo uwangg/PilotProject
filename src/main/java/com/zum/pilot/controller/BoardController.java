@@ -21,7 +21,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 @Controller
@@ -69,7 +68,6 @@ public class BoardController{
 
     // 파일이 업로드될 실제 tomcat 폴더의 경로
     String savePath = "D:\\test\\upload";
-//    String savePath = context.getRealPath("upload");
     logger.info("savePath = " + savePath);
     try {
       multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
@@ -83,8 +81,6 @@ public class BoardController{
 
     // 게시글 입력
     PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
-//    PostDao postDao = PostDao.INSTANCE;
-//    postDao.insert(postVo);
     postService.insert(postVo);
     return "redirect:/board";
   }
@@ -98,13 +94,11 @@ public class BoardController{
           Model model) {
     logger.info(BoardConstant.VIEW);
     // 게시글 id를 이용해 게시물 불러오기
-//    PostDao postDao = PostDao.INSTANCE;
     PostDao postDao = new PostDao();
     postDao.hitIncrease(postId);
     PostVo postVo = postDao.get(postId);
 
     // 댓글 페이지네이션
-//    Long totalCommentNum = 0L;    // 게시글의 총 갯수
     int totalPageNum = 0;    // 총 페이지 번호의 수
     int commentUnit = 10;    // 한 페이지당 보여줄 글의 최대 갯수
     int pageNumUnit = 5;    // 한 페이지 블락당 보여줄 번호의 최대 갯수
@@ -112,14 +106,7 @@ public class BoardController{
 
     // 게시물 id에 맞는 댓글 불러오기
     List<CommentVo> commentList = null;
-//    CommentDao commentDao = CommentDao.INSTANCE;
-
-//    totalCommentNum = commentDao.totalNumberOfComment(postId);
-//    totalPageNum = (int) ((totalCommentNum - 1) / commentUnit + 1);
-//    logger.info("댓글 수 : " + totalCommentNum + ", 페이지 번호 수 : " + totalPageNum);
     totalPageNum = commentService.totalNumberOfPage(postId, commentUnit);
-
-//    commentList = commentDao.getList(postId, (totalPageNum - currentPageNum) * commentUnit, commentUnit);
     commentList = commentService.getList(postId, (totalPageNum - currentPageNum) * commentUnit, commentUnit);
 
     // 끝페이지 가져오기
@@ -145,16 +132,7 @@ public class BoardController{
                            HttpSession session) {
     logger.info(BoardConstant.MODIFY_FORM);
 
-    // 로그인하지 않은 사용자
-//    if (postId == null) {
-//      WebUtil.redirect(response, "/pilot-project/board");
-//      return;
-//    }
-
     UserVo authUser = (UserVo) session.getAttribute("authUser");
-
-//    PostDao postDao = PostDao.INSTANCE;
-//    PostVo vo = postDao.get(postId);
     PostVo vo = postService.get(postId);
 
     // id값이 범위를 벗어날때
@@ -186,7 +164,6 @@ public class BoardController{
 
     // 파일이 업로드될 실제 tomcat 폴더의 경로
     String savePath = "D:\\test\\upload";
-//    String savePath = context.getRealPath("upload");
     boolean changedImage = false;
 
     try {
@@ -212,11 +189,9 @@ public class BoardController{
     // 작성자만 수정 가능
     if (authUser.getId() == userId) {
       PostVo vo = new PostVo(id, title, content, imagePath, userId);
-//      PostDao postDao = PostDao.INSTANCE;
 
       // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
       if (changedImage) {
-//        PostVo postVo = postDao.get(id);
         PostVo postVo = postService.get(id);
 
         String uploadFileName = "D:\\test\\upload";
@@ -225,7 +200,6 @@ public class BoardController{
         if (uploadFile.exists() && uploadFile.isFile())
           uploadFile.delete();
       }
-//      postDao.update(vo);
       postService.update(vo);
     }
 
@@ -242,18 +216,12 @@ public class BoardController{
     UserVo authUser = (UserVo) session.getAttribute("authUser");
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
-//    PostDao postDao = PostDao.INSTANCE;
-
     // 이미지가 있다면 삭제
-//    PostVo postVo = postDao.get(postId);
     PostVo postVo = postService.get(postId);
 
     if (postVo.getUserId() == authId) {
       // 이미지가 있다면 삭제
       if (postVo.getImagePath() != null && !postVo.getImagePath().equals("")) {
-
-//        String uploadFileName = request.getServletContext().getRealPath("upload");
-//        String uploadFileName = context.getRealPath("upload");
         String uploadFileName = "D:\\test\\upload";
         logger.info("file path = " + uploadFileName);
         File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
@@ -261,14 +229,8 @@ public class BoardController{
         if (uploadFile.exists() && uploadFile.isFile())
           uploadFile.delete();
       }
-
       // 게시글 삭제
       postService.delete(postId, authId);
-//      try {
-//        postDao.delete(postId, authUser.getId());
-//      } catch (SQLException e) {
-//        e.printStackTrace();
-//      }
     }
     return "redirect:/board";
   }
@@ -294,21 +256,15 @@ public class BoardController{
     commentVo.setContent(content);
     commentVo.setDepth(depth);
 
-//    CommentDao commentDao = CommentDao.INSTANCE;
-
     if (depth == 0) {    // 댓글을 다는 경우
-//      thread = commentDao.getMaxThread(postId);
       thread = commentService.getMaxThread(postId);
       thread = (thread / thrUnit) * thrUnit + thrUnit;
       commentVo.setThread(thread);
     } else {    // 답글을 다는 경우
       commentVo.setThread(thread);
       int preCommentThread = (thread / thrUnit) * thrUnit;
-//      commentDao.updateThread(preCommentThread, thread + 1);
       commentService.updateThread(preCommentThread, thread + 1);
     }
-
-//    commentDao.insert(commentVo);
     commentService.insert(commentVo);
     return "redirect:/board/{postId}";
   }
@@ -320,17 +276,12 @@ public class BoardController{
                             @RequestParam("content") String content,
                             HttpSession session) {
     UserVo authUser = (UserVo) session.getAttribute("authUser");
-
     Long userId = authUser.getId();
-
-//    CommentDao commentDao = CommentDao.INSTANCE;
 
     CommentVo commentVo = new CommentVo();
     commentVo.setId(commentId);
     commentVo.setContent(content);
     commentVo.setUserId(userId);
-
-//    commentDao.update(commentVo);
     commentService.update(commentVo);
 
     return "redirect:/board/{postId}";
@@ -346,9 +297,6 @@ public class BoardController{
     UserVo authUser = (UserVo) session.getAttribute("authUser");
 
     Long userId = authUser.getId();
-
-//    CommentDao commentDao = CommentDao.INSTANCE;
-//    commentDao.delete(commentId, userId);
     commentService.delete(commentId, userId);
 
     return "redirect:/board/{postId}";
