@@ -3,10 +3,12 @@ package com.zum.pilot.controller;
 
 import com.zum.pilot.constant.UserConstant;
 import com.zum.pilot.dao.UserDao;
+import com.zum.pilot.service.UserService;
 import com.zum.pilot.util.SecurityUtil;
 import com.zum.pilot.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +23,8 @@ import java.sql.SQLException;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+  @Autowired
+  private UserService userService;
 
   private static final Logger logger =
           LoggerFactory.getLogger(UserController.class);
@@ -47,11 +51,12 @@ public class UserController {
     if (!userVo.getPassword().equals(confirm)) {
       return "redirect:/user/" + UserConstant.JOIN;
     }
-    UserDao userDao = UserDao.INSTANCE;
+//    UserDao userDao = UserDao.INSTANCE;
 
     userVo.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
     logger.info("통과");
-    userDao.insert(userVo);
+//    userDao.insert(userVo);
+    userService.insert(userVo);
 
     return "redirect:/user/"+UserConstant.JOIN_SUCCESS;
   }
@@ -68,9 +73,10 @@ public class UserController {
   public String checkEmail(@RequestParam("email") String email) {
     logger.info(UserConstant.CHECK_EMAIL);
 
-    UserDao userDao = UserDao.INSTANCE;
+//    UserDao userDao = UserDao.INSTANCE;
     // 이메일 중복체크
-    if (userDao.checkEmail(email)) {
+//    if (userDao.checkEmail(email)) {
+    if(userService.checkEmail(email)) {
       return "false";
     } else {
       return "true";
@@ -91,10 +97,11 @@ public class UserController {
     }
 
     // 회원 가입시 닉네임 중복체크
-    UserDao userDao = UserDao.INSTANCE;
+//    UserDao userDao = UserDao.INSTANCE;
 
     // 닉네임 중복체크
-    if (userDao.checkName(name)) {
+//    if (userDao.checkName(name)) {
+    if (userService.checkName(name)) {
       return "false"; // id 중복
     } else {
       return "true";
@@ -134,7 +141,7 @@ public class UserController {
       logger.info("새 비밀번호와 일치하지 않음");
       return "redirect:/user/modify";
     }
-    UserDao userDao = UserDao.INSTANCE;
+//    UserDao userDao = UserDao.INSTANCE;
     response.setCharacterEncoding("UTF-8");
     response.setContentType("text/html; charset=UTF-8");
     PrintWriter out = null;
@@ -143,7 +150,8 @@ public class UserController {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    if (!userDao.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
+//    if (!userDao.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
+    if (!userService.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
       logger.info("비밀번호가 틀렸습니다");
       out.println("<script language=\"javascript\">");
       out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user/modify\"");
@@ -155,10 +163,12 @@ public class UserController {
     authUser.setName(userVo.getName());
     authUser.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
 
-    if (changePassword.equals("") || changePassword == null) {
-      userDao.update(authUser, "");
+    if (changePassword.equals("")) {
+//      userDao.update(authUser, "");
+      userService.update(authUser, "");
     } else {
-      userDao.update(authUser, SecurityUtil.encryptSHA256(changePassword));
+//      userDao.update(authUser, SecurityUtil.encryptSHA256(changePassword));
+      userService.update(authUser, SecurityUtil.encryptSHA256(changePassword));
     }
 
     // 세션 정보 변경
@@ -185,7 +195,7 @@ public class UserController {
     UserVo userVo = (UserVo) session.getAttribute("authUser");
     password = SecurityUtil.encryptSHA256(password);  // 패스워드 암호화
 
-    UserDao userDao = UserDao.INSTANCE;
+//    UserDao userDao = UserDao.INSTANCE;
 
     response.setCharacterEncoding("UTF-8");
     response.setContentType("text/html; charset=UTF-8");
@@ -197,7 +207,8 @@ public class UserController {
     }
 
     // id, password가 동일한지 체크
-    if (!userDao.checkPassword(userVo.getId(), password)) {
+//    if (!userDao.checkPassword(userVo.getId(), password)) {
+    if (!userService.checkPassword(userVo.getId(), password)) {
       logger.info("비밀번호 틀림");
       out.println("<script language=\"javascript\">");
       out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user/withdrawal\"");
@@ -207,11 +218,12 @@ public class UserController {
     }
 
     // 동일하다면 삭제
-    try {
-      userDao.delete(userVo.getId(), password);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    userService.delete(userVo.getId(), password);
+//    try {
+//      userDao.delete(userVo.getId(), password);
+//    } catch (SQLException e) {
+//      e.printStackTrace();
+//    }
 
     //로그아웃 처리
     session.removeAttribute("authUser");    // 세션 삭제

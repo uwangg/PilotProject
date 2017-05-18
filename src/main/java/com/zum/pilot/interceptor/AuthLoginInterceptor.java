@@ -1,10 +1,12 @@
 package com.zum.pilot.interceptor;
 
 import com.zum.pilot.dao.UserDao;
+import com.zum.pilot.service.UserService;
 import com.zum.pilot.util.SecurityUtil;
 import com.zum.pilot.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
+  @Autowired
+  private UserService userService;
+
   private static final Logger logger =
           LoggerFactory.getLogger(AuthLoginInterceptor.class);
 
@@ -27,8 +32,9 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
     userVo.setPassword(password);
 
     // 유저정보 가져오기
-    UserDao userDao = UserDao.INSTANCE;
-    UserVo authUser = userDao.get(userVo);
+//    UserDao userDao = UserDao.INSTANCE;
+//    UserVo authUser = userDao.get(userVo);
+    UserVo authUser = userService.get(userVo);
 
     // 로그인성공시
     if (authUser != null) {

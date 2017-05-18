@@ -10,9 +10,8 @@ import com.zum.db.RowMapper;
 import com.zum.pilot.vo.UserVo;
 import org.springframework.stereotype.Repository;
 
-//@Repository
-public enum UserDao {
-  INSTANCE;
+@Repository
+public class UserDao {
 
   // 회원인증시
   public UserVo get(UserVo vo) {
