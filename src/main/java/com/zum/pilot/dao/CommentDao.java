@@ -12,9 +12,8 @@ import com.zum.db.RowMapper;
 import com.zum.pilot.vo.CommentVo;
 import org.springframework.stereotype.Repository;
 
-//@Repository
-public enum CommentDao {
-  INSTANCE;
+@Repository
+public class CommentDao {
 
   // 댓글의 총 갯수
   public Long totalNumberOfComment(Long postId) {

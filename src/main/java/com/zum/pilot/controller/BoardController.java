@@ -5,6 +5,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.pilot.constant.BoardConstant;
 import com.zum.pilot.dao.CommentDao;
 import com.zum.pilot.dao.PostDao;
+import com.zum.pilot.service.CommentService;
 import com.zum.pilot.vo.CommentVo;
 import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
@@ -25,6 +26,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 public class BoardController{
+
+  @Autowired
+  private CommentService commentService;
 
   @Autowired
   private  ServletContext context;
@@ -96,7 +100,7 @@ public class BoardController{
     PostVo postVo = postDao.get(postId);
 
     // 댓글 페이지네이션
-    Long totalCommentNum = 0L;    // 게시글의 총 갯수
+//    Long totalCommentNum = 0L;    // 게시글의 총 갯수
     int totalPageNum = 0;    // 총 페이지 번호의 수
     int commentUnit = 10;    // 한 페이지당 보여줄 글의 최대 갯수
     int pageNumUnit = 5;    // 한 페이지 블락당 보여줄 번호의 최대 갯수
@@ -104,13 +108,15 @@ public class BoardController{
 
     // 게시물 id에 맞는 댓글 불러오기
     List<CommentVo> commentList = null;
-    CommentDao commentDao = CommentDao.INSTANCE;
+//    CommentDao commentDao = CommentDao.INSTANCE;
 
-    totalCommentNum = commentDao.totalNumberOfComment(postId);
-    totalPageNum = (int) ((totalCommentNum - 1) / commentUnit + 1);
-    logger.info("댓글 수 : " + totalCommentNum + ", 페이지 번호 수 : " + totalPageNum);
+//    totalCommentNum = commentDao.totalNumberOfComment(postId);
+//    totalPageNum = (int) ((totalCommentNum - 1) / commentUnit + 1);
+//    logger.info("댓글 수 : " + totalCommentNum + ", 페이지 번호 수 : " + totalPageNum);
+    totalPageNum = commentService.totalNumberOfPage(postId, commentUnit);
 
-    commentList = commentDao.getList(postId, (totalPageNum - currentPageNum) * commentUnit, commentUnit);
+//    commentList = commentDao.getList(postId, (totalPageNum - currentPageNum) * commentUnit, commentUnit);
+    commentList = commentService.getList(postId, (totalPageNum - currentPageNum) * commentUnit, commentUnit);
 
     // 끝페이지 가져오기
     end = (begin - 1) + pageNumUnit;
@@ -282,19 +288,22 @@ public class BoardController{
     commentVo.setContent(content);
     commentVo.setDepth(depth);
 
-    CommentDao commentDao = CommentDao.INSTANCE;
+//    CommentDao commentDao = CommentDao.INSTANCE;
 
     if (depth == 0) {    // 댓글을 다는 경우
-      thread = commentDao.getMaxThread(postId);
+//      thread = commentDao.getMaxThread(postId);
+      thread = commentService.getMaxThread(postId);
       thread = (thread / thrUnit) * thrUnit + thrUnit;
       commentVo.setThread(thread);
     } else {    // 답글을 다는 경우
       commentVo.setThread(thread);
-      int precommentThread = (thread / thrUnit) * thrUnit;
-      commentDao.updateThread(precommentThread, thread + 1);
+      int preCommentThread = (thread / thrUnit) * thrUnit;
+//      commentDao.updateThread(preCommentThread, thread + 1);
+      commentService.updateThread(preCommentThread, thread + 1);
     }
 
-    commentDao.insert(commentVo);
+//    commentDao.insert(commentVo);
+    commentService.insert(commentVo);
     return "redirect:/board/{postId}";
   }
 
@@ -308,14 +317,15 @@ public class BoardController{
 
     Long userId = authUser.getId();
 
-    CommentDao commentDao = CommentDao.INSTANCE;
+//    CommentDao commentDao = CommentDao.INSTANCE;
 
     CommentVo commentVo = new CommentVo();
     commentVo.setId(commentId);
     commentVo.setContent(content);
     commentVo.setUserId(userId);
 
-    commentDao.update(commentVo);
+//    commentDao.update(commentVo);
+    commentService.update(commentVo);
 
     return "redirect:/board/{postId}";
   }
@@ -331,8 +341,9 @@ public class BoardController{
 
     Long userId = authUser.getId();
 
-    CommentDao commentDao = CommentDao.INSTANCE;
-    commentDao.delete(commentId, userId);
+//    CommentDao commentDao = CommentDao.INSTANCE;
+//    commentDao.delete(commentId, userId);
+    commentService.delete(commentId, userId);
 
     return "redirect:/board/{postId}";
   }
