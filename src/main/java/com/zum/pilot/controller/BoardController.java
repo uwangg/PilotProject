@@ -3,7 +3,6 @@ package com.zum.pilot.controller;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.pilot.constant.BoardConstant;
-import com.zum.pilot.action.board.BoardActionFactory;
 import com.zum.pilot.dao.CommentDao;
 import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.vo.CommentVo;
