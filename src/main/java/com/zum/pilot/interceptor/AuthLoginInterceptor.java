@@ -32,8 +32,6 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
     userVo.setPassword(password);
 
     // 유저정보 가져오기
-//    UserDao userDao = UserDao.INSTANCE;
-//    UserVo authUser = userDao.get(userVo);
     UserVo authUser = userService.get(userVo);
 
     // 로그인성공시

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class PostDao {
-//  INSTANCE;
 
   // 게시글의 총 갯수
   public Long totalNumberOfPost() {
