@@ -2,9 +2,11 @@ package com.zum.pilot.service;
 
 import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.vo.PostVo;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -27,5 +29,26 @@ public class PostService {
   public List<PostVo> getList(int currentPageNum, int postUnit) {
     List<PostVo> list = postDao.getList(currentPageNum, postUnit);
     return list;
+  }
+
+  public PostVo get(Long number) {
+    PostVo postVo = postDao.get(number);
+    return postVo;
+  }
+
+  public void insert(PostVo vo) {
+    postDao.insert(vo);
+  }
+
+  public void update(PostVo vo) {
+    postDao.update(vo);
+  }
+
+  public void delete(Long postId, Long userId) {
+    try {
+      postDao.delete(postId, userId);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }

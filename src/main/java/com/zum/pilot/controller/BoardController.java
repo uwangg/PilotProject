@@ -6,6 +6,7 @@ import com.zum.pilot.constant.BoardConstant;
 import com.zum.pilot.dao.CommentDao;
 import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.service.CommentService;
+import com.zum.pilot.service.PostService;
 import com.zum.pilot.vo.CommentVo;
 import com.zum.pilot.vo.PostVo;
 import com.zum.pilot.vo.UserVo;
@@ -29,6 +30,9 @@ public class BoardController{
 
   @Autowired
   private CommentService commentService;
+
+  @Autowired
+  private PostService postService;
 
   @Autowired
   private  ServletContext context;
@@ -80,8 +84,8 @@ public class BoardController{
     // 게시글 입력
     PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
 //    PostDao postDao = PostDao.INSTANCE;
-    PostDao postDao = new PostDao();
-    postDao.insert(postVo);
+//    postDao.insert(postVo);
+    postService.insert(postVo);
     return "redirect:/board";
   }
 
@@ -150,8 +154,8 @@ public class BoardController{
     UserVo authUser = (UserVo) session.getAttribute("authUser");
 
 //    PostDao postDao = PostDao.INSTANCE;
-    PostDao postDao = new PostDao();
-    PostVo vo = postDao.get(postId);
+//    PostVo vo = postDao.get(postId);
+    PostVo vo = postService.get(postId);
 
     // id값이 범위를 벗어날때
     if (vo == null) {
@@ -209,11 +213,11 @@ public class BoardController{
     if (authUser.getId() == userId) {
       PostVo vo = new PostVo(id, title, content, imagePath, userId);
 //      PostDao postDao = PostDao.INSTANCE;
-      PostDao postDao = new PostDao();
 
       // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
       if (changedImage) {
-        PostVo postVo = postDao.get(id);
+//        PostVo postVo = postDao.get(id);
+        PostVo postVo = postService.get(id);
 
         String uploadFileName = "D:\\test\\upload";
         File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
@@ -221,7 +225,8 @@ public class BoardController{
         if (uploadFile.exists() && uploadFile.isFile())
           uploadFile.delete();
       }
-      postDao.update(vo);
+//      postDao.update(vo);
+      postService.update(vo);
     }
 
     return "redirect:/board/{postId}";
@@ -238,10 +243,10 @@ public class BoardController{
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
 //    PostDao postDao = PostDao.INSTANCE;
-    PostDao postDao = new PostDao();
 
     // 이미지가 있다면 삭제
-    PostVo postVo = postDao.get(postId);
+//    PostVo postVo = postDao.get(postId);
+    PostVo postVo = postService.get(postId);
 
     if (postVo.getUserId() == authId) {
       // 이미지가 있다면 삭제
@@ -258,11 +263,12 @@ public class BoardController{
       }
 
       // 게시글 삭제
-      try {
-        postDao.delete(postId, authUser.getId());
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
+      postService.delete(postId, authId);
+//      try {
+//        postDao.delete(postId, authUser.getId());
+//      } catch (SQLException e) {
+//        e.printStackTrace();
+//      }
     }
     return "redirect:/board";
   }
