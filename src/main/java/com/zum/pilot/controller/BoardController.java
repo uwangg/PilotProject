@@ -3,7 +3,6 @@ package com.zum.pilot.controller;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.pilot.constant.BoardConstant;
-import com.zum.pilot.dao.CommentDao;
 import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.service.CommentService;
 import com.zum.pilot.service.PostService;
@@ -94,9 +93,21 @@ public class BoardController{
           Model model) {
     logger.info(BoardConstant.VIEW);
     // 게시글 id를 이용해 게시물 불러오기
-    PostDao postDao = new PostDao();
-    postDao.hitIncrease(postId);
-    PostVo postVo = postDao.get(postId);
+    /* service.readPost(postId) {
+        Post post = dao.getPost(postId);
+        post.read();
+        Post.read {
+          readCnt ++;
+          if (readCnt > threshold) bestPost = true;
+        }
+        dao.update(post);
+        return post;
+        }
+    */
+//    PostDao postDao = new PostDao();
+//    postDao.hitIncrease(postId);
+//    PostVo postVo = postDao.get(postId);
+    PostVo postVo = postService.get(postId);
 
     // 댓글 페이지네이션
     int totalPageNum = 0;    // 총 페이지 번호의 수
