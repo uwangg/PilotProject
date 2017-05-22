@@ -6,6 +6,7 @@ import com.zum.pilot.util.PageConstant;
 import com.zum.pilot.vo.PostVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,6 +16,9 @@ public class PostService {
 
   @Autowired
   private PostDao postDao;
+
+  @Autowired
+  private CommentService commentService;
 
   // 게시글 불러오기
   public Pagination<PostVo> viewPage(int currentPage) {
@@ -26,6 +30,7 @@ public class PostService {
   }
 
   // 게시글 읽기
+  @Transactional
   public PostVo get(Long number) {
     postDao.hitIncrease(number);
     PostVo postVo = postDao.get(number);
@@ -40,12 +45,10 @@ public class PostService {
     postDao.update(vo);
   }
 
+  @Transactional
   public void delete(Long postId, Long userId) {
-    try {
-      postDao.delete(postId, userId);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    postDao.delete(postId, userId);
+    commentService.deleteByPost(postId);
   }
 
   public void deleteByUser(Long userId) {
