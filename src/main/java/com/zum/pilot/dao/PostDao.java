@@ -39,17 +39,17 @@ public class PostDao {
 
   // 게시글 불러오기
   @SuppressWarnings("unchecked")
-  public List<PostVo> getList(int currentPageNum, int postUnit) {
+  public List<PostVo> getList(int currentPage, int postUnit) {
     JdbcTemplate template = new JdbcTemplate();
     String query = "select a.id, title, a.create_time, hit, b.name "
             + "from (select id, title, create_time, hit, user_id "
-            + "from post where delete_flag=0 order by id asc limit ?,?) as a, user as b "
-            + "where a.user_id=b.id order by id desc";
+            + "from post where delete_flag=0) as a, user as b "
+            + "where a.user_id=b.id order by id desc limit ?,?";
     PreparedStatementSetter pss = new PreparedStatementSetter() {
 
       @Override
       public void setParameters(PreparedStatement pstmt) throws SQLException {
-        pstmt.setInt(1, currentPageNum);
+        pstmt.setInt(1, currentPage);
         pstmt.setInt(2, postUnit);
       }
     };
