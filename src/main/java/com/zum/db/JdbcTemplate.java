@@ -35,34 +35,34 @@ public class JdbcTemplate {
     return vo;
   }
 
-  public void excuteTransaction(String[] query, PreparedStatementSetter[] pss) throws SQLException {
-    Connection con = null;
-
-    try {
-      con = ConnectionPool.INSTANCE.getConnection();
-
-      // transaction block start
-      con.setAutoCommit(false);
-      for (int i = 0; i < query.length; i++) {
-        try (PreparedStatement pstmt = con.prepareStatement(query[i]);) {
-          pss[i].setParameters(pstmt);
-          pstmt.executeUpdate();
-        }
-      }
-      // transaction block end
-      con.commit();
-
-    } catch (SQLException e) {
-      e.printStackTrace();
-      con.rollback();
-    } finally {
-      con.setAutoCommit(true);
-      try {
-        if (con != null)
-          con.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    }
-  }
+//  public void excuteTransaction(String[] query, PreparedStatementSetter[] pss) throws SQLException {
+//    Connection con = null;
+//
+//    try {
+//      con = ConnectionPool.INSTANCE.getConnection();
+//
+//      // transaction block start
+//      con.setAutoCommit(false);
+//      for (int i = 0; i < query.length; i++) {
+//        try (PreparedStatement pstmt = con.prepareStatement(query[i]);) {
+//          pss[i].setParameters(pstmt);
+//          pstmt.executeUpdate();
+//        }
+//      }
+//      // transaction block end
+//      con.commit();
+//
+//    } catch (SQLException e) {
+//      e.printStackTrace();
+//      con.rollback();
+//    } finally {
+//      con.setAutoCommit(true);
+//      try {
+//        if (con != null)
+//          con.close();
+//      } catch (SQLException e) {
+//        e.printStackTrace();
+//      }
+//    }
+//  }
 }
