@@ -94,23 +94,23 @@ h1 {
 				<!-- 페이지네이션 -->
 				<div class="text-center">
 						<ul class="pagination">
-							<c:if test="${begin > 1 }">
-								<li><a href="${pageContext.request.contextPath}/board/${postVo.id }?begin=${begin-pageNumUnit}&currentPageNum=${currentPageNum-1}">&laquo;</a></li>
+							<c:if test="${pagination.begin > 1 }">
+								<li><a href="${pageContext.request.contextPath}/board/${postVo.id }?currentPage=${pagination.begin - 1}">&laquo;</a></li>
 							</c:if>
 							
-							<c:forEach begin="${begin }" end="${end }" step="1" var="count" >
+							<c:forEach begin="${pagination.begin }" end="${pagination.end }" step="1" var="count" >
 								<c:choose>
-									<c:when test="${currentPageNum == count }">
+									<c:when test="${pagination.currentPage == count }">
 										<li class="active"><a>${count }</a></li>
 									</c:when>
 									<c:otherwise>
 										<li><a href="${pageContext.request.contextPath}/board/${postVo.id }
-												?currentPageNum=${count}&begin=${begin}">${count }</a></li>
+												?currentPage=${count}">${count }</a></li>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
-							<c:if test="${end < totalPageNum }">
-								<li><a href="${pageContext.request.contextPath}/board/${postVo.id }?begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
+							<c:if test="${pagination.isEndPage eq 'false'}">
+								<li><a href="${pageContext.request.contextPath}/board/${postVo.id }?currentPage=${pagination.end + 1}">&raquo;</a></li>
 							</c:if>
 						</ul>
 					</div>

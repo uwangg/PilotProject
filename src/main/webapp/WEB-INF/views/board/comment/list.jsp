@@ -19,7 +19,7 @@
 <label for="accordion">댓글:</label>
 <div class="comment-group" id="accordion">
 
-	<c:forEach items="${commentList }" var="vo" varStatus="status">
+	<c:forEach items="${pagination.elemList }" var="vo" varStatus="status">
 		<c:choose>
 			<c:when test="${vo.deleteFlag == true }">
 				<c:import url="/WEB-INF/views/board/comment/deleted_comment.jsp">

@@ -62,7 +62,7 @@
 
 			<c:forEach begin="${pagination.begin }" end="${pagination.end }" step="1" var="count" >
 				<c:choose>
-					<c:when test="${pagination.currentPageNum == count }">
+					<c:when test="${pagination.currentPage == count }">
 						<li class="active"><a>${count }</a></li>
 					</c:when>
 					<c:otherwise>

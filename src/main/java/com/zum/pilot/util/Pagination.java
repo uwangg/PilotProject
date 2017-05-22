@@ -46,7 +46,7 @@ public class Pagination<E> {
     return totalPageNum;
   }
 
-  public int getCurrentPageNum() {
+  public int getCurrentPage() {
     return currentPage;
   }
 

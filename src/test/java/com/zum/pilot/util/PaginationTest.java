@@ -22,7 +22,7 @@ public class PaginationTest {
     assertThat(pagination.getBegin(), is(1));
     assertThat(pagination.getEnd(), is(1));
     assertThat(pagination.getTotalPageNum(), is(1));
-    assertThat(pagination.getCurrentPageNum(), is(1));
+    assertThat(pagination.getCurrentPage(), is(1));
     assertThat(pagination.getElemList(), is(something));
   }
 
@@ -38,7 +38,7 @@ public class PaginationTest {
     assertThat(pagination.getBegin(), is(1));
     assertThat(pagination.getEnd(), is(1));
     assertThat(pagination.getTotalPageNum(), is(1));
-    assertThat(pagination.getCurrentPageNum(), is(1));
+    assertThat(pagination.getCurrentPage(), is(1));
     assertThat(pagination.getElemList(), is(something));
   }
 
@@ -54,7 +54,7 @@ public class PaginationTest {
     assertThat(pagination.getBegin(), is(1));
     assertThat(pagination.getEnd(), is(1));
     assertThat(pagination.getTotalPageNum(), is(1));
-    assertThat(pagination.getCurrentPageNum(), is(1));
+    assertThat(pagination.getCurrentPage(), is(1));
     assertThat(pagination.getElemList(), is(something));
   }
 
@@ -71,7 +71,7 @@ public class PaginationTest {
     assertThat(pagination.getBegin(), is(1));
     assertThat(pagination.getEnd(), is(5));
     assertThat(pagination.getTotalPageNum(), is(5));
-    assertThat(pagination.getCurrentPageNum(), is(1));
+    assertThat(pagination.getCurrentPage(), is(1));
     assertThat(pagination.getElemList(), is(something));
     assertThat(pagination.getIsEndPage(), is(true));
   }
@@ -88,7 +88,7 @@ public class PaginationTest {
 
     assertThat(pagination.getBegin(), is(1));
     assertThat(pagination.getEnd(), is(5));
-    assertThat(pagination.getCurrentPageNum(), is(1));
+    assertThat(pagination.getCurrentPage(), is(1));
     assertThat(pagination.getIsEndPage(), is(false));
   }
 
