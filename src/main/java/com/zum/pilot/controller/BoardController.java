@@ -106,10 +106,7 @@ public class BoardController{
         return post;
         }
     */
-//    PostDao postDao = new PostDao();
-//    postDao.hitIncrease(postId);
-//    PostVo postVo = postDao.get(postId);
-    PostVo postVo = postService.get(postId);
+    PostVo postVo = postService.readPost(postId);
 
     // 댓글 페이지네이션
     int totalPageNum = 0;    // 총 페이지 번호의 수
@@ -146,7 +143,7 @@ public class BoardController{
     logger.info(BoardConstant.MODIFY_FORM);
 
     UserVo authUser = (UserVo) session.getAttribute("authUser");
-    PostVo vo = postService.get(postId);
+    PostVo vo = postService.getPost(postId);
 
     // id값이 범위를 벗어날때
     if (vo == null) {
@@ -205,7 +202,7 @@ public class BoardController{
 
       // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
       if (changedImage) {
-        PostVo postVo = postService.get(id);
+        PostVo postVo = postService.getPost(id);
 
         String uploadFileName = "D:\\test\\upload";
         File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
@@ -230,7 +227,7 @@ public class BoardController{
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
     // 이미지가 있다면 삭제
-    PostVo postVo = postService.get(postId);
+    PostVo postVo = postService.getPost(postId);
 
     if (postVo.getUserId() == authId) {
       // 이미지가 있다면 삭제

@@ -31,8 +31,13 @@ public class PostService {
 
   // 게시글 읽기
   @Transactional
-  public PostVo get(Long number) {
+  public PostVo readPost(Long number) {
     postDao.hitIncrease(number);
+    PostVo postVo = postDao.get(number);
+    return postVo;
+  }
+
+  public PostVo getPost(Long number) {
     PostVo postVo = postDao.get(number);
     return postVo;
   }
