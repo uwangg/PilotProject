@@ -196,4 +196,28 @@ public class CommentDao {
     };
     template.excuteUpdate(query, pss);
   }
+  // 회원탈퇴한 사용자가 남긴 댓글 삭제
+  public void deleteUser(Long userId) {
+    JdbcTemplate template = new JdbcTemplate();
+    String query = "update comment set delete_flag=1 and user_id=?";
+    PreparedStatementSetter pss = new PreparedStatementSetter() {
+      @Override
+      public void setParameters(PreparedStatement pstmt) throws SQLException {
+        pstmt.setLong(1, userId);
+      }
+    };
+    template.excuteUpdate(query, pss);
+  }
+  // 게시글 삭제시 게시물에 달린 댓글 삭제
+  public void deleteByUser(Long userId) {
+    JdbcTemplate template = new JdbcTemplate();
+    String query = "update comment set delete_flag=1 and user_id=?";
+    PreparedStatementSetter pss = new PreparedStatementSetter() {
+      @Override
+      public void setParameters(PreparedStatement pstmt) throws SQLException {
+        pstmt.setLong(1, userId);
+      }
+    };
+    template.excuteUpdate(query, pss);
+  }
 }

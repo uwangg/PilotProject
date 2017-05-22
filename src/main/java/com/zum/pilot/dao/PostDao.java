@@ -181,6 +181,21 @@ public class PostDao {
     };
     template.excuteTransaction(query, pss);
   }
+  // 회원 탈퇴시 게시글 삭제
+  public void deleteByUser(Long userId) {
+    JdbcTemplate template = new JdbcTemplate();
+
+    String query = "update post set delete_flag=1 where user_id=?";
+
+    PreparedStatementSetter pss = new PreparedStatementSetter() {
+
+      @Override
+      public void setParameters(PreparedStatement pstmt) throws SQLException {
+        pstmt.setLong(1, userId);
+      }
+    };
+    template.excuteUpdate(query, pss);
+  }
 
   // 조회수 증가
   public void hitIncrease(Long number) {

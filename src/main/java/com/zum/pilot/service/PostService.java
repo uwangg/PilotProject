@@ -47,4 +47,8 @@ public class PostService {
       e.printStackTrace();
     }
   }
+
+  public void deleteByUser(Long userId) {
+    postDao.deleteByUser(userId);
+  }
 }

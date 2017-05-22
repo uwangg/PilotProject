@@ -173,36 +173,43 @@ public class UserDao {
   }
 
   // 회원탈퇴
-  public void delete(Long id, String password) throws SQLException {
+  public void delete(Long id, String password) {
     JdbcTemplate template = new JdbcTemplate();
-
-    String[] query = new String[3];
-    query[0] = "update user set delete_flag=1 where id=? and passwd=?";
-    query[1] = "update post set delete_flag=1 where user_id=?";
-    query[2] = "update comment set delete_flag=1 where user_id=?";
-
-    PreparedStatementSetter[] pss = new PreparedStatementSetter[3];
-    pss[0] = new PreparedStatementSetter() {
-
+    String query = "update user set delete_flag=1 where id=? and passwd=?";
+    PreparedStatementSetter pss = new PreparedStatementSetter() {
       @Override
       public void setParameters(PreparedStatement pstmt) throws SQLException {
         pstmt.setLong(1, id);
         pstmt.setString(2, password);
       }
     };
-    pss[1] = new PreparedStatementSetter() {
-      @Override
-      public void setParameters(PreparedStatement pstmt) throws SQLException {
-        pstmt.setLong(1, id);
-      }
-    };
-    pss[2] = new PreparedStatementSetter() {
-
-      @Override
-      public void setParameters(PreparedStatement pstmt) throws SQLException {
-        pstmt.setLong(1, id);
-      }
-    };
-    template.excuteTransaction(query, pss);
+//    String[] query = new String[3];
+//    query[0] = "update user set delete_flag=1 where id=? and passwd=?";
+//    query[1] = "update post set delete_flag=1 where user_id=?";
+//    query[2] = "update comment set delete_flag=1 where user_id=?";
+//
+//    PreparedStatementSetter[] pss = new PreparedStatementSetter[3];
+//    pss[0] = new PreparedStatementSetter() {
+//
+//      @Override
+//      public void setParameters(PreparedStatement pstmt) throws SQLException {
+//        pstmt.setLong(1, id);
+//        pstmt.setString(2, password);
+//      }
+//    };
+//    pss[1] = new PreparedStatementSetter() {
+//      @Override
+//      public void setParameters(PreparedStatement pstmt) throws SQLException {
+//        pstmt.setLong(1, id);
+//      }
+//    };
+//    pss[2] = new PreparedStatementSetter() {
+//
+//      @Override
+//      public void setParameters(PreparedStatement pstmt) throws SQLException {
+//        pstmt.setLong(1, id);
+//      }
+//    };
+    template.excuteUpdate(query, pss);
   }
 }

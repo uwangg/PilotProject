@@ -31,6 +31,9 @@ public class CommentService {
   public void delete(Long commentId, Long userId) {
     commentDao.delete(commentId, userId);
   }
+  public void deleteByUser(Long userId) {
+    commentDao.deleteByUser(userId);
+  }
 
   public int totalNumberOfPage(Long postId, int commentUnit) {
     Long totalCommentNum = 0L;   // 게시글의 총 갯수

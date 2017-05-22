@@ -5,13 +5,19 @@ import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 
 @Service
 public class UserService {
   @Autowired
   private UserDao userDao;
+
+  @Autowired
+  private PostService postService;
+
+  @Autowired
+  private CommentService commentService;
 
   public UserVo get(UserVo vo) {
     UserVo userVo = userDao.get(vo);
@@ -38,11 +44,11 @@ public class UserService {
     return userDao.update(vo, newPassword);
   }
 
+  @Transactional
   public void delete(Long id, String password) {
-    try {
-      userDao.delete(id, password);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    userDao.delete(id, password);
+    postService.deleteByUser(id);
+    commentService.deleteByUser(id);
+    throw new RuntimeException("강제 오류발생");
   }
 }
