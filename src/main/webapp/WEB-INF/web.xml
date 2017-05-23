@@ -4,13 +4,29 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          id="WebApp_ID" version="3.1">
     <display-name>pilot-project</display-name>
+    <!--applicationContext.xml 설정-->
+    <!--<context-param>-->
+        <!--<param-name>contextClass</param-name>-->
+        <!--<param-value>org.springframework.web.context.support.XmlWebApplicationContext</param-value>-->
+    <!--</context-param>-->
+    <!--<context-param>-->
+        <!--<param-name>contextConfigLocation</param-name>-->
+        <!--<param-value>/WEB-INF/spring/applicationContext.xml</param-value>-->
+    <!--</context-param>-->
+
+     <!-- ApplicationConfig 설정 -->
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/applicationContext.xml</param-value>
+        <param-value>com.zum.config.ApplicationConfig</param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
