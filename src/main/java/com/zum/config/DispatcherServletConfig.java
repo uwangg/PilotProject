@@ -1,5 +1,6 @@
 package com.zum.config;
 
+import com.zum.pilot.interceptor.AuthInterceptor;
 import com.zum.pilot.interceptor.AuthLoginInterceptor;
 import com.zum.pilot.interceptor.AuthLogoutInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,9 @@ public class DispatcherServletConfig extends WebMvcConfigurerAdapter{
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(new AuthInterceptor())
+            .addPathPatterns("/user/*", "/board/**")
+            .excludePathPatterns("/board/*", "/user/login", "/user/join");
     registry.addInterceptor(authLoginInterceptor()).addPathPatterns("/user/login");
     registry.addInterceptor(new AuthLogoutInterceptor()).addPathPatterns("/user/logout");
   }

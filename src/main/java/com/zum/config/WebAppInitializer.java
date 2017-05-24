@@ -31,15 +31,6 @@ public class WebAppInitializer implements WebApplicationInitializer {
     characterEncodingFilter.setForceEncoding(true);
 
     servletContext.addFilter("encodingFilter", characterEncodingFilter).addMappingForUrlPatterns(null, false, "/*");
-    // Filter
-//    FilterRegistration.Dynamic boardLoginFilter = servletContext.addFilter("boardLoginFilter", new BoardLoginFilter());
-//    boardLoginFilter.addMappingForUrlPatterns(null, true, "/board");
-//    FilterRegistration.Dynamic userLoginFilter = servletContext.addFilter("userLoginFilter", new UserLoginFilter());
-//    userLoginFilter.addMappingForUrlPatterns(null, true, "/user");
-//    servletContext.addFilter("BoardLonginFilter",
-//            BoardLoginFilter.class).addMappingForUrlPatterns(null, true, "/board");
-//    servletContext.addFilter("UserLoginFilter",
-//            UserLoginFilter.class).addMappingForUrlPatterns(null, true, "/user");
 
   }
 }
