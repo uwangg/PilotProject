@@ -3,6 +3,7 @@ package com.zum.config;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.*;
@@ -25,15 +26,16 @@ public class WebAppInitializer implements WebApplicationInitializer {
     dispatcher.setLoadOnStartup(1);
     dispatcher.addMapping("/");
 
+    CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+    characterEncodingFilter.setEncoding("utf-8");
+    characterEncodingFilter.setForceEncoding(true);
+
+    servletContext.addFilter("encodingFilter", characterEncodingFilter).addMappingForUrlPatterns(null, false, "/*");
     // Filter
-//    FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("encodingFilter", new EncodingFilter());
-//    encodingFilter.addMappingForUrlPatterns(null, true, "/*");
 //    FilterRegistration.Dynamic boardLoginFilter = servletContext.addFilter("boardLoginFilter", new BoardLoginFilter());
 //    boardLoginFilter.addMappingForUrlPatterns(null, true, "/board");
 //    FilterRegistration.Dynamic userLoginFilter = servletContext.addFilter("userLoginFilter", new UserLoginFilter());
 //    userLoginFilter.addMappingForUrlPatterns(null, true, "/user");
-//    servletContext.addFilter("EncodingFilter",
-//            EncodingFilter.class).addMappingForUrlPatterns(null, true, "/*");
 //    servletContext.addFilter("BoardLonginFilter",
 //            BoardLoginFilter.class).addMappingForUrlPatterns(null, true, "/board");
 //    servletContext.addFilter("UserLoginFilter",
