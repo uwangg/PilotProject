@@ -14,9 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.zum.pilot.constant.BoardConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebFilter(filterName = "BoardLoginFilter")
 public class BoardLoginFilter implements Filter {
+
+  private final static Logger logger =
+          LoggerFactory.getLogger(BoardLoginFilter.class);
 
   public BoardLoginFilter() {
   }
@@ -28,6 +33,7 @@ public class BoardLoginFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     request.setCharacterEncoding("utf-8");
+    logger.info("BoardLoginFilter");
     HttpServletRequest req = (HttpServletRequest) request;
     HttpServletResponse res = (HttpServletResponse) response;
 

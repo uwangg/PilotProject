@@ -15,9 +15,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan(basePackages = {"com.zum.pilot"}) //  <context:component-scan base-package="com.zum.pilot" />
 public class DispatcherServletConfig extends WebMvcConfigurerAdapter{
 
+  @Bean
+  public AuthLoginInterceptor authLoginInterceptor() {
+    return new AuthLoginInterceptor();
+  }
+
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(new AuthLoginInterceptor()).addPathPatterns("/user/login");
+    registry.addInterceptor(authLoginInterceptor()).addPathPatterns("/user/login");
     registry.addInterceptor(new AuthLogoutInterceptor()).addPathPatterns("/user/logout");
   }
 

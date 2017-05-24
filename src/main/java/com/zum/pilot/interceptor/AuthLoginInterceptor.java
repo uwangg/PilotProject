@@ -1,6 +1,5 @@
 package com.zum.pilot.interceptor;
 
-import com.zum.pilot.dao.UserDao;
 import com.zum.pilot.service.UserService;
 import com.zum.pilot.util.SecurityUtil;
 import com.zum.pilot.vo.UserVo;
