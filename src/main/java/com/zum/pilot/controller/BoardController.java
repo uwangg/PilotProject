@@ -23,7 +23,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.util.List;
 
 @Controller
 @RequestMapping("/board")

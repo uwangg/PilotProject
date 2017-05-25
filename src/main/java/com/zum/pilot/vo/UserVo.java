@@ -1,12 +1,24 @@
 package com.zum.pilot.vo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "user")
 public class UserVo {
+  @Id
   private Long id;    // 유저 id
   private String email;    // 유저 이메일
   private String name;    // 유저 닉네임
+
+  @Column(name = "passwd")
   private String password;    // 유저 비밀번호
+  @Column(name = "create_time")
   private String createTime;    // 가입일
-  private String updatetime;    // 회원수정일
+  @Column(name = "update_time")
+  private String updateTime;    // 회원수정일
 
   public UserVo() {
   }
@@ -58,12 +70,12 @@ public class UserVo {
     this.createTime = createTime;
   }
 
-  public String getUpdatetime() {
-    return updatetime;
+  public String getUpdateTime() {
+    return updateTime;
   }
 
-  public void setUpdatetime(String updatetime) {
-    this.updatetime = updatetime;
+  public void setUpdateTime(String updateTime) {
+    this.updateTime = updateTime;
   }
 
 }
