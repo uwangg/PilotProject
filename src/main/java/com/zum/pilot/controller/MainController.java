@@ -2,7 +2,6 @@ package com.zum.pilot.controller;
 
 
 import com.zum.pilot.service.PostService;
-import com.zum.pilot.service.PostService2;
 import com.zum.pilot.util.Pagination;
 import com.zum.pilot.vo.PostVo;
 import org.slf4j.Logger;
@@ -23,9 +22,6 @@ public class MainController {
   @Autowired
   private PostService postService;
 
-  @Autowired
-  PostService2 postService2;
-
   @RequestMapping("")
   public String main(
           @RequestParam(value = "currentPage", defaultValue = "1") int currentPage, // 선택된 페이지 번호
@@ -34,8 +30,6 @@ public class MainController {
     // 게시글 불러오기
     Pagination<PostVo> pagination = postService.viewPage(currentPage);
 
-    PostVo postVo = postService2.findPostById(2L);
-    logger.info("jpa test = " + postVo.getTitle());
     model.addAttribute("pagination", pagination);
     return "forward:/WEB-INF/views/main/index.jsp";
   }

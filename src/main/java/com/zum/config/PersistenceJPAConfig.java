@@ -21,7 +21,7 @@ import java.util.Properties;
 @Configuration
 @PropertySource("classpath:application.properties")
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.zum.pilot")
+@EnableJpaRepositories(basePackages = "com.zum.pilot.dao")
 public class PersistenceJPAConfig {
   @Autowired
   private Environment env;
@@ -30,10 +30,14 @@ public class PersistenceJPAConfig {
   @Bean(destroyMethod = "close")
   public DataSource dataSource() throws Exception{
     BasicDataSource dataSource = new BasicDataSource();
-    dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-    dataSource.setUrl(env.getProperty("jdbc.url"));
-    dataSource.setUsername(env.getProperty("jdbc.username"));
-    dataSource.setPassword(env.getProperty("jdbc.password"));
+//    dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
+//    dataSource.setUrl(env.getProperty("jdbc.url"));
+//    dataSource.setUsername(env.getProperty("jdbc.username"));
+//    dataSource.setPassword(env.getProperty("jdbc.password"));
+    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+    dataSource.setUrl("jdbc:mysql://localhost:3306/pilot");
+    dataSource.setUsername("pilot");
+    dataSource.setPassword("pilot");
     return dataSource;
   }
 
