@@ -9,8 +9,11 @@ import java.util.List;
 import com.zum.db.JdbcTemplate;
 import com.zum.db.PreparedStatementSetter;
 import com.zum.db.RowMapper;
-import com.zum.pilot.vo.PostVo;
+import com.zum.pilot.entity.PostVo;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Repository
 public class PostDao {

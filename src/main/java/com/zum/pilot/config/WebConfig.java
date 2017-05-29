@@ -1,4 +1,4 @@
-package com.zum.config;
+package com.zum.pilot.config;
 
 import com.zum.pilot.interceptor.AuthInterceptor;
 import com.zum.pilot.interceptor.AuthLoginInterceptor;

@@ -35,7 +35,7 @@
 			<tr>
 				<td class="text-center">${vo.id}</td>
 				<td class="text-center">
-					<%-- <a href="${pageContext.request.contextPath }/board?action=view&id=${vo.id}&currentPageNum=${currentPageNum }&begin=${begin}"> --%>
+					<%-- <a href="${pageContext.request.contextPath }/board?action=view&id=${entity.id}&currentPageNum=${currentPageNum }&begin=${begin}"> --%>
 					<a href="${pageContext.request.contextPath }/board/${vo.id}">
 							${vo.title }</a></td>
 				<td class="text-center">${vo.userName}</td>

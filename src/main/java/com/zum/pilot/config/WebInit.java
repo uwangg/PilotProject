@@ -1,4 +1,4 @@
-package com.zum.config;
+package com.zum.pilot.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.WebApplicationContext;

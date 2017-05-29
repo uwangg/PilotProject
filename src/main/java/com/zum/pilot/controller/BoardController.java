@@ -3,12 +3,12 @@ package com.zum.pilot.controller;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.pilot.constant.BoardConstant;
-import com.zum.pilot.service.CommentService;
-import com.zum.pilot.service.PostService;
+import com.zum.pilot.service.CommentService2;
+import com.zum.pilot.service.PostService2;
 import com.zum.pilot.util.Pagination;
-import com.zum.pilot.vo.CommentVo;
-import com.zum.pilot.vo.PostVo;
-import com.zum.pilot.vo.UserVo;
+import com.zum.pilot.entity.CommentVo;
+import com.zum.pilot.entity.PostVo;
+import com.zum.pilot.entity.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +29,10 @@ import java.io.File;
 public class BoardController{
 
   @Autowired
-  private CommentService commentService;
+  private CommentService2 commentService2;
 
   @Autowired
-  private PostService postService;
+  private PostService2 postService2;
 
   @Autowired
   private  ServletContext context;
@@ -82,7 +82,7 @@ public class BoardController{
 
     // 게시글 입력
     PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
-    postService.insert(postVo);
+    postService2.insert(postVo);
     return "redirect:/board";
   }
 
@@ -106,7 +106,7 @@ public class BoardController{
         return post;
         }
     */
-    PostVo postVo = postService.readPost(postId);
+    PostVo postVo = postService2.readPost(postId);
 
     // 댓글 페이지네이션
 //    int totalPageNum = 0;    // 총 페이지 번호의 수
@@ -131,7 +131,7 @@ public class BoardController{
 //    model.addAttribute("totalPageNum", totalPageNum);
 //    model.addAttribute("currentPageNum", currentPageNum);
 //    model.addAttribute("pageNumUnit", pageNumUnit);
-    Pagination<CommentVo> pagination = commentService.viewComment(currentPage, postId);
+    Pagination<CommentVo> pagination = commentService2.viewComment(currentPage, postId);
     model.addAttribute("pagination", pagination);
 
     return "board/view";
@@ -145,7 +145,7 @@ public class BoardController{
     logger.info(BoardConstant.MODIFY_FORM);
 
     UserVo authUser = (UserVo) session.getAttribute("authUser");
-    PostVo vo = postService.getPost(postId);
+    PostVo vo = postService2.getPost(postId);
 
     // id값이 범위를 벗어날때
     if (vo == null) {
@@ -204,7 +204,7 @@ public class BoardController{
 
       // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
       if (changedImage) {
-        PostVo postVo = postService.getPost(id);
+        PostVo postVo = postService2.getPost(id);
 
         String uploadFileName = "D:\\test\\upload";
         File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
@@ -212,7 +212,7 @@ public class BoardController{
         if (uploadFile.exists() && uploadFile.isFile())
           uploadFile.delete();
       }
-      postService.update(vo);
+      postService2.update(vo);
     }
 
     return "redirect:/board/{postId}";
@@ -229,7 +229,7 @@ public class BoardController{
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
     // 이미지가 있다면 삭제
-    PostVo postVo = postService.getPost(postId);
+    PostVo postVo = postService2.getPost(postId);
 
     if (postVo.getUserId() == authId) {
       // 이미지가 있다면 삭제
@@ -242,7 +242,7 @@ public class BoardController{
           uploadFile.delete();
       }
       // 게시글 삭제
-      postService.delete(postId, authId);
+      postService2.delete(postId, authId);
     }
     return "redirect:/board";
   }
@@ -269,15 +269,15 @@ public class BoardController{
     commentVo.setDepth(depth);
 
     if (depth == 0) {    // 댓글을 다는 경우
-      thread = commentService.getMaxThread(postId);
+      thread = commentService2.getMaxThread(postId);
       thread = (thread / thrUnit) * thrUnit + thrUnit;
       commentVo.setThread(thread);
     } else {    // 답글을 다는 경우
       commentVo.setThread(thread);
       int preCommentThread = (thread / thrUnit) * thrUnit;
-      commentService.updateThread(preCommentThread, thread + 1);
+      commentService2.updateThread(preCommentThread, thread + 1);
     }
-    commentService.insert(commentVo);
+    commentService2.insert(commentVo);
     return "redirect:/board/{postId}";
   }
 
@@ -294,7 +294,7 @@ public class BoardController{
     commentVo.setId(commentId);
     commentVo.setContent(content);
     commentVo.setUserId(userId);
-    commentService.update(commentVo);
+    commentService2.update(commentVo);
 
     return "redirect:/board/{postId}";
   }
@@ -309,7 +309,7 @@ public class BoardController{
     UserVo authUser = (UserVo) session.getAttribute("authUser");
 
     Long userId = authUser.getId();
-    commentService.delete(commentId, userId);
+    commentService2.delete(commentId, userId);
 
     return "redirect:/board/{postId}";
   }

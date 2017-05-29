@@ -1,14 +1,13 @@
-package com.zum.pilot.vo;
+package com.zum.pilot.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
-public class UserVo {
+public class User {
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;    // 유저 id
   private String email;    // 유저 이메일
   private String name;    // 유저 닉네임
@@ -20,15 +19,10 @@ public class UserVo {
   @Column(name = "update_time")
   private String updateTime;    // 회원수정일
 
-  public UserVo() {
-  }
+//  private List<Post> posts;
+//  private List<Comment> comments;
 
-  public UserVo(String email, String name, String password) {
-    super();
-    this.email = email;
-    this.name = name;
-    this.password = password;
-  }
+//  @OneToMany(mappedBy = "Post", cascade = CascadeType.ALL)
 
   public Long getId() {
     return id;

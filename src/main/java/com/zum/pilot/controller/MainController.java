@@ -1,16 +1,25 @@
 package com.zum.pilot.controller;
 
 
+import com.zum.pilot.entity.Post;
 import com.zum.pilot.service.PostService;
+import com.zum.pilot.service.PostService2;
+import com.zum.pilot.service.UserService;
+import com.zum.pilot.util.PageConstant;
 import com.zum.pilot.util.Pagination;
-import com.zum.pilot.vo.PostVo;
+import com.zum.pilot.entity.PostVo;
+import com.zum.pilot.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/")
@@ -18,6 +27,9 @@ public class MainController {
 
   private final static Logger logger =
           LoggerFactory.getLogger(MainController.class);
+
+  @Autowired
+  private UserService userService;
 
   @Autowired
   private PostService postService;
@@ -28,9 +40,29 @@ public class MainController {
           Model model) {
 
     // 게시글 불러오기
-    Pagination<PostVo> pagination = postService.viewPage(currentPage);
+//    Pagination<PostVo> pagination = postService2.viewPage(currentPage);
 
+    PageRequest pageRequest = new PageRequest(currentPage, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "id");
+    Page<Post> page = postService.findAllPostList(pageRequest);
+    Pagination<Post> pagination = new Pagination<>(currentPage, page.getTotalPages(), page.getContent());
+//    System.out.println("pagenation : " + pagination.getTotalElements());
+
+//    User user = userService.findById(1L);
+//    logger.info("유저 이름 : " + user.getName());
     model.addAttribute("pagination", pagination);
     return "forward:/WEB-INF/views/main/index.jsp";
+  }
+
+  @ResponseBody
+  @RequestMapping("/test")
+  public Page<Post> main2(
+          @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
+
+    // 게시글 불러오기
+//    Pagination<PostVo> pagination = postService2.viewPage(currentPage);
+
+    PageRequest pageRequest = new PageRequest(currentPage, 10, Sort.Direction.DESC, "id");
+    Page<Post> pagination = postService.findAllPostList(pageRequest);
+    return pagination;
   }
 }

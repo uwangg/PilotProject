@@ -9,7 +9,7 @@ import java.util.List;
 import com.zum.db.JdbcTemplate;
 import com.zum.db.PreparedStatementSetter;
 import com.zum.db.RowMapper;
-import com.zum.pilot.vo.CommentVo;
+import com.zum.pilot.entity.CommentVo;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -1,25 +1,25 @@
-package com.zum.pilot.vo;
+package com.zum.pilot.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "post")
+//@Entity
+//@Table(name = "post1")
 public class PostVo {
-  @Id
+//  @Id
   private Long id;    // 게시글 id
   private String title;    // 게시글 제목
   private String content;    // 게시글 내용
-  @Column(name = "image_path")
+//  @Column(name = "image_path")
   private String imagePath;    // 게시글 이미지 주소
-  @Column(name = "create_time")
+//  @Column(name = "create_time")
   private String createTime;    // 작성일
-  @Column(name = "update_time")
+//  @Column(name = "update_time")
   private String updateTime;    // 수정일
   private Long hit;    // 조회수
-  @Column(name = "user_id")
+//  @Column(name = "user_id")
   private Long userId;    // 작성자 id
   private String userName;    // id로 찾은 유저이름
 

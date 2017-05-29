@@ -1,7 +1,13 @@
 package com.zum.pilot.dao;
 
-import com.zum.pilot.vo.PostVo;
-import org.springframework.data.repository.CrudRepository;
 
-public interface PostRepository extends CrudRepository<PostVo, Long> {
+import com.zum.pilot.entity.Post;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+
+@Repository
+public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
+//  Page<Post> findAllPostList(Pageable pageable);
+
 }

@@ -1,28 +1,28 @@
-package com.zum.pilot.vo;
+package com.zum.pilot.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "comment")
+//@Entity
+//@Table(name = "comment1")
 public class CommentVo {
-  @Id
+//  @Id
   private Long id;    // id
   private String content;    // 댓글 내용
-  @Column(name = "create_time")
+//  @Column(name = "create_time")
   private String createTime;    // 작성일
-  @Column(name = "update_time")
+//  @Column(name = "update_time")
   private String updateTime;    // 수정일
   private Integer thread;    // 댓글 순서
   private Integer depth;    // 답글 깊이
-  @Column(name = "user_id")
+//  @Column(name = "user_id")
   private Long userId;    // 작성자 id
-  @Column(name = "post_id")
+//  @Column(name = "post_id")
   private Long postId;    // 게시글 id
   private String userName;    // id로 찾은 유저이름
-  @Column(name = "delete_flag")
+//  @Column(name = "delete_flag")
   private Boolean deleteFlag;
 
   public Long getId() {
