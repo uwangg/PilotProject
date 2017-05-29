@@ -1,5 +1,7 @@
 package com.zum.pilot.interceptor;
 
+import com.zum.pilot.entity.User;
+import com.zum.pilot.service.UserService;
 import com.zum.pilot.service.UserService2;
 import com.zum.pilot.util.SecurityUtil;
 import com.zum.pilot.entity.UserVo;
@@ -14,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
   @Autowired
-  private UserService2 userService2;
+  private UserService userService;
 
   private static final Logger logger =
           LoggerFactory.getLogger(AuthLoginInterceptor.class);
@@ -26,12 +28,12 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
     String email = request.getParameter("email");
     String password = SecurityUtil.encryptSHA256(request.getParameter("password"));
 
-    UserVo userVo = new UserVo();
+    User userVo = new User();
     userVo.setEmail(email);
     userVo.setPassword(password);
 
     // 유저정보 가져오기
-    UserVo authUser = userService2.get(userVo);
+    User authUser = userService.findByUser(userVo);
 
     // 로그인성공시
     if (authUser != null) {

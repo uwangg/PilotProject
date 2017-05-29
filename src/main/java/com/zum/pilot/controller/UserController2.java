@@ -2,11 +2,9 @@ package com.zum.pilot.controller;
 
 
 import com.zum.pilot.constant.UserConstant;
-import com.zum.pilot.entity.User;
-import com.zum.pilot.entity.UserVo;
-import com.zum.pilot.service.UserService;
 import com.zum.pilot.service.UserService2;
 import com.zum.pilot.util.SecurityUtil;
+import com.zum.pilot.entity.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +19,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/user2")
+public class UserController2 {
   @Autowired
-  private UserService userService;
+  private UserService2 userService2;
 
   private static final Logger logger =
-          LoggerFactory.getLogger(UserController.class);
+          LoggerFactory.getLogger(UserController2.class);
 
   @RequestMapping("")
   public String main() {
@@ -41,16 +39,20 @@ public class UserController {
   }
 
   @RequestMapping(value = "/"+ UserConstant.JOIN, method = RequestMethod.POST)
-  public String join(@RequestParam(value = "confirm", defaultValue = "") String confirm, @ModelAttribute User userVo, BindingResult result, Model model) {
+  public String join(@RequestParam(value = "confirm", defaultValue = "") String confirm, @ModelAttribute UserVo userVo, BindingResult result, Model model) {
     logger.info(UserConstant.JOIN);
-
+//    if(result.hasErrors()) {  // name, email, passwd, confirm이 빈칸인지 아닌지 검사
+//      model.addAttribute(result.getModel());
+//      model.addAttribute("userVo", userVo);
+//      return "user/" + UserConstant.JOIN;
+//    }
     if (!userVo.getPassword().equals(confirm)) {
       return "redirect:/user/" + UserConstant.JOIN;
     }
 
     userVo.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
     logger.info("통과");
-    userService.create(userVo);
+    userService2.insert(userVo);
 
     return "redirect:/user/"+UserConstant.JOIN_SUCCESS;
   }
@@ -68,7 +70,7 @@ public class UserController {
     logger.info(UserConstant.CHECK_EMAIL);
 
     // 이메일 중복체크
-    if(userService.checkEmail(email)) {
+    if(userService2.checkEmail(email)) {
       return "false";
     } else {
       return "true";
@@ -89,7 +91,7 @@ public class UserController {
     }
 
     // 회원 가입시 닉네임 중복체크
-    if (userService.checkName(name)) {
+    if (userService2.checkName(name)) {
       return "false"; // id 중복
     } else {
       return "true";
@@ -115,14 +117,14 @@ public class UserController {
 
   @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.POST)
   public String modify(
-          @ModelAttribute User userVo,
+          @ModelAttribute UserVo userVo,
           @RequestParam(value = "changePasswd", defaultValue = "") String changePassword,
           @RequestParam(value = "changeConfirm", defaultValue = "") String changeConfirm,
           HttpSession session,
           HttpServletResponse response ) {
     logger.info(UserConstant.MODIFY + "[POST]");
 
-    User authUser = (User) session.getAttribute("authUser");
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
 
     // 새 비밀번호 != 비밀번호 확인
     if (!changePassword.equals(changeConfirm)) {
@@ -138,7 +140,7 @@ public class UserController {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    if (!userService.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
+    if (!userService2.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
       logger.info("비밀번호가 틀렸습니다");
       out.println("<script language=\"javascript\">");
       out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user/modify\"");
@@ -150,9 +152,10 @@ public class UserController {
     authUser.setName(userVo.getName());
     authUser.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
 
-    if (!changePassword.equals("")) {
-      authUser.setPassword(SecurityUtil.encryptSHA256(changePassword));
-      userService.update(authUser);
+    if (changePassword.equals("")) {
+      userService2.update(authUser, "");
+    } else {
+      userService2.update(authUser, SecurityUtil.encryptSHA256(changePassword));
     }
 
     // 세션 정보 변경
@@ -189,7 +192,7 @@ public class UserController {
     }
 
     // id, password가 동일한지 체크
-    if (!userService.checkPassword(userVo.getId(), password)) {
+    if (!userService2.checkPassword(userVo.getId(), password)) {
       logger.info("비밀번호 틀림");
       out.println("<script language=\"javascript\">");
       out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user/withdrawal\"");
@@ -199,7 +202,7 @@ public class UserController {
     }
 
     // 동일하다면 삭제
-    userService.delete(userVo.getId(), password);
+    userService2.delete(userVo.getId(), password);
 
     //로그아웃 처리
     session.removeAttribute("authUser");    // 세션 삭제

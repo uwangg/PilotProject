@@ -4,12 +4,18 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user",
+        uniqueConstraints = {
+          @UniqueConstraint(columnNames = {"email", "name"})
+        }
+)
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;    // 유저 id
+  @Column(name = "email", nullable = false)
   private String email;    // 유저 이메일
+  @Column(name = "name", nullable = false)
   private String name;    // 유저 닉네임
 
   @Column(name = "passwd")
@@ -18,6 +24,8 @@ public class User {
   private String createTime;    // 가입일
   @Column(name = "update_time")
   private String updateTime;    // 회원수정일
+  @Column(name = "delete_flag")
+  private boolean deleteFlag;
 
 //  private List<Post> posts;
 //  private List<Comment> comments;
@@ -72,4 +80,11 @@ public class User {
     this.updateTime = updateTime;
   }
 
+  public boolean isDeleteFlag() {
+    return deleteFlag;
+  }
+
+  public void setDeleteFlag(boolean deleteFlag) {
+    this.deleteFlag = deleteFlag;
+  }
 }

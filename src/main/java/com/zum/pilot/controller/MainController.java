@@ -28,8 +28,6 @@ public class MainController {
   private final static Logger logger =
           LoggerFactory.getLogger(MainController.class);
 
-  @Autowired
-  private UserService userService;
 
   @Autowired
   private PostService postService;
