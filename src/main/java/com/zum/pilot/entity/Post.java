@@ -8,7 +8,10 @@ public class Post {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;    // 게시글 id
+
+  @Column(name = "title", nullable = false)
   private String title;    // 게시글 제목
+  @Column(name = "content")
   private String content;    // 게시글 내용
   @Column(name = "image_path")
   private String imagePath;    // 게시글 이미지 주소
@@ -16,7 +19,11 @@ public class Post {
   private String createTime;    // 작성일
   @Column(name = "update_time")
   private String updateTime;    // 수정일
+  @Column(name = "hit")
   private Long hit;    // 조회수
+  
+  @Column(name = "delete_flag")
+  private boolean deleteFlag;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
