@@ -1,6 +1,7 @@
 package com.zum.pilot.service.impl;
 
 import com.zum.pilot.dao.UserRepository;
+import com.zum.pilot.service.CommentService;
 import com.zum.pilot.service.PostService;
 import com.zum.pilot.service.UserService;
 import com.zum.pilot.entity.User;
@@ -16,6 +17,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private PostService postService;
+
+  @Autowired
+  private CommentService commentService;
 
   @Override
   public User findById(Long id) {
@@ -71,7 +75,8 @@ public class UserServiceImpl implements UserService {
     if(user != null) {
       user.setDeleteFlag(true);
       userRepository.save(user);
-      postService.deleteByUserId(user.getId());
+      postService.deleteByUserId(id);
+      commentService.deleteCommentByUserId(id);
     }
   }
 }

@@ -24,7 +24,7 @@ public class CommentServiceImpl implements CommentService{
 
   @Override
   public Comment getComment(Long commentId) {
-    return commentRepository.getOne(commentId);
+    return commentRepository.findByIdAndDeleteFlag(commentId, false);
   }
 
   @Override
@@ -71,11 +71,19 @@ public class CommentServiceImpl implements CommentService{
 
   @Override
   public void deleteCommentByUserId(Long userId) {
-
+    List<Comment> comments = commentRepository.findAllByUserIdAndDeleteFlag(userId);
+    for(Comment comment : comments) {
+      comment.setDeleteFlag(true);
+      commentRepository.save(comment);
+    }
   }
 
   @Override
   public void deleteCommentByPostId(Long postId) {
-
+    List<Comment> comments = commentRepository.findAllByUserIdAndDeleteFlag(postId);
+    for(Comment comment : comments) {
+      comment.setDeleteFlag(true);
+      commentRepository.save(comment);
+    }
   }
 }

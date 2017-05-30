@@ -2,6 +2,7 @@ package com.zum.pilot.service.impl;
 
 import com.zum.pilot.dao.PostRepository;
 import com.zum.pilot.entity.Post;
+import com.zum.pilot.service.CommentService;
 import com.zum.pilot.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,9 @@ public class PostServiceImpl implements PostService {
   @Autowired
   private PostRepository postRepository;
 
+  @Autowired
+  private CommentService commentService;
+
   // 게시글 페이지네이션
   @Override
   public Page<Post> findAllPostList(Pageable pageable) {
@@ -24,6 +28,7 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
+  @Transactional
   public Post readPost(Long id) {;
     // 게시글 불러오기
     Post post = postRepository.findOne(id);
@@ -63,12 +68,13 @@ public class PostServiceImpl implements PostService {
     post.setDeleteFlag(true);
     // 게시글 삭제
     postRepository.save(post);
+    commentService.deleteCommentByPostId(postId);
   }
 
   @Override
   @Transactional
   public void deleteByUserId(Long userId) {
-    List<Post> posts = postRepository.findAllByUserIdAndDeleteFlag(userId, false);
+    List<Post> posts = postRepository.findAllByUserIdAndDeleteFlag(userId);
     for(Post post : posts) {
       post.setDeleteFlag(true);
       postRepository.save(post);
