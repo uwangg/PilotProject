@@ -5,5 +5,5 @@ import com.zum.pilot.entity.Post;
 import java.util.List;
 
 public interface PostRepositoryCustom {
-  Post getTotalPosts();
+  List<Post> findAllByUserIdAndDeleteFlag(Long userId, boolean deleteFlag);
 }

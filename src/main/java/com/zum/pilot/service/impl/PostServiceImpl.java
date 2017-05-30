@@ -18,10 +18,7 @@ public class PostServiceImpl implements PostService {
 
   // 게시글 페이지네이션
   @Override
-  @Transactional
   public Page<Post> findAllPostList(Pageable pageable) {
-//    Post post = postRepository.getTotalPosts();
-//    Page<Post> posts =postRepository.findAll(pageable);
     Page<Post> posts = postRepository.findAllByDeleteFlag(false, pageable);
     return posts;
   }
@@ -69,7 +66,12 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
+  @Transactional
   public void deleteByUserId(Long userId) {
-
+    List<Post> posts = postRepository.findAllByUserIdAndDeleteFlag(userId, false);
+    for(Post post : posts) {
+      post.setDeleteFlag(true);
+      postRepository.save(post);
+    }
   }
 }

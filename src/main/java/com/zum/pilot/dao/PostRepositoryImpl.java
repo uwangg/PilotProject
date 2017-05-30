@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -16,7 +17,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
   @Override
   @Transactional
-  public Post getTotalPosts() {
-    return em.find(Post.class, 1L);
+  public List<Post> findAllByUserIdAndDeleteFlag(Long userId, boolean deleteFlag) {
+    final String queryString = "select p from Post p where p.user.id=:userId and p.deleteFlag=:deleteFlag";
+    TypedQuery<Post> query = em.createQuery(queryString, Post.class);
+    query.setParameter("userId", userId);
+    query.setParameter("deleteFlag", false);
+    List<Post> posts = query.getResultList();
+    return posts;
   }
 }
