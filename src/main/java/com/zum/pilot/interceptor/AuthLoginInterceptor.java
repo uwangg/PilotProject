@@ -28,12 +28,9 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
     String email = request.getParameter("email");
     String password = SecurityUtil.encryptSHA256(request.getParameter("password"));
 
-    User userVo = new User();
-    userVo.setEmail(email);
-    userVo.setPassword(password);
-
     // 유저정보 가져오기
-    User authUser = userService.findByUser(userVo);
+    User authUser = userService.checkEmailAndPassword(email, password);
+    logger.info("유저 이름 : " + authUser.getName() + ", 유저 이메일 : " + authUser.getEmail());
 
     // 로그인성공시
     if (authUser != null) {
