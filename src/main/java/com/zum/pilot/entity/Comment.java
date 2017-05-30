@@ -1,6 +1,7 @@
 package com.zum.pilot.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "comment")
@@ -10,16 +11,12 @@ public class Comment {
   private Long id;    // id
   private String content;    // 댓글 내용
   @Column(name = "create_time")
-  private String createTime;    // 작성일
+  private Date createTime;    // 작성일
   @Column(name = "update_time")
-  private String updateTime;    // 수정일
+  private Date updateTime;    // 수정일
   private Integer thread;    // 댓글 순서
   private Integer depth;    // 답글 깊이
-//  @Column(name = "user_id")
-//  private Long userId;    // 작성자 id
-//  @Column(name = "post_id")
-//  private Long postId;    // 게시글 id
-  private String userName;    // id로 찾은 유저이름
+
   @Column(name = "delete_flag")
   private Boolean deleteFlag;
 
@@ -48,22 +45,6 @@ public class Comment {
     this.content = content;
   }
 
-  public String getCreateTime() {
-    return createTime;
-  }
-
-  public void setCreateTime(String createTime) {
-    this.createTime = createTime;
-  }
-
-  public String getUpdateTime() {
-    return updateTime;
-  }
-
-  public void setUpdateTime(String updateTime) {
-    this.updateTime = updateTime;
-  }
-
   public Integer getThread() {
     return thread;
   }
@@ -78,14 +59,6 @@ public class Comment {
 
   public void setDepth(Integer depth) {
     this.depth = depth;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
   }
 
   public Boolean getDeleteFlag() {
@@ -110,5 +83,25 @@ public class Comment {
 
   public void setPost(Post post) {
     this.post = post;
+  }
+
+  @PrePersist
+  protected void onCreate() {
+    updateTime = createTime = new Date();
+    deleteFlag = false;
+    if(content == null)
+      content = "";
+  }
+  @PreUpdate
+  protected void onUpdate() {
+    updateTime = new Date();
+  }
+
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+  public Date getUpdateTime() {
+    return updateTime;
   }
 }

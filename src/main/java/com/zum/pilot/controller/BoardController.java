@@ -169,12 +169,10 @@ public class BoardController {
 
     try {
       multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
-//      id = Long.parseLong(multi.getParameter("id"));
       title = multi.getParameter("title");
       content = multi.getParameter("content");
       oldPath = multi.getParameter("oldImgPath");
       imagePath = multi.getFilesystemName("imagePath");
-//      logger.info("oldpath = " + oldPath + ", imagePath = " + imagePath);
       if ("".equals(imagePath) || imagePath == null)
         imagePath = oldPath;
       else {
@@ -191,7 +189,6 @@ public class BoardController {
     if (authUser.getId() == userId) {
       // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
       if (changedImage) {
-//        PostVo postVo = postService2.getPost(id);
         Post prePost = postService.getPost(postId);
         String uploadFileName = "D:\\test\\upload";
         File uploadFile = new File(uploadFileName + "/" + prePost.getImagePath());
@@ -214,7 +211,6 @@ public class BoardController {
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
     // 이미지가 있다면 삭제
-//    PostVo postVo = postService2.getPost(postId);
     Post post = postService.getPost(postId);
 
     if (post.getUserId() == authId) {
@@ -228,7 +224,6 @@ public class BoardController {
           uploadFile.delete();
       }
       // 게시글 삭제
-//      postService2.delete(postId, authId);
       postService.deletePost(postId);
     }
     return "redirect:/board";
@@ -246,7 +241,7 @@ public class BoardController {
 
     logger.info("댓글 내용 : " + content);
     // 댓글 작성자 정보 가져오기
-    UserVo authUser = (UserVo) session.getAttribute("authUser");
+    User authUser = (User) session.getAttribute("authUser");
     Long userId = authUser.getId();
 
     CommentVo commentVo = new CommentVo();

@@ -16,9 +16,9 @@ public class Post {
   private String content;    // 게시글 내용
   @Column(name = "image_path")
   private String imagePath;    // 게시글 이미지 주소
-  @Column(name = "create_time", nullable = false)
+  @Column(name = "create_time")
   private Date createTime;    // 작성일
-  @Column(name = "update_time", nullable = false)
+  @Column(name = "update_time")
   private Date updateTime;    // 수정일
   @Column(name = "hit")
   private Long hit;    // 조회수

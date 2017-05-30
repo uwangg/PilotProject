@@ -22,10 +22,10 @@ public class User {
   @Column(name = "passwd")
   private String password;    // 유저 비밀번호
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "create_time", nullable = false)
+  @Column(name = "create_time")
   private Date createTime;    // 가입일
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "update_time", nullable = false)
+  @Column(name = "update_time")
   @UpdateTimestamp
   private Date updateTime;    // 회원수정일
   @Column(name = "delete_flag")
