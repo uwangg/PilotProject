@@ -1,6 +1,11 @@
 package com.zum.pilot.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,10 +25,13 @@ public class User {
 
   @Column(name = "passwd")
   private String password;    // 유저 비밀번호
-  @Column(name = "create_time")
-  private String createTime;    // 가입일
-  @Column(name = "update_time")
-  private String updateTime;    // 회원수정일
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "create_time", nullable = false)
+  private Date createTime;    // 가입일
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "update_time", nullable = false)
+  @UpdateTimestamp
+  private Date updateTime;    // 회원수정일
   @Column(name = "delete_flag")
   private boolean deleteFlag;
 
@@ -64,27 +72,28 @@ public class User {
     this.password = password;
   }
 
-  public String getCreateTime() {
-    return createTime;
-  }
-
-  public void setCreateTime(String createTime) {
-    this.createTime = createTime;
-  }
-
-  public String getUpdateTime() {
-    return updateTime;
-  }
-
-  public void setUpdateTime(String updateTime) {
-    this.updateTime = updateTime;
-  }
-
   public boolean isDeleteFlag() {
     return deleteFlag;
   }
 
   public void setDeleteFlag(boolean deleteFlag) {
     this.deleteFlag = deleteFlag;
+  }
+
+  @PrePersist
+  protected void onCreate() {
+    updateTime = createTime = new Date();
+  }
+  @PreUpdate
+  protected void onUpdate() {
+    updateTime = new Date();
+  }
+
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+  public Date getUpdateTime() {
+    return updateTime;
   }
 }
