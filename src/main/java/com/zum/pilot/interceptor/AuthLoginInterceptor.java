@@ -30,7 +30,6 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 
     // 유저정보 가져오기
     User authUser = userService.checkEmailAndPassword(email, password);
-    logger.info("유저 이름 : " + authUser.getName() + ", 유저 이메일 : " + authUser.getEmail());
 
     // 로그인성공시
     if (authUser != null) {

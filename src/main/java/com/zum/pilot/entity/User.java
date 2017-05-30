@@ -9,11 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "user",
-        uniqueConstraints = {
-          @UniqueConstraint(columnNames = {"email", "name"})
-        }
-)
+@Table(name = "user")
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

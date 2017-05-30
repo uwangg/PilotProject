@@ -179,7 +179,7 @@ public class UserController {
     logger.info(UserConstant.WITHDRAWAL);
 
     // db에서 회원정보 삭제
-    UserVo userVo = (UserVo) session.getAttribute("authUser");
+    User userVo = (User) session.getAttribute("authUser");
     password = SecurityUtil.encryptSHA256(password);  // 패스워드 암호화
 
     response.setCharacterEncoding("UTF-8");
