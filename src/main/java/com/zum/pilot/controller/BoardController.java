@@ -4,13 +4,18 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.pilot.constant.BoardConstant;
 import com.zum.pilot.entity.*;
+import com.zum.pilot.service.CommentService;
 import com.zum.pilot.service.CommentService2;
 import com.zum.pilot.service.PostService;
 import com.zum.pilot.service.PostService2;
+import com.zum.pilot.util.PageConstant;
 import com.zum.pilot.util.Pagination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +27,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.List;
 
 @Controller
 @RequestMapping("/board")
@@ -35,6 +41,9 @@ public class BoardController {
 
   @Autowired
   private PostService postService;
+
+  @Autowired
+  private CommentService commentService;
 
   @Autowired
   private  ServletContext context;
@@ -112,32 +121,24 @@ public class BoardController {
         return post;
         }
     */
-    PostVo postVo = postService2.readPost(postId);
-
+//    PostVo postVo = postService2.readPost(postId);
+      Post post = postService.readPost(postId);
     // 댓글 페이지네이션
-//    int totalPageNum = 0;    // 총 페이지 번호의 수
-//    int commentUnit = 10;    // 한 페이지당 보여줄 글의 최대 갯수
-//    int pageNumUnit = 5;    // 한 페이지 블락당 보여줄 번호의 최대 갯수
-//    int end = 1;
-//
-//    // 게시물 id에 맞는 댓글 불러오기
-//    List<CommentVo> commentList = null;
-//    totalPageNum = commentService.totalNumberOfPage(postId, commentUnit);
-//    commentList = commentService.getList(postId, (totalPageNum - currentPageNum) * commentUnit, commentUnit);
-//
-//    // 끝페이지 가져오기
-//    end = (begin - 1) + pageNumUnit;
-//    if (end > totalPageNum)
-//      end = totalPageNum;
-//
-    model.addAttribute("postVo", postVo);
+    model.addAttribute("postVo", post);
 //    model.addAttribute("commentList", commentList);
 //    model.addAttribute("begin", begin);
 //    model.addAttribute("end", end);
 //    model.addAttribute("totalPageNum", totalPageNum);
 //    model.addAttribute("currentPageNum", currentPageNum);
 //    model.addAttribute("pageNumUnit", pageNumUnit);
-    Pagination<CommentVo> pagination = commentService2.viewComment(currentPage, postId);
+
+    PageRequest pageRequest = new PageRequest(currentPage-1, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "id");
+    Page<Comment> page = commentService.findAllCommentList(postId, pageRequest);
+    List<Comment> comments = page.getContent();
+    Long totalComments = page.getTotalElements();
+    Pagination<Comment> pagination = new Pagination<>(currentPage, totalComments, comments);
+
+//    Pagination<CommentVo> pagination = commentService2.viewComment(currentPage, postId);
     model.addAttribute("pagination", pagination);
 
     return "board/view";

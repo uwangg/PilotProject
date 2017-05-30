@@ -28,19 +28,14 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public Post readPost(Long id) {
-//    Post post = dao.getPost(postId);
-//    post.read();
-//    Post.read {
-//      readCnt ++;
-//      if (readCnt > threshold) bestPost = true;
-//    }
-//    dao.update(post);
-//    return post;
+  public Post readPost(Long id) {;
     // 게시글 불러오기
+    Post post = postRepository.findOne(id);
     // 게시글 조회수 증가
+    Long hit = post.getHit() + 1;
+    post.setHit(hit);
     // 게시글 업데이트
-    return null;
+    return postRepository.save(post);
   }
 
   @Override
