@@ -20,11 +20,11 @@ public interface PostService {
   @Transactional
   Post readPost(Long id);
 
-  Post getPost(Long number); // 게시글 번호에 맞는 게시물 정보 가져오기
+  Post getPost(Long id); // 게시글 번호에 맞는 게시물 정보 가져오기
 
   void create(Post vo); // 게시글 등록
 
-  void update(Post vo); // 게시글 수정
+  void modifyPost(Long postId, String title, String content, String imagePath); // 게시글 수정
 
   @Transactional
   void delete(Long postId, Long userId); // 게시글 삭제

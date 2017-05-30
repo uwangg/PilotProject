@@ -31,6 +31,7 @@ public class Post {
   private User user;
 //
 //  private List<Comment> comments;
+  public Post() {}
 
   public Long getId() {
     return id;
@@ -103,4 +104,6 @@ public class Post {
     return updateTime;
   }
 
+  public Long getUserId() { return user.getId(); }
+  public String getUserName() {return user.getName();}
 }

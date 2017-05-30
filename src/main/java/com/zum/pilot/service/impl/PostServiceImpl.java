@@ -39,8 +39,8 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public Post getPost(Long number) {
-    return null;
+  public Post getPost(Long id) {
+    return postRepository.findOne(id);
   }
 
   @Override
@@ -49,8 +49,15 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public void update(Post vo) {
-    postRepository.save(vo);
+  @Transactional
+  public void modifyPost(Long postId, String title, String content, String imagePath) {
+    Post post = postRepository.findOne(postId);
+    post.setTitle(title);
+    post.setContent(content);
+    if(imagePath == null)
+      imagePath = "";
+    post.setImagePath(imagePath);
+    postRepository.save(post);
   }
 
   @Override

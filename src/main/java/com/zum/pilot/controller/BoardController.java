@@ -110,35 +110,16 @@ public class BoardController {
           Model model) {
     logger.info(BoardConstant.VIEW);
     // 게시글 id를 이용해 게시물 불러오기
-    /* service.readPost(postId) {
-        Post post = dao.getPost(postId);
-        post.read();
-        Post.read {
-          readCnt ++;
-          if (readCnt > threshold) bestPost = true;
-        }
-        dao.update(post);
-        return post;
-        }
-    */
-//    PostVo postVo = postService2.readPost(postId);
       Post post = postService.readPost(postId);
-    // 댓글 페이지네이션
-    model.addAttribute("postVo", post);
-//    model.addAttribute("commentList", commentList);
-//    model.addAttribute("begin", begin);
-//    model.addAttribute("end", end);
-//    model.addAttribute("totalPageNum", totalPageNum);
-//    model.addAttribute("currentPageNum", currentPageNum);
-//    model.addAttribute("pageNumUnit", pageNumUnit);
 
+      // 댓글 페이지네이션
     PageRequest pageRequest = new PageRequest(currentPage-1, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "id");
     Page<Comment> page = commentService.findAllCommentList(postId, pageRequest);
     List<Comment> comments = page.getContent();
     Long totalComments = page.getTotalElements();
     Pagination<Comment> pagination = new Pagination<>(currentPage, totalComments, comments);
 
-//    Pagination<CommentVo> pagination = commentService2.viewComment(currentPage, postId);
+    model.addAttribute("postVo", post);
     model.addAttribute("pagination", pagination);
 
     return "board/view";
@@ -151,18 +132,19 @@ public class BoardController {
                            HttpSession session) {
     logger.info(BoardConstant.MODIFY_FORM);
 
-    UserVo authUser = (UserVo) session.getAttribute("authUser");
-    PostVo vo = postService2.getPost(postId);
+    User authUser = (User) session.getAttribute("authUser");
+//    PostVo vo = postService2.getPost(postId);
+    Post post = postService.getPost(postId);
 
     // id값이 범위를 벗어날때
-    if (vo == null) {
+    if (post == null) {
       return "redirect:/board";
     }
     // 작성자와 로그인한 유저가 다를때
-    if (vo.getUserId() != authUser.getId()) {
+    if (post.getUser().getId() != authUser.getId()) {
       return "redirect:/board";
     }
-    model.addAttribute("vo", vo);
+    model.addAttribute("vo", post);
     return "board/" + BoardConstant.MODIFY;
   }
 
@@ -174,7 +156,7 @@ public class BoardController {
     // 업로드용 폴더 이름
     MultipartRequest multi = null;
     int maxSize = 5 * 1024 * 1024;    // 10M
-    Long id = -1L;
+//    Long id = -1L;
     String title = "";
     String content = "";
     String oldPath = "";
@@ -187,12 +169,13 @@ public class BoardController {
 
     try {
       multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
-      id = Long.parseLong(multi.getParameter("id"));
+//      id = Long.parseLong(multi.getParameter("id"));
       title = multi.getParameter("title");
       content = multi.getParameter("content");
-      oldPath = multi.getParameter("oldimgpath");
+      oldPath = multi.getParameter("oldImgPath");
       imagePath = multi.getFilesystemName("imagePath");
-      if (imagePath == null || imagePath.equals(""))
+//      logger.info("oldpath = " + oldPath + ", imagePath = " + imagePath);
+      if ("".equals(imagePath) || imagePath == null)
         imagePath = oldPath;
       else {
         changedImage = true;
@@ -203,25 +186,20 @@ public class BoardController {
     }
 
     HttpSession session = request.getSession();
-    UserVo authUser = (UserVo) session.getAttribute("authUser");
-
+    User authUser = (User) session.getAttribute("authUser");
     // 작성자만 수정 가능
     if (authUser.getId() == userId) {
-      PostVo vo = new PostVo(id, title, content, imagePath, userId);
-
       // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
       if (changedImage) {
-        PostVo postVo = postService2.getPost(id);
-
+//        PostVo postVo = postService2.getPost(id);
+        Post prePost = postService.getPost(postId);
         String uploadFileName = "D:\\test\\upload";
-        File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
-
+        File uploadFile = new File(uploadFileName + "/" + prePost.getImagePath());
         if (uploadFile.exists() && uploadFile.isFile())
           uploadFile.delete();
       }
-      postService2.update(vo);
+      postService.modifyPost(postId, title, content, imagePath);
     }
-
     return "redirect:/board/{postId}";
   }
 

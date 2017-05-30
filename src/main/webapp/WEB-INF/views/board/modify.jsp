@@ -20,7 +20,7 @@
 <!-- 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;"> -->
 		<input type="hidden" name="id" value="${vo.id }">
 		<input type="hidden" name="userId" value="${vo.userId }">
-		<input type="hidden" name="oldImgpath" value="${vo.imagePath }">
+		<input type="hidden" name="oldImgPath" value="${vo.imagePath }">
 		<div class="panel-title text-center" style="padding: 10px;">
 			<h2 class="title">글수정하기</h2>
 			<hr />
