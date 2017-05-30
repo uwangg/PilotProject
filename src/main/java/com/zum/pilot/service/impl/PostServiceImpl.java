@@ -2,9 +2,7 @@ package com.zum.pilot.service.impl;
 
 import com.zum.pilot.dao.PostRepository;
 import com.zum.pilot.entity.Post;
-import com.zum.pilot.entity.User;
 import com.zum.pilot.service.PostService;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +20,9 @@ public class PostServiceImpl implements PostService {
   @Override
   @Transactional
   public Page<Post> findAllPostList(Pageable pageable) {
-    Post post = postRepository.getTotalPosts();
-    Page<Post> posts =postRepository.findAll(pageable);
+//    Post post = postRepository.getTotalPosts();
+//    Page<Post> posts =postRepository.findAll(pageable);
+    Page<Post> posts = postRepository.findAllByDeleteFlag(false, pageable);
     return posts;
   }
 
@@ -40,7 +39,7 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public Post getPost(Long id) {
-    return postRepository.findOne(id);
+    return postRepository.findByIdAndDeleteFlag(id, false);
   }
 
   @Override
@@ -51,7 +50,7 @@ public class PostServiceImpl implements PostService {
   @Override
   @Transactional
   public void modifyPost(Long postId, String title, String content, String imagePath) {
-    Post post = postRepository.findOne(postId);
+    Post post = postRepository.findByIdAndDeleteFlag(postId, false);
     post.setTitle(title);
     post.setContent(content);
     if(imagePath == null)
@@ -61,12 +60,10 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public void delete(Long postId, Long userId) {
-    Post post = new Post();
-    post.setId(postId);
-    User user = new User();
-    user.getId();
-    post.setUser(user);
+  @Transactional
+  public void deletePost(Long postId) {
+    Post post = postRepository.findByIdAndDeleteFlag(postId, false);
+    post.setDeleteFlag(true);
     // 게시글 삭제
     postRepository.save(post);
   }

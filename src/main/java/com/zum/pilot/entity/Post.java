@@ -106,4 +106,12 @@ public class Post {
 
   public Long getUserId() { return user.getId(); }
   public String getUserName() {return user.getName();}
+
+  public boolean isDeleteFlag() {
+    return deleteFlag;
+  }
+
+  public void setDeleteFlag(boolean deleteFlag) {
+    this.deleteFlag = deleteFlag;
+  }
 }

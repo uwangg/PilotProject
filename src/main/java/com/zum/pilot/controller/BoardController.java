@@ -210,24 +210,26 @@ public class BoardController {
           HttpSession session) {
     logger.info(BoardConstant.DELETE);
 
-    UserVo authUser = (UserVo) session.getAttribute("authUser");
+    User authUser = (User) session.getAttribute("authUser");
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
     // 이미지가 있다면 삭제
-    PostVo postVo = postService2.getPost(postId);
+//    PostVo postVo = postService2.getPost(postId);
+    Post post = postService.getPost(postId);
 
-    if (postVo.getUserId() == authId) {
+    if (post.getUserId() == authId) {
       // 이미지가 있다면 삭제
-      if (postVo.getImagePath() != null && !postVo.getImagePath().equals("")) {
+      if (post.getImagePath() != null && !post.getImagePath().equals("")) {
         String uploadFileName = "D:\\test\\upload";
         logger.info("file path = " + uploadFileName);
-        File uploadFile = new File(uploadFileName + "/" + postVo.getImagePath());
+        File uploadFile = new File(uploadFileName + "/" + post.getImagePath());
 
         if (uploadFile.exists() && uploadFile.isFile())
           uploadFile.delete();
       }
       // 게시글 삭제
-      postService2.delete(postId, authId);
+//      postService2.delete(postId, authId);
+      postService.deletePost(postId);
     }
     return "redirect:/board";
   }
