@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/")
 public class MainController {
@@ -40,8 +42,12 @@ public class MainController {
     // 게시글 불러오기
 //    Pagination<PostVo> pagination = postService2.viewPage(currentPage);
 
-    PageRequest pageRequest = new PageRequest(currentPage, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "id");
+    PageRequest pageRequest = new PageRequest(0, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "id");
     Page<Post> page = postService.findAllPostList(pageRequest);
+    List<Post> list = page.getContent();
+//    logger.info("list[0] : "+list.size());
+//    logger.info("list[0] : "+list.get(0).getTitle());
+//    logger.info("list[0] : "+list.get(0).getUser().getName());
     Pagination<Post> pagination = new Pagination<>(currentPage, page.getTotalPages(), page.getContent());
 //    System.out.println("pagenation : " + pagination.getTotalElements());
 

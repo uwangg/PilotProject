@@ -26,8 +26,8 @@ public class Post {
   @Column(name = "delete_flag")
   private boolean deleteFlag = false;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
+  @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", updatable=false)
   private User user;
 //
 //  private List<Comment> comments;
@@ -102,4 +102,5 @@ public class Post {
   public Date getUpdateTime() {
     return updateTime;
   }
+
 }

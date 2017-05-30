@@ -92,4 +92,9 @@ public class User {
   public Date getUpdateTime() {
     return updateTime;
   }
+
+  @Override
+  public String toString() {
+    return this.name;
+  }
 }
