@@ -113,7 +113,7 @@ public class BoardController {
       Post post = postService.readPost(postId);
 
       // 댓글 페이지네이션
-    PageRequest pageRequest = new PageRequest(currentPage-1, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "id");
+    PageRequest pageRequest = new PageRequest(currentPage-1, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "thread");
     Page<Comment> page = commentService.findAllCommentList(postId, pageRequest);
     List<Comment> comments = page.getContent();
     Long totalComments = page.getTotalElements();
@@ -244,22 +244,29 @@ public class BoardController {
     User authUser = (User) session.getAttribute("authUser");
     Long userId = authUser.getId();
 
-    CommentVo commentVo = new CommentVo();
-    commentVo.setPostId(postId);
-    commentVo.setUserId(userId);
-    commentVo.setContent(content);
-    commentVo.setDepth(depth);
+    Comment comment = new Comment();
+    Post post = new Post();
+    post.setId(postId);
+    User user = new User();
+    user.setId(userId);
+    comment.setContent(content);
+    comment.setDepth(depth);
+    comment.setPost(post);
+    comment.setUser(user);
 
     if (depth == 0) {    // 댓글을 다는 경우
-      thread = commentService2.getMaxThread(postId);
+//      thread = commentService2.getMaxThread(postId);
+      thread = commentService.getMaxThread(postId);
       thread = (thread / thrUnit) * thrUnit + thrUnit;
-      commentVo.setThread(thread);
+      comment.setThread(thread);
     } else {    // 답글을 다는 경우
-      commentVo.setThread(thread);
+      comment.setThread(thread);
       int preCommentThread = (thread / thrUnit) * thrUnit;
-      commentService2.updateThread(preCommentThread, thread + 1);
+//      commentService2.updateThread(preCommentThread, thread + 1);
+      commentService.updateThread(preCommentThread, thread + 1);
     }
-    commentService2.insert(commentVo);
+//    commentService2.insert(commentVo);
+    commentService.writeComment(comment);
     return "redirect:/board/{postId}";
   }
 

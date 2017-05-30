@@ -104,4 +104,11 @@ public class Comment {
   public Date getUpdateTime() {
     return updateTime;
   }
+
+  public String getUserName() {
+    return this.user.getName();
+  }
+  public Long getUserId() {
+    return this.user.getId();
+  }
 }
