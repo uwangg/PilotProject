@@ -9,6 +9,7 @@ import com.zum.pilot.util.PageConstant;
 import com.zum.pilot.util.Pagination;
 import com.zum.pilot.entity.PostVo;
 import com.zum.pilot.entity.User;
+import javafx.geometry.Pos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,19 +41,13 @@ public class MainController {
           Model model) {
 
     // 게시글 불러오기
-//    Pagination<PostVo> pagination = postService2.viewPage(currentPage);
 
-    PageRequest pageRequest = new PageRequest(0, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "id");
+    PageRequest pageRequest = new PageRequest(currentPage-1, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "id");
     Page<Post> page = postService.findAllPostList(pageRequest);
-    List<Post> list = page.getContent();
-//    logger.info("list[0] : "+list.size());
-//    logger.info("list[0] : "+list.get(0).getTitle());
-//    logger.info("list[0] : "+list.get(0).getUser().getName());
-    Pagination<Post> pagination = new Pagination<>(currentPage, page.getTotalPages(), page.getContent());
-//    System.out.println("pagenation : " + pagination.getTotalElements());
+    List<Post> posts = page.getContent();
+    Long totalPosts = page.getTotalElements();
+    Pagination<Post> pagination = new Pagination<>(currentPage, totalPosts, posts);
 
-//    User user = userService.findById(1L);
-//    logger.info("유저 이름 : " + user.getName());
     model.addAttribute("pagination", pagination);
     return "forward:/WEB-INF/views/main/index.jsp";
   }
