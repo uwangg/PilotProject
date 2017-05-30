@@ -3,9 +3,7 @@ package com.zum.pilot.controller;
 
 import com.zum.pilot.constant.UserConstant;
 import com.zum.pilot.entity.User;
-import com.zum.pilot.entity.UserVo;
 import com.zum.pilot.service.UserService;
-import com.zum.pilot.service.UserService2;
 import com.zum.pilot.util.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

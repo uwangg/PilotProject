@@ -2,9 +2,7 @@ package com.zum.pilot.interceptor;
 
 import com.zum.pilot.entity.User;
 import com.zum.pilot.service.UserService;
-import com.zum.pilot.service.UserService2;
 import com.zum.pilot.util.SecurityUtil;
-import com.zum.pilot.entity.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
