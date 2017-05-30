@@ -292,10 +292,13 @@ public class BoardController {
                             HttpSession session) {
     logger.info(BoardConstant.COMMENT_DELETE);
 
-    UserVo authUser = (UserVo) session.getAttribute("authUser");
+    User authUser = (User) session.getAttribute("authUser");
 
     Long userId = authUser.getId();
-    commentService2.delete(commentId, userId);
+    Comment comment = commentService.getComment(commentId);
+    if(comment.getUserId() == userId) {
+      commentService.deleteComment(commentId);
+    }
 
     return "redirect:/board/{postId}";
   }
