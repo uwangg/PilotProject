@@ -3,11 +3,12 @@ package com.zum.pilot.controller;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.pilot.constant.BoardConstant;
-import com.zum.pilot.entity.*;
 import com.zum.pilot.service.CommentService2;
-import com.zum.pilot.service.PostService;
 import com.zum.pilot.service.PostService2;
 import com.zum.pilot.util.Pagination;
+import com.zum.pilot.entity.CommentVo;
+import com.zum.pilot.entity.PostVo;
+import com.zum.pilot.entity.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 
 @Controller
-@RequestMapping("/board")
-public class BoardController {
+@RequestMapping("/board2")
+public class BoardController2 {
 
   @Autowired
   private CommentService2 commentService2;
@@ -34,13 +35,10 @@ public class BoardController {
   private PostService2 postService2;
 
   @Autowired
-  private PostService postService;
-
-  @Autowired
   private  ServletContext context;
 
   private static final Logger logger =
-          LoggerFactory.getLogger(BoardController.class);
+          LoggerFactory.getLogger(BoardController2.class);
 
   @RequestMapping("")
   public String main() {
@@ -59,7 +57,7 @@ public class BoardController {
                     HttpServletRequest request) {
     logger.info(BoardConstant.WRITE);
 
-    User authUser = (User) session.getAttribute("authUser");
+    UserVo authUser = (UserVo) session.getAttribute("authUser");
 
     // 업로드용 폴더 이름
     MultipartRequest multi = null;
@@ -83,12 +81,8 @@ public class BoardController {
     }
 
     // 게시글 입력
-    Post post = new Post();
-    post.setTitle(title);
-    post.setContent(content);
-    post.setImagePath(imagePath);
-    post.setUser(authUser);
-    postService.create(post);
+    PostVo postVo = new PostVo(title, content, imagePath, authUser.getId());
+    postService2.insert(postVo);
     return "redirect:/board";
   }
 

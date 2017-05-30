@@ -1,12 +1,33 @@
 package com.zum.pilot.service;
 
+import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.entity.Post;
+import com.zum.pilot.entity.PostVo;
+import com.zum.pilot.util.PageConstant;
+import com.zum.pilot.util.Pagination;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface PostService {
 //  Pagination<PostVo> viewPage(int currentPage);
-  Page<Post> findAllPostList(Pageable pageable);
+  Page<Post> findAllPostList(Pageable pageable);  // 게시글 불러오기
+
+  // 게시글 읽기
+  @Transactional
+  Post readPost(Long id);
+
+  Post getPost(Long number); // 게시글 번호에 맞는 게시물 정보 가져오기
+
+  void create(Post vo); // 게시글 등록
+
+  void update(Post vo); // 게시글 수정
+
+  @Transactional
+  void delete(Long postId, Long userId); // 게시글 삭제
+
+  void deleteByUserId(Long userId); // 유저 번호에 맞는 게시글들 삭제
 }
