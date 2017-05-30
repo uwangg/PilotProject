@@ -255,17 +255,14 @@ public class BoardController {
     comment.setUser(user);
 
     if (depth == 0) {    // 댓글을 다는 경우
-//      thread = commentService2.getMaxThread(postId);
       thread = commentService.getMaxThread(postId);
       thread = (thread / thrUnit) * thrUnit + thrUnit;
       comment.setThread(thread);
     } else {    // 답글을 다는 경우
       comment.setThread(thread);
       int preCommentThread = (thread / thrUnit) * thrUnit;
-//      commentService2.updateThread(preCommentThread, thread + 1);
       commentService.updateThread(preCommentThread, thread + 1);
     }
-//    commentService2.insert(commentVo);
     commentService.writeComment(comment);
     return "redirect:/board/{postId}";
   }
@@ -276,15 +273,15 @@ public class BoardController {
                             @PathVariable Long commentId,
                             @RequestParam("content") String content,
                             HttpSession session) {
-    UserVo authUser = (UserVo) session.getAttribute("authUser");
+    User authUser = (User) session.getAttribute("authUser");
     Long userId = authUser.getId();
 
-    CommentVo commentVo = new CommentVo();
-    commentVo.setId(commentId);
-    commentVo.setContent(content);
-    commentVo.setUserId(userId);
-    commentService2.update(commentVo);
 
+    Comment comment = commentService.getComment(commentId);
+    if(comment.getUserId() == userId) {
+      comment.setContent(content);
+      commentService.modifyComment(comment);
+    }
     return "redirect:/board/{postId}";
   }
 

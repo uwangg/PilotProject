@@ -12,6 +12,8 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+  Comment findByIdAndDeleteFlag(Long commentId, boolean deleteFlag);
+
   Page<Comment> findAllByPostId(Long postId, Pageable pageable);
 
   @Query("select max(c.thread) from Comment c where c.post.id=:postId")

@@ -8,11 +8,12 @@ import org.springframework.data.domain.PageRequest;
 public interface CommentService {
   Page<Comment> findAllCommentList(Long postId, PageRequest pageRequest);
 
-  public int getMaxThread(Long postId);
-  public void updateThread(int begin, int end);
-  public void writeComment(Comment comment);
-  public void modifyComment(Comment comment);
-  public void deleteComment(Long commentId);
-  public void deleteCommentByUserId(Long userId);
-  public void deleteCommentByPostId(Long postId);
+  Comment getComment(Long commentId);
+  int getMaxThread(Long postId);
+  void updateThread(int begin, int end);
+  void writeComment(Comment comment);
+  void modifyComment(Comment comment);
+  void deleteComment(Long commentId);
+  void deleteCommentByUserId(Long userId);
+  void deleteCommentByPostId(Long postId);
 }

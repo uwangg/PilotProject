@@ -23,6 +23,11 @@ public class CommentServiceImpl implements CommentService{
   private CommentRepository commentRepository;
 
   @Override
+  public Comment getComment(Long commentId) {
+    return commentRepository.getOne(commentId);
+  }
+
+  @Override
   public Page<Comment> findAllCommentList(Long postId, PageRequest pageRequest) {
     return commentRepository.findAllByPostId(postId, pageRequest);
   }
