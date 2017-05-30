@@ -5,9 +5,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.zum.pilot.constant.BoardConstant;
 import com.zum.pilot.entity.*;
 import com.zum.pilot.service.CommentService;
-import com.zum.pilot.service.CommentService2;
 import com.zum.pilot.service.PostService;
-import com.zum.pilot.service.PostService2;
 import com.zum.pilot.util.PageConstant;
 import com.zum.pilot.util.Pagination;
 import org.slf4j.Logger;
@@ -32,12 +30,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-
-  @Autowired
-  private CommentService2 commentService2;
-
-  @Autowired
-  private PostService2 postService2;
 
   @Autowired
   private PostService postService;

@@ -3,13 +3,8 @@ package com.zum.pilot.controller;
 
 import com.zum.pilot.entity.Post;
 import com.zum.pilot.service.PostService;
-import com.zum.pilot.service.PostService2;
-import com.zum.pilot.service.UserService;
 import com.zum.pilot.util.PageConstant;
 import com.zum.pilot.util.Pagination;
-import com.zum.pilot.entity.PostVo;
-import com.zum.pilot.entity.User;
-import javafx.geometry.Pos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

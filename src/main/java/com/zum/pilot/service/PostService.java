@@ -1,16 +1,9 @@
 package com.zum.pilot.service;
 
-import com.zum.pilot.dao.PostDao;
 import com.zum.pilot.entity.Post;
-import com.zum.pilot.entity.PostVo;
-import com.zum.pilot.util.PageConstant;
-import com.zum.pilot.util.Pagination;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 public interface PostService {
 //  Pagination<PostVo> viewPage(int currentPage);
