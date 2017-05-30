@@ -25,7 +25,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new AuthInterceptor())
             .addPathPatterns("/user/*", "/board/**")
-            .excludePathPatterns("/board/*", "/user/login", "/user/join");
+            .excludePathPatterns("/board/*", "/user/login", "/user/join", "/user/checkemail", "/user/checkname");
     registry.addInterceptor(authLoginInterceptor()).addPathPatterns("/user/login");
     registry.addInterceptor(new AuthLogoutInterceptor()).addPathPatterns("/user/logout");
   }
