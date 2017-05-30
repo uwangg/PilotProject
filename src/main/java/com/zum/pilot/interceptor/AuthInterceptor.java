@@ -15,6 +15,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 //    return super.preHandle(request, response, handler);
+    logger.info("AuthInterceptor...................");
     HttpSession session = request.getSession();
     if(session.getAttribute("authUser") == null) {
       logger.info("로그인한 사용자가 아닙니다.");

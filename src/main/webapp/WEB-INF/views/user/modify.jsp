@@ -125,7 +125,7 @@
                     remote: "${pageContext.request.contextPath}/user/checkname"
                 },
                 password: {
-                    required: true,
+                    required: true
                 },
                 changePasswd: {
                     minlength: 6
@@ -141,7 +141,7 @@
                     remote: "존재하는 닉네임입니다"
                 },
                 password: {
-                    required: "필수입력사항입니다",
+                    required: "필수입력사항입니다"
                 },
                 changePasswd: {
                     minlength: "최소 {0}글자 이상이어야 합니다"

@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean checkEmail(String email) {
-    User user = userRepository.findUserByEmail(email, false);
+    User user = userRepository.findByEmailAndDeleteFlag(email, false);
     if(user == null)
       return false;
     else
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean checkName(String name) {
-    User user = userRepository.findUserByName(name, false);
+    User user = userRepository.findUserByNameAndDeleteFlag(name, false);
     if(user == null)
       return false;
     else
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean checkPassword(Long id, String password) {
-    User user = userRepository.findByIdAndPassword(id, password, false);
+    User user = userRepository.findByIdAndPasswordAndDeleteFlag(id, password, false);
     if(user == null)
       return false;
     else
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void delete(Long id, String password) {
-    User user = userRepository.findByIdAndPassword(id, password, false);
+    User user = userRepository.findByIdAndPasswordAndDeleteFlag(id, password, false);
     if(user != null) {
       user.setDeleteFlag(true);
       userRepository.save(user);

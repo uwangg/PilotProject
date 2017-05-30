@@ -81,17 +81,20 @@ public class UserController {
     logger.info(UserConstant.CHECK_NAME);
 
     // 회원 수정시 닉네임 중복체크
-    UserVo authUser = (UserVo) session.getAttribute("authUser");
+    User authUser = (User) session.getAttribute("authUser");
     if (authUser != null) {
       if (authUser.getName().equals(name)) {
+        logger.info("현재 유저명과 같음");
         return "true";
       }
     }
 
     // 회원 가입시 닉네임 중복체크
     if (userService.checkName(name)) {
+      logger.info("닉네임 중복입니다.");
       return "false"; // id 중복
     } else {
+      logger.info("가능한 닉네임");
       return "true";
     }
   }
@@ -152,8 +155,8 @@ public class UserController {
 
     if (!changePassword.equals("")) {
       authUser.setPassword(SecurityUtil.encryptSHA256(changePassword));
-      userService.update(authUser);
     }
+    userService.update(authUser);
 
     // 세션 정보 변경
     authUser.setPassword("");
