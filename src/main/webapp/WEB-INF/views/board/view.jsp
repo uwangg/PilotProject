@@ -40,7 +40,7 @@ h1 {
 
 				<!-- 작성자 -->
 				<p class="lead">
-				<h4>by. ${postVo.userName }</h4>
+				<h4>by. ${postVo.user.name }</h4>
 				</p>
 
 				<hr>
@@ -54,7 +54,7 @@ h1 {
 				<!-- 이미지 -->
 				<c:if test="${postVo.imagePath != null && postVo.imagePath != \"\"}">
 					<hr>
-					<img class="img-responsive" src="upload/${postVo.imagePath }"/`>
+					<img class="img-responsive" src="${pageContext.request.contextPath }/upload/${postVo.imagePath }"/>
 				</c:if>
 <%-- 				<c:choose>
 					<c:when test="${postVo.imagePath != null && postVo.imagePath != \"\"}">
@@ -86,7 +86,7 @@ h1 {
 				
 				<c:if test="${sessionScope.authUser != null }">
 				<!-- 댓글 작성폼 -->
-				<c:import url="/WEB-INF/views/board/comment/writeform.jsp"></c:import>
+				<c:import url="/WEB-INF/views/board/comment/write.jsp"></c:import>
 				</c:if>
 
 				<c:import url="/WEB-INF/views/board/comment/list.jsp"></c:import>
@@ -94,23 +94,23 @@ h1 {
 				<!-- 페이지네이션 -->
 				<div class="text-center">
 						<ul class="pagination">
-							<c:if test="${begin > 1 }">
-								<li><a href="${pageContext.request.contextPath}/board?action=view&id=${postVo.id }&begin=${begin-pageNumUnit}&currentPageNum=${currentPageNum-1}">&laquo;</a></li>
+							<c:if test="${pagination.begin > 1 }">
+								<li><a href="${pageContext.request.contextPath}/board/${postVo.id }?currentPage=${pagination.begin - 1}">&laquo;</a></li>
 							</c:if>
 							
-							<c:forEach begin="${begin }" end="${end }" step="1" var="count" >
+							<c:forEach begin="${pagination.begin }" end="${pagination.end }" step="1" var="count" >
 								<c:choose>
-									<c:when test="${currentPageNum == count }">
+									<c:when test="${pagination.currentPage == count }">
 										<li class="active"><a>${count }</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="${pageContext.request.contextPath}/board?action=view&id=${postVo.id }
-												&currentPageNum=${count}&begin=${begin}">${count }</a></li>
+										<li><a href="${pageContext.request.contextPath}/board/${postVo.id }
+												?currentPage=${count}">${count }</a></li>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
-							<c:if test="${end < totalPageNum }">
-								<li><a href="${pageContext.request.contextPath}/board?action=view&id=${postVo.id }&begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
+							<c:if test="${pagination.isEndPage eq 'false'}">
+								<li><a href="${pageContext.request.contextPath}/board/${postVo.id }?currentPage=${pagination.end + 1}">&raquo;</a></li>
 							</c:if>
 						</ul>
 					</div>
@@ -121,9 +121,9 @@ h1 {
 				<div class="text-right">
 					<a class="btn btn-success pull-left" href="${pageContext.request.contextPath}/" style="padding:">목록보기</a>
 					<c:choose>
-						<c:when test="${sessionScope.authUser.id == postVo.userId }">
-							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?action=modifyform&id=${postVo.id }">수정하기</a>
-							<a class="btn btn-success" href="${pageContext.request.contextPath}/board?action=delete&id=${postVo.id }&userId=${postVo.userId}">삭제하기</a>
+						<c:when test="${sessionScope.authUser.id == postVo.user.id }">
+							<a class="btn btn-success" href="${pageContext.request.contextPath}/board/${postVo.id }/modify">수정하기</a>
+							<a class="btn btn-success" href="${pageContext.request.contextPath}/board/${postVo.id}/delete">삭제하기</a>
 						</c:when>
 					</c:choose>
 				</div>

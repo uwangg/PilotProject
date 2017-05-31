@@ -1,34 +1,214 @@
 package com.zum.pilot.controller;
 
-import java.io.IOException;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
+import com.zum.pilot.constant.UserConstant;
+import com.zum.pilot.entity.User;
+import com.zum.pilot.service.UserService;
+import com.zum.pilot.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import com.zum.pilot.action.Action;
-import com.zum.pilot.action.ActionFactory;
-import com.zum.pilot.action.user.UserActionFactory;
+@Controller
+@RequestMapping("/user")
+public class UserController {
+  @Autowired
+  private UserService userService;
 
-@WebServlet("/user")
-public class UserController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+  private static final Logger logger =
+          LoggerFactory.getLogger(UserController.class);
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doAction(request, response);
-	}
+  @RequestMapping("")
+  public String main() {
+    return "redirect:/";
+  }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doAction(request, response);
-	}
+  // 회원가입
+  @RequestMapping(value = "/"+ UserConstant.JOIN, method = RequestMethod.GET)
+  public void joinForm() {
+    logger.info(UserConstant.JOIN_FORM);
+  }
 
-	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String actionName = request.getParameter("action");
-		ActionFactory actionFactory = UserActionFactory.INSTANCE;
-		Action action = actionFactory.getAction(actionName);
-		action.execute(request, response);
-	}
+  @RequestMapping(value = "/"+ UserConstant.JOIN, method = RequestMethod.POST)
+  public String join(@RequestParam(value = "confirm", defaultValue = "") String confirm, @ModelAttribute User userVo, BindingResult result, Model model) {
+    logger.info(UserConstant.JOIN);
+
+    if (!userVo.getPassword().equals(confirm)) {
+      return "redirect:/user/" + UserConstant.JOIN;
+    }
+
+    userVo.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
+    logger.info("통과");
+    userService.create(userVo);
+
+    return "redirect:/user/"+UserConstant.JOIN_SUCCESS;
+  }
+
+  @RequestMapping(value = UserConstant.JOIN_SUCCESS)
+  public String joinSuccess() {
+    logger.info(UserConstant.JOIN_SUCCESS);
+    return "user/" + UserConstant.JOIN_SUCCESS;
+  }
+
+  // 유효성 검사
+  @RequestMapping(value = UserConstant.CHECK_EMAIL)
+  @ResponseBody
+  public String checkEmail(@RequestParam("email") String email) {
+    logger.info(UserConstant.CHECK_EMAIL);
+
+    // 이메일 중복체크
+    if(userService.checkEmail(email)) {
+      return "false";
+    } else {
+      return "true";
+    }
+  }
+
+  @RequestMapping(value = UserConstant.CHECK_NAME)
+  @ResponseBody
+  public String checkName(@RequestParam("name") String name, HttpSession session) {
+    logger.info(UserConstant.CHECK_NAME);
+
+    // 회원 수정시 닉네임 중복체크
+    User authUser = (User) session.getAttribute("authUser");
+    if (authUser != null) {
+      if (authUser.getName().equals(name)) {
+        logger.info("현재 유저명과 같음");
+        return "true";
+      }
+    }
+
+    // 회원 가입시 닉네임 중복체크
+    if (userService.checkName(name)) {
+      logger.info("닉네임 중복입니다.");
+      return "false"; // id 중복
+    } else {
+      logger.info("가능한 닉네임");
+      return "true";
+    }
+  }
+
+  // 로그인 & 로그아웃
+  @RequestMapping(value = "/" + UserConstant.LOGIN, method = RequestMethod.POST)
+  public void login() {
+    logger.info(UserConstant.LOGIN);
+  }
+
+  @RequestMapping(value = UserConstant.LOGOUT)
+  public void logout() {
+    logger.info(UserConstant.LOGOUT);
+  }
+
+  // 회원 수정
+  @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.GET)
+  public void modifyForm() {
+    logger.info(UserConstant.MODIFY_FORM + "[GET]");
+  }
+
+  @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.POST)
+  public String modify(
+          @ModelAttribute User userVo,
+          @RequestParam(value = "changePasswd", defaultValue = "") String changePassword,
+          @RequestParam(value = "changeConfirm", defaultValue = "") String changeConfirm,
+          HttpSession session,
+          HttpServletResponse response ) {
+    logger.info(UserConstant.MODIFY + "[POST]");
+
+    User authUser = (User) session.getAttribute("authUser");
+
+    // 새 비밀번호 != 비밀번호 확인
+    if (!changePassword.equals(changeConfirm)) {
+      logger.info("새 비밀번호와 일치하지 않음");
+      return "redirect:/user/modify";
+    }
+
+    response.setCharacterEncoding("UTF-8");
+    response.setContentType("text/html; charset=UTF-8");
+    PrintWriter out = null;
+    try {
+      out = response.getWriter();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    if (!userService.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
+      logger.info("비밀번호가 틀렸습니다");
+      out.println("<script language=\"javascript\">");
+      out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user/modify\"");
+      out.println("</script>");
+      out.close();
+      return "redirect:/user/modify";
+    }
+    // 회원 수정
+    authUser.setName(userVo.getName());
+    authUser.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
+
+    if (!changePassword.equals("")) {
+      authUser.setPassword(SecurityUtil.encryptSHA256(changePassword));
+    }
+    userService.update(authUser);
+
+    // 세션 정보 변경
+    authUser.setPassword("");
+    session.setAttribute("authUser", authUser);
+
+    return "redirect:/";
+  }
+
+  // 회원탈퇴
+  @RequestMapping(value = UserConstant.WITHDRAWAL, method = RequestMethod.GET)
+  public void withdrawalForm() {
+    logger.info(UserConstant.WITHDRAWAL_FORM);
+  }
+
+  @RequestMapping(value = UserConstant.WITHDRAWAL, method = RequestMethod.POST)
+  public void withdrawal(
+          @RequestParam("password") String password,
+          HttpSession session,
+          HttpServletResponse response) {
+    logger.info(UserConstant.WITHDRAWAL);
+
+    // db에서 회원정보 삭제
+    User userVo = (User) session.getAttribute("authUser");
+    password = SecurityUtil.encryptSHA256(password);  // 패스워드 암호화
+
+    response.setCharacterEncoding("UTF-8");
+    response.setContentType("text/html; charset=UTF-8");
+    PrintWriter out = null;
+    try {
+      out = response.getWriter();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    // id, password가 동일한지 체크
+    if (!userService.checkPassword(userVo.getId(), password)) {
+      logger.info("비밀번호 틀림");
+      out.println("<script language=\"javascript\">");
+      out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user/withdrawal\"");
+      out.println("</script>");
+      out.close();
+      return;
+    }
+
+    // 동일하다면 삭제
+    userService.delete(userVo.getId(), password);
+
+    //로그아웃 처리
+    session.removeAttribute("authUser");    // 세션 삭제
+    session.invalidate();    // 세션 종료
+
+    out.println("<script language=\"javascript\">");
+    out.println("alert('회원탈퇴가 완료되었습니다.'); location.href=\"/pilot-project/\"");
+    out.println("</script>");
+    out.close();
+  }
 }

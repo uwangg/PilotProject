@@ -19,7 +19,7 @@
 <label for="accordion">댓글:</label>
 <div class="comment-group" id="accordion">
 
-	<c:forEach items="${commentList }" var="vo" varStatus="status">
+	<c:forEach items="${pagination.elemList }" var="vo" varStatus="status">
 		<c:choose>
 			<c:when test="${vo.deleteFlag == true }">
 				<c:import url="/WEB-INF/views/board/comment/deleted_comment.jsp">
@@ -40,7 +40,7 @@
 						</c:if>
 						<c:if test="${sessionScope.authUser.id == vo.userId }">
 						<a class="commentModify" id="${vo.id }">수정</a>
-						<a href="${pageContext.request.contextPath}/board?action=commentdelete&id=${vo.id}&postId=${postVo.id}">삭제</a>
+						<a href="${pageContext.request.contextPath}/board/${postVo.id}/commentdelete/${vo.id}">삭제</a>
 						
 						</c:if>
 					</small>
@@ -49,10 +49,7 @@
 					<c:if test="${vo.depth>0 }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 					${vo.content }</p>
 				<div class="modifyForm" id="modifyForm${vo.id }">
-					<form role="form" style="margin: 10px" method="post" action="${pageContext.request.contextPath}/board">
-					<input type="hidden" name="action" value="commentmodify">
-					<input type="hidden" name="id" value="${vo.id }">
-					<input type="hidden" name="postId" value="${postVo.id }">
+					<form role="form" style="margin: 10px" method="post" action="${pageContext.request.contextPath}/board/${postVo.id}/commentmodify/${vo.id}">
 						<div class="form-group">
 							<textarea rows="2" class="form-control" ng-model="user.comment" name="content">${vo.content }</textarea>
 						</div>
@@ -66,9 +63,7 @@
 			<div id="collapse${vo.id }" class="comment-collapse collapse">
 				<hr/>
 				<div class="panel-body">
-					<form role="form" method="post" action="${pageContext.request.contextPath}/board">
-					<input type="hidden" name="action" value="commentwrite">
-					<input type="hidden" name="postId" value="${postVo.id }">
+					<form role="form" method="post" action="${pageContext.request.contextPath}/board/${postVo.id}/commentwrite">
 					<input type="hidden" name="depth" value="${vo.depth+1 }">
 					<input type="hidden" name="thread" value="${vo.thread-1 }">
 						<div class="form-group">

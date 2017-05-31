@@ -31,14 +31,14 @@
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${postList }" var="vo" varStatus="status">
+		<c:forEach items="${pagination.elemList }" var="vo" varStatus="status">
 			<tr>
 				<td class="text-center">${vo.id}</td>
 				<td class="text-center">
-					<%-- <a href="${pageContext.request.contextPath }/board?action=view&id=${vo.id}&currentPageNum=${currentPageNum }&begin=${begin}"> --%>
-					<a href="${pageContext.request.contextPath }/board?action=view&id=${vo.id}">
+					<%-- <a href="${pageContext.request.contextPath }/board?action=view&id=${entity.id}&currentPageNum=${currentPageNum }&begin=${begin}"> --%>
+					<a href="${pageContext.request.contextPath }/board/${vo.id}">
 							${vo.title }</a></td>
-				<td class="text-center">${vo.userName}</td>
+				<td class="text-center">${vo.user.name}</td>
 				<td class="text-center">${vo.createTime}</td>
 				<td class="text-center">${vo.hit}</td>
 			</tr>
@@ -49,31 +49,30 @@
 
 	<c:choose>
 		<c:when test="${sessionScope.authUser != null }">
-			<a class="btn btn-success pull-right" href="${pageContext.request.contextPath}/board?action=writeform"
+			<a class="btn btn-success pull-right" href="${pageContext.request.contextPath}/board/write"
 				style="padding:">글쓰기</a>
 		</c:when>
 	</c:choose>
 
 	<div class="text-center">
 		<ul class="pagination">
-			<c:if test="${begin > 1 }">
-				<li><a href="${pageContext.request.contextPath}/?begin=${begin-pageNumUnit}&currentPageNum=${currentPageNum-1}">&laquo;</a></li>
+			<c:if test="${pagination.begin > 1 }">
+				<li><a href="${pageContext.request.contextPath}/?currentPage=${pagination.begin-1}">&laquo;</a></li>
 			</c:if>
-			
-			<c:forEach begin="${begin }" end="${end }" step="1" var="count" >
+
+			<c:forEach begin="${pagination.begin }" end="${pagination.end }" step="1" var="count" >
 				<c:choose>
-					<c:when test="${currentPageNum == count }">
+					<c:when test="${pagination.currentPage == count }">
 						<li class="active"><a>${count }</a></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="${pageContext.request.contextPath}/?
-								currentPageNum=${count}&begin=${begin}">${count }</a></li>
+						<li><a href="${pageContext.request.contextPath}/?currentPage=${count}">${count }</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
 
-			<c:if test="${end < totalPageNum }">
-				<li><a href="${pageContext.request.contextPath}/?begin=${begin+pageNumUnit}&currentPageNum=${begin+pageNumUnit}">&raquo;</a></li>
+			<c:if test="${pagination.isEndPage eq 'false'}">
+				<li><a href="${pageContext.request.contextPath}/?currentPage=${pagination.end+1}">&raquo;</a></li>
 			</c:if>
 		</ul>
 	</div>
