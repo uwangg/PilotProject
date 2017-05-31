@@ -19,7 +19,7 @@ import java.util.Properties;
 //@Import(value = {PersistenceJPAConfig.class})
 @ComponentScan(basePackages = {"com.zum.pilot"})
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.zum.pilot.dao")
+@EnableJpaRepositories(basePackages = "com.zum.pilot.repository")
 public class RootConfig {
   // jdbc에서 jpa로 변경 후 transaction 처리 할 예정
   // 아직 구현하지 않음

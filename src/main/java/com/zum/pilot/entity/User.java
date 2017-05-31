@@ -31,11 +31,6 @@ public class User {
   @Column(name = "delete_flag")
   private boolean deleteFlag;
 
-//  private List<Post> posts;
-//  private List<Comment> comments;
-
-//  @OneToMany(mappedBy = "Post", cascade = CascadeType.ALL)
-
   public Long getId() {
     return id;
   }

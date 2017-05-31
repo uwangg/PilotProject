@@ -1,6 +1,6 @@
 package com.zum.pilot.service.impl;
 
-import com.zum.pilot.dao.PostRepository;
+import com.zum.pilot.repository.PostRepository;
 import com.zum.pilot.entity.Post;
 import com.zum.pilot.service.CommentService;
 import com.zum.pilot.service.PostService;

@@ -1,4 +1,4 @@
-package com.zum.pilot.dao;
+package com.zum.pilot.repository;
 
 
 import com.zum.pilot.entity.Post;
@@ -16,7 +16,7 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
   Page<Post> findAllByDeleteFlag(boolean deleteFlag, Pageable pageable);
   Post findByIdAndDeleteFlag(Long id, boolean deleteFlag);
-//  List<Post> findAllByUser_UserIdIdAndDeleteFlag(Long id, boolean deleteFlag);
+
   @Query("select p from Post p where p.user.id=:userId and p.deleteFlag=0")
   List<Post> findAllByUserIdAndDeleteFlag(@Param("userId") Long userId);
 }

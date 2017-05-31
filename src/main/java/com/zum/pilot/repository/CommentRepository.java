@@ -1,4 +1,4 @@
-package com.zum.pilot.dao;
+package com.zum.pilot.repository;
 
 import com.zum.pilot.entity.Comment;
 import org.springframework.data.domain.Page;

@@ -46,17 +46,4 @@ public class MainController {
     model.addAttribute("pagination", pagination);
     return "forward:/WEB-INF/views/main/index.jsp";
   }
-
-  @ResponseBody
-  @RequestMapping("/test")
-  public Page<Post> main2(
-          @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
-
-    // 게시글 불러오기
-//    Pagination<PostVo> pagination = postService2.viewPage(currentPage);
-
-    PageRequest pageRequest = new PageRequest(currentPage, 10, Sort.Direction.DESC, "id");
-    Page<Post> pagination = postService.findAllPostList(pageRequest);
-    return pagination;
-  }
 }

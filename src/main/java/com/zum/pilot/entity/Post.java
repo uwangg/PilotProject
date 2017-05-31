@@ -29,8 +29,7 @@ public class Post {
   @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", updatable=false)
   private User user;
-//
-//  private List<Comment> comments;
+
   public Post() {}
 
   public Long getId() {

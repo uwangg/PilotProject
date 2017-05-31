@@ -1,6 +1,6 @@
 package com.zum.pilot.service.impl;
 
-import com.zum.pilot.dao.UserRepository;
+import com.zum.pilot.repository.UserRepository;
 import com.zum.pilot.service.CommentService;
 import com.zum.pilot.service.PostService;
 import com.zum.pilot.service.UserService;
@@ -20,11 +20,6 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private CommentService commentService;
-
-  @Override
-  public User findById(Long id) {
-    return userRepository.findOne(id);
-  }
 
   @Override
   public User checkEmailAndPassword(String email, String password) {

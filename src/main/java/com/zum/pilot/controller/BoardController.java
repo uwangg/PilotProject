@@ -98,7 +98,6 @@ public class BoardController {
   public String view(
           @PathVariable Long postId,  // 게시글 id
           @RequestParam(value = "currentPage", defaultValue = "1") int currentPage, // 현재 눌린 페이지 번호
-//          @RequestParam(value = "begin", defaultValue = "1") int begin, // 시작 페이지
           Model model) {
     logger.info(BoardConstant.VIEW);
     // 게시글 id를 이용해 게시물 불러오기
@@ -125,7 +124,6 @@ public class BoardController {
     logger.info(BoardConstant.MODIFY_FORM);
 
     User authUser = (User) session.getAttribute("authUser");
-//    PostVo vo = postService2.getPost(postId);
     Post post = postService.getPost(postId);
 
     // id값이 범위를 벗어날때

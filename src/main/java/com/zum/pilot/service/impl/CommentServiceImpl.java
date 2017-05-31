@@ -1,8 +1,7 @@
 package com.zum.pilot.service.impl;
 
-import com.zum.pilot.dao.CommentRepository;
+import com.zum.pilot.repository.CommentRepository;
 import com.zum.pilot.entity.Comment;
-import com.zum.pilot.entity.Post;
 import com.zum.pilot.service.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
