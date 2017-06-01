@@ -63,20 +63,20 @@ public class UserController {
   // 유효성 검사
   @RequestMapping(value = UserConstant.CHECK_EMAIL)
   @ResponseBody
-  public String checkEmail(@RequestParam("email") String email) {
+  public boolean checkEmail(@RequestParam("email") String email) {
     logger.info(UserConstant.CHECK_EMAIL);
 
     // 이메일 중복체크
     if(userService.checkEmail(email)) {
-      return "false";
+      return false;
     } else {
-      return "true";
+      return true;
     }
   }
 
   @RequestMapping(value = UserConstant.CHECK_NAME)
   @ResponseBody
-  public String checkName(@RequestParam("name") String name, HttpSession session) {
+  public boolean checkName(@RequestParam("name") String name, HttpSession session) {
     logger.info(UserConstant.CHECK_NAME);
 
     // 회원 수정시 닉네임 중복체크
@@ -84,17 +84,17 @@ public class UserController {
     if (authUser != null) {
       if (authUser.getName().equals(name)) {
         logger.info("현재 유저명과 같음");
-        return "true";
+        return true;
       }
     }
 
     // 회원 가입시 닉네임 중복체크
     if (userService.checkName(name)) {
       logger.info("닉네임 중복입니다.");
-      return "false"; // id 중복
+      return false; // id 중복
     } else {
       logger.info("가능한 닉네임");
-      return "true";
+      return true;
     }
   }
 
