@@ -38,16 +38,17 @@ public class UserController {
   }
 
   @RequestMapping(value = "/"+ UserConstant.JOIN, method = RequestMethod.POST)
-  public String join(@RequestParam(value = "confirm", defaultValue = "") String confirm, @ModelAttribute UserEntity userVo, BindingResult result, Model model) {
+  public String join(@RequestParam(value = "confirm", defaultValue = "") String confirm, 
+                     @ModelAttribute UserEntity userEntity, BindingResult result, Model model) {
     logger.info(UserConstant.JOIN);
 
-    if (!userVo.getPassword().equals(confirm)) {
+    if (!userEntity.getPassword().equals(confirm)) {
       return "redirect:/user/" + UserConstant.JOIN;
     }
 
-    userVo.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
+    userEntity.setPassword(SecurityUtil.encryptSHA256(userEntity.getPassword()));
     logger.info("통과");
-    userService.create(userVo);
+    userService.create(userEntity);
 
     return "redirect:/user/"+UserConstant.JOIN_SUCCESS;
   }
@@ -130,7 +131,7 @@ public class UserController {
 
   @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.POST)
   public String modify(
-          @ModelAttribute UserEntity userVo,
+          @ModelAttribute UserEntity userEntity,
           @RequestParam(value = "changePasswd", defaultValue = "") String changePassword,
           @RequestParam(value = "changeConfirm", defaultValue = "") String changeConfirm,
           HttpSession session,
@@ -145,15 +146,15 @@ public class UserController {
       return "redirect:/user/modify";
     }
 
-    if (!userService.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
+    if (!userService.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userEntity.getPassword()))) {
       String msg = "비밀번호가 틀렸습니다.";
       String url = "/user/modify";
       return "redirect:/user/modify";
     }
 
     // 회원 수정
-    authUser.setName(userVo.getName());
-    authUser.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
+    authUser.setName(userEntity.getName());
+    authUser.setPassword(SecurityUtil.encryptSHA256(userEntity.getPassword()));
 
     if (!changePassword.equals("")) {
       authUser.setPassword(SecurityUtil.encryptSHA256(changePassword));
@@ -181,12 +182,12 @@ public class UserController {
     logger.info(UserConstant.WITHDRAWAL);
 
     // db에서 회원정보 삭제
-    UserEntity userVo = (UserEntity) session.getAttribute("authUser");
+    UserEntity userEntity = (UserEntity) session.getAttribute("authUser");
     password = SecurityUtil.encryptSHA256(password);  // 패스워드 암호화
 
     response.setContentType("text/html; charset=UTF-8");
     // id, password가 동일한지 체크
-    if (!userService.checkPassword(userVo.getId(), password)) {
+    if (!userService.checkPassword(userEntity.getId(), password)) {
       String msg = "비밀번호가 틀렸습니다.";
       String url = "/user/withdrawal";
       alertScript(response, msg, url);
@@ -194,7 +195,7 @@ public class UserController {
     }
 
     // 동일하다면 삭제
-    userService.delete(userVo.getId(), password);
+    userService.delete(userEntity.getId(), password);
 
     //로그아웃 처리
     session.removeAttribute("authUser");    // 세션 삭제

@@ -51,7 +51,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="name" id="name"  placeholder="김은진" value="${userVo.name}"/>
+									<input type="text" class="form-control" name="name" id="name"  placeholder="김은진" value="${userEntity.name}"/>
 								</div>
 							</div>
 						</div>
@@ -62,7 +62,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input type="email" class="form-control" name="email" id="email"  placeholder="example@example.com" value="${userVo.email}"/>
+									<input type="email" class="form-control" name="email" id="email"  placeholder="example@example.com" value="${userEntity.email}"/>
 								</div>
 							</div>
 						</div>
