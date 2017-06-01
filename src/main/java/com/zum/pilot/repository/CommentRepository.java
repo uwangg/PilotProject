@@ -14,15 +14,15 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
   Comment findByIdAndDeleteFlag(Long commentId, boolean deleteFlag);
 
-  Page<Comment> findAllByPostId(Long postId, Pageable pageable);
+  Page<Comment> findAllByPostEntityId(Long postId, Pageable pageable);
 
-  @Query("select max(c.thread) from Comment c where c.post.id=:postId")
+  @Query("select max(c.thread) from Comment c where c.postEntity.id=:postId")
   Integer getMaxThread(@Param("postId") Long postId);
 
   List<Comment> findAllByThreadLessThanAndThreadGreaterThan(int begin, int end);
 
   @Query("select c from Comment c where c.user.id=:userId and c.deleteFlag=0")
   List<Comment> findAllByUserIdAndDeleteFlag(@Param("userId") Long userId);
-  @Query("select c from Comment c where c.post.id=:postId and c.deleteFlag=0")
-  List<Comment> findAllByPostIdAndDeleteFlag(Long postId);
+  @Query("select c from Comment c where c.postEntity.id=:postId and c.deleteFlag=0")
+  List<Comment> findAllByPostEntityIdAndDeleteFlag(Long postId);
 }

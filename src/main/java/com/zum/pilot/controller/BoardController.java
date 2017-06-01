@@ -84,12 +84,12 @@ public class BoardController {
     }
 
     // 게시글 입력
-    Post post = new Post();
-    post.setTitle(title);
-    post.setContent(content);
-    post.setImagePath(imagePath);
-    post.setUser(authUser);
-    postService.create(post);
+    PostEntity postEntity = new PostEntity();
+    postEntity.setTitle(title);
+    postEntity.setContent(content);
+    postEntity.setImagePath(imagePath);
+    postEntity.setUser(authUser);
+    postService.create(postEntity);
     return "redirect:/board";
   }
 
@@ -101,7 +101,7 @@ public class BoardController {
           Model model) {
     logger.info(BoardConstant.VIEW);
     // 게시글 id를 이용해 게시물 불러오기
-      Post post = postService.readPost(postId);
+      PostEntity postEntity = postService.readPost(postId);
 
       // 댓글 페이지네이션
     PageRequest pageRequest = new PageRequest(currentPage-1, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "thread");
@@ -110,7 +110,7 @@ public class BoardController {
     Long totalComments = page.getTotalElements();
     Pagination<Comment> pagination = new Pagination<>(currentPage, totalComments, comments);
 
-    model.addAttribute("postEntity", post);
+    model.addAttribute("postEntity", postEntity);
     model.addAttribute("pagination", pagination);
 
     return "board/view";
@@ -124,17 +124,17 @@ public class BoardController {
     logger.info(BoardConstant.MODIFY_FORM);
 
     User authUser = (User) session.getAttribute("authUser");
-    Post post = postService.getPost(postId);
+    PostEntity postEntity = postService.getPost(postId);
 
     // id값이 범위를 벗어날때
-    if (post == null) {
+    if (postEntity == null) {
       return "redirect:/board";
     }
     // 작성자와 로그인한 유저가 다를때
-    if (post.getUser().getId() != authUser.getId()) {
+    if (postEntity.getUser().getId() != authUser.getId()) {
       return "redirect:/board";
     }
-    model.addAttribute("vo", post);
+    model.addAttribute("postEntity", postEntity);
     return "board/" + BoardConstant.MODIFY;
   }
 
@@ -179,7 +179,7 @@ public class BoardController {
     if (authUser.getId() == userId) {
       // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
       if (changedImage) {
-        Post prePost = postService.getPost(postId);
+        PostEntity prePost = postService.getPost(postId);
         String uploadFileName = "D:\\test\\upload";
         File uploadFile = new File(uploadFileName + "/" + prePost.getImagePath());
         if (uploadFile.exists() && uploadFile.isFile())
@@ -201,14 +201,14 @@ public class BoardController {
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
     // 이미지가 있다면 삭제
-    Post post = postService.getPost(postId);
+    PostEntity postEntity = postService.getPost(postId);
 
-    if (post.getUserId() == authId) {
+    if (postEntity.getUserId() == authId) {
       // 이미지가 있다면 삭제
-      if (post.getImagePath() != null && !post.getImagePath().equals("")) {
+      if (postEntity.getImagePath() != null && !postEntity.getImagePath().equals("")) {
         String uploadFileName = "D:\\test\\upload";
         logger.info("file path = " + uploadFileName);
-        File uploadFile = new File(uploadFileName + "/" + post.getImagePath());
+        File uploadFile = new File(uploadFileName + "/" + postEntity.getImagePath());
 
         if (uploadFile.exists() && uploadFile.isFile())
           uploadFile.delete();
@@ -235,13 +235,13 @@ public class BoardController {
     Long userId = authUser.getId();
 
     Comment comment = new Comment();
-    Post post = new Post();
-    post.setId(postId);
+    PostEntity postEntity = new PostEntity();
+    postEntity.setId(postId);
     User user = new User();
     user.setId(userId);
     comment.setContent(content);
     comment.setDepth(depth);
-    comment.setPost(post);
+    comment.setPostEntity(postEntity);
     comment.setUser(user);
 
     if (depth == 0) {    // 댓글을 다는 경우

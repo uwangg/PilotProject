@@ -26,7 +26,7 @@ public class Comment {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "post_id")
-  private Post post;
+  private PostEntity postEntity;
 
 
   public Long getId() {
@@ -77,12 +77,12 @@ public class Comment {
     this.user = user;
   }
 
-  public Post getPost() {
-    return post;
+  public PostEntity getPostEntity() {
+    return postEntity;
   }
 
-  public void setPost(Post post) {
-    this.post = post;
+  public void setPostEntity(PostEntity postEntity) {
+    this.postEntity = postEntity;
   }
 
   @PrePersist

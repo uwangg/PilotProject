@@ -1,7 +1,7 @@
 package com.zum.pilot.service.impl;
 
 import com.zum.pilot.repository.PostRepository;
-import com.zum.pilot.entity.Post;
+import com.zum.pilot.entity.PostEntity;
 import com.zum.pilot.service.CommentService;
 import com.zum.pilot.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,62 +22,62 @@ public class PostServiceImpl implements PostService {
 
   // 게시글 페이지네이션
   @Override
-  public Page<Post> findAllPostList(Pageable pageable) {
-    Page<Post> posts = postRepository.findAllByDeleteFlag(false, pageable);
+  public Page<PostEntity> findAllPostList(Pageable pageable) {
+    Page<PostEntity> posts = postRepository.findAllByDeleteFlag(false, pageable);
     return posts;
   }
 
   @Override
   @Transactional
-  public Post readPost(Long id) {;
+  public PostEntity readPost(Long id) {;
     // 게시글 불러오기
-    Post post = postRepository.findOne(id);
+    PostEntity postEntity = postRepository.findOne(id);
     // 게시글 조회수 증가
-    Long hit = post.getHit() + 1;
-    post.setHit(hit);
+    Long hit = postEntity.getHit() + 1;
+    postEntity.setHit(hit);
     // 게시글 업데이트
-    return postRepository.save(post);
+    return postRepository.save(postEntity);
   }
 
   @Override
-  public Post getPost(Long id) {
+  public PostEntity getPost(Long id) {
     return postRepository.findByIdAndDeleteFlag(id, false);
   }
 
   @Override
-  public void create(Post vo) {
+  public void create(PostEntity vo) {
     postRepository.save(vo);
   }
 
   @Override
   @Transactional
   public void modifyPost(Long postId, String title, String content, String imagePath) {
-    Post post = postRepository.findByIdAndDeleteFlag(postId, false);
-    post.setTitle(title);
-    post.setContent(content);
+    PostEntity postEntity = postRepository.findByIdAndDeleteFlag(postId, false);
+    postEntity.setTitle(title);
+    postEntity.setContent(content);
     if(imagePath == null)
       imagePath = "";
-    post.setImagePath(imagePath);
-    postRepository.save(post);
+    postEntity.setImagePath(imagePath);
+    postRepository.save(postEntity);
   }
 
   @Override
   @Transactional
   public void deletePost(Long postId) {
-    Post post = postRepository.findByIdAndDeleteFlag(postId, false);
-    post.setDeleteFlag(true);
+    PostEntity postEntity = postRepository.findByIdAndDeleteFlag(postId, false);
+    postEntity.setDeleteFlag(true);
     // 게시글 삭제
-    postRepository.save(post);
+    postRepository.save(postEntity);
     commentService.deleteCommentByPostId(postId);
   }
 
   @Override
   @Transactional
   public void deleteByUserId(Long userId) {
-    List<Post> posts = postRepository.findAllByUserIdAndDeleteFlag(userId);
-    for(Post post : posts) {
-      post.setDeleteFlag(true);
-      postRepository.save(post);
+    List<PostEntity> posts = postRepository.findAllByUserIdAndDeleteFlag(userId);
+    for(PostEntity postEntity : posts) {
+      postEntity.setDeleteFlag(true);
+      postRepository.save(postEntity);
     }
   }
 }

@@ -28,7 +28,7 @@ public class CommentServiceImpl implements CommentService{
 
   @Override
   public Page<Comment> findAllCommentList(Long postId, PageRequest pageRequest) {
-    return commentRepository.findAllByPostId(postId, pageRequest);
+    return commentRepository.findAllByPostEntityId(postId, pageRequest);
   }
 
   @Override

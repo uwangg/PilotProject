@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "post")
-public class Post {
+public class PostEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;    // 게시글 id
@@ -30,7 +30,7 @@ public class Post {
   @JoinColumn(name = "user_id", updatable=false)
   private User user;
 
-  public Post() {}
+  public PostEntity() {}
 
   public Long getId() {
     return id;
