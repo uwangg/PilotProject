@@ -70,7 +70,7 @@ public class CommentServiceImpl implements CommentService{
 
   @Override
   public void deleteCommentByUserId(Long userId) {
-    List<Comment> comments = commentRepository.findAllByUserIdAndDeleteFlag(userId);
+    List<Comment> comments = commentRepository.findAllByUserEntityIdAndDeleteFlag(userId);
     for(Comment comment : comments) {
       comment.setDeleteFlag(true);
       commentRepository.save(comment);
@@ -79,7 +79,7 @@ public class CommentServiceImpl implements CommentService{
 
   @Override
   public void deleteCommentByPostId(Long postId) {
-    List<Comment> comments = commentRepository.findAllByUserIdAndDeleteFlag(postId);
+    List<Comment> comments = commentRepository.findAllByUserEntityIdAndDeleteFlag(postId);
     for(Comment comment : comments) {
       comment.setDeleteFlag(true);
       commentRepository.save(comment);

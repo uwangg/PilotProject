@@ -60,7 +60,7 @@ public class BoardController {
                     HttpServletRequest request) {
     logger.info(BoardConstant.WRITE);
 
-    User authUser = (User) session.getAttribute("authUser");
+    UserEntity authUser = (UserEntity) session.getAttribute("authUser");
 
     // 업로드용 폴더 이름
     MultipartRequest multi = null;
@@ -88,7 +88,7 @@ public class BoardController {
     postEntity.setTitle(title);
     postEntity.setContent(content);
     postEntity.setImagePath(imagePath);
-    postEntity.setUser(authUser);
+    postEntity.setUserEntity(authUser);
     postService.create(postEntity);
     return "redirect:/board";
   }
@@ -123,7 +123,7 @@ public class BoardController {
                            HttpSession session) {
     logger.info(BoardConstant.MODIFY_FORM);
 
-    User authUser = (User) session.getAttribute("authUser");
+    UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     PostEntity postEntity = postService.getPost(postId);
 
     // id값이 범위를 벗어날때
@@ -131,7 +131,7 @@ public class BoardController {
       return "redirect:/board";
     }
     // 작성자와 로그인한 유저가 다를때
-    if (postEntity.getUser().getId() != authUser.getId()) {
+    if (postEntity.getUserEntity().getId() != authUser.getId()) {
       return "redirect:/board";
     }
     model.addAttribute("postEntity", postEntity);
@@ -174,7 +174,7 @@ public class BoardController {
     }
 
     HttpSession session = request.getSession();
-    User authUser = (User) session.getAttribute("authUser");
+    UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     // 작성자만 수정 가능
     if (authUser.getId() == userId) {
       // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
@@ -197,7 +197,7 @@ public class BoardController {
           HttpSession session) {
     logger.info(BoardConstant.DELETE);
 
-    User authUser = (User) session.getAttribute("authUser");
+    UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
     // 이미지가 있다면 삭제
@@ -231,18 +231,18 @@ public class BoardController {
 
     logger.info("댓글 내용 : " + content);
     // 댓글 작성자 정보 가져오기
-    User authUser = (User) session.getAttribute("authUser");
+    UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
 
     Comment comment = new Comment();
     PostEntity postEntity = new PostEntity();
     postEntity.setId(postId);
-    User user = new User();
-    user.setId(userId);
+    UserEntity userEntity = new UserEntity();
+    userEntity.setId(userId);
     comment.setContent(content);
     comment.setDepth(depth);
     comment.setPostEntity(postEntity);
-    comment.setUser(user);
+    comment.setUserEntity(userEntity);
 
     if (depth == 0) {    // 댓글을 다는 경우
       thread = commentService.getMaxThread(postId);
@@ -263,7 +263,7 @@ public class BoardController {
                             @PathVariable Long commentId,
                             @RequestParam("content") String content,
                             HttpSession session) {
-    User authUser = (User) session.getAttribute("authUser");
+    UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
 
 
@@ -282,7 +282,7 @@ public class BoardController {
                             HttpSession session) {
     logger.info(BoardConstant.COMMENT_DELETE);
 
-    User authUser = (User) session.getAttribute("authUser");
+    UserEntity authUser = (UserEntity) session.getAttribute("authUser");
 
     Long userId = authUser.getId();
     Comment comment = commentService.getComment(commentId);

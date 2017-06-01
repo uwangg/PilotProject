@@ -26,9 +26,9 @@ public class PostEntity {
   @Column(name = "delete_flag")
   private boolean deleteFlag = false;
 
-  @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+  @ManyToOne(targetEntity = UserEntity.class, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", updatable=false)
-  private User user;
+  private UserEntity userEntity;
 
   public PostEntity() {}
 
@@ -72,12 +72,12 @@ public class PostEntity {
     this.hit = hit;
   }
 
-  public User getUser() {
-    return user;
+  public UserEntity getUserEntity() {
+    return userEntity;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void setUserEntity(UserEntity userEntity) {
+    this.userEntity = userEntity;
   }
 
   @PrePersist
@@ -103,8 +103,8 @@ public class PostEntity {
     return updateTime;
   }
 
-  public Long getUserId() { return user.getId(); }
-  public String getUserName() {return user.getName();}
+  public Long getUserId() { return userEntity.getId(); }
+  public String getUserName() {return userEntity.getName();}
 
   public boolean isDeleteFlag() {
     return deleteFlag;

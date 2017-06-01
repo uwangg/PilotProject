@@ -17,6 +17,6 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
   Page<PostEntity> findAllByDeleteFlag(boolean deleteFlag, Pageable pageable);
   PostEntity findByIdAndDeleteFlag(Long id, boolean deleteFlag);
 
-  @Query("select p from PostEntity p where p.user.id=:userId and p.deleteFlag=0")
-  List<PostEntity> findAllByUserIdAndDeleteFlag(@Param("userId") Long userId);
+  @Query("select p from PostEntity p where p.userEntity.id=:userId and p.deleteFlag=0")
+  List<PostEntity> findAllByUserEntityIdAndDeleteFlag(@Param("userId") Long userId);
 }

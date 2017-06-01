@@ -21,8 +21,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
   List<Comment> findAllByThreadLessThanAndThreadGreaterThan(int begin, int end);
 
-  @Query("select c from Comment c where c.user.id=:userId and c.deleteFlag=0")
-  List<Comment> findAllByUserIdAndDeleteFlag(@Param("userId") Long userId);
+  @Query("select c from Comment c where c.userEntity.id=:userId and c.deleteFlag=0")
+  List<Comment> findAllByUserEntityIdAndDeleteFlag(@Param("userId") Long userId);
   @Query("select c from Comment c where c.postEntity.id=:postId and c.deleteFlag=0")
   List<Comment> findAllByPostEntityIdAndDeleteFlag(Long postId);
 }

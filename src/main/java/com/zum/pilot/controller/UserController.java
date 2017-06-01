@@ -1,9 +1,8 @@
 package com.zum.pilot.controller;
 
 
-import com.sun.xml.internal.ws.encoding.ContentType;
 import com.zum.pilot.constant.UserConstant;
-import com.zum.pilot.entity.User;
+import com.zum.pilot.entity.UserEntity;
 import com.zum.pilot.service.UserService;
 import com.zum.pilot.util.SecurityUtil;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
-import java.io.Serializable;
 
 @Controller
 @RequestMapping("/user")
@@ -40,7 +38,7 @@ public class UserController {
   }
 
   @RequestMapping(value = "/"+ UserConstant.JOIN, method = RequestMethod.POST)
-  public String join(@RequestParam(value = "confirm", defaultValue = "") String confirm, @ModelAttribute User userVo, BindingResult result, Model model) {
+  public String join(@RequestParam(value = "confirm", defaultValue = "") String confirm, @ModelAttribute UserEntity userVo, BindingResult result, Model model) {
     logger.info(UserConstant.JOIN);
 
     if (!userVo.getPassword().equals(confirm)) {
@@ -80,7 +78,7 @@ public class UserController {
     logger.info(UserConstant.CHECK_NAME);
 
     // 회원 수정시 닉네임 중복체크
-    User authUser = (User) session.getAttribute("authUser");
+    UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     if (authUser != null) {
       if (authUser.getName().equals(name)) {
         logger.info("현재 유저명과 같음");
@@ -104,7 +102,7 @@ public class UserController {
     logger.info(UserConstant.LOGIN);
     password = SecurityUtil.encryptSHA256(password);
     // 유저정보 가져오기
-    User authUser = userService.checkEmailAndPassword(email, password);
+    UserEntity authUser = userService.checkEmailAndPassword(email, password);
     // 로그인성공시
     if (authUser != null) {
       // 인증 성공 (로그인처리)
@@ -132,14 +130,14 @@ public class UserController {
 
   @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.POST)
   public String modify(
-          @ModelAttribute User userVo,
+          @ModelAttribute UserEntity userVo,
           @RequestParam(value = "changePasswd", defaultValue = "") String changePassword,
           @RequestParam(value = "changeConfirm", defaultValue = "") String changeConfirm,
           HttpSession session,
           HttpServletResponse response ) {
     logger.info(UserConstant.MODIFY + "[POST]");
 
-    User authUser = (User) session.getAttribute("authUser");
+    UserEntity authUser = (UserEntity) session.getAttribute("authUser");
 
     // 새 비밀번호 != 비밀번호 확인
     if (!changePassword.equals(changeConfirm)) {
@@ -183,7 +181,7 @@ public class UserController {
     logger.info(UserConstant.WITHDRAWAL);
 
     // db에서 회원정보 삭제
-    User userVo = (User) session.getAttribute("authUser");
+    UserEntity userVo = (UserEntity) session.getAttribute("authUser");
     password = SecurityUtil.encryptSHA256(password);  // 패스워드 암호화
 
     response.setContentType("text/html; charset=UTF-8");

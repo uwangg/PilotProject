@@ -22,7 +22,7 @@ public class Comment {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  private User user;
+  private UserEntity userEntity;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "post_id")
@@ -69,12 +69,12 @@ public class Comment {
     this.deleteFlag = deleteFlag;
   }
 
-  public User getUser() {
-    return user;
+  public UserEntity getUserEntity() {
+    return userEntity;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void setUserEntity(UserEntity userEntity) {
+    this.userEntity = userEntity;
   }
 
   public PostEntity getPostEntity() {
@@ -106,9 +106,9 @@ public class Comment {
   }
 
   public String getUserName() {
-    return this.user.getName();
+    return this.userEntity.getName();
   }
   public Long getUserId() {
-    return this.user.getId();
+    return this.userEntity.getId();
   }
 }

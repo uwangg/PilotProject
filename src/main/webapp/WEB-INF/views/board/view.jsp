@@ -40,7 +40,7 @@ h1 {
 
 				<!-- 작성자 -->
 				<p class="lead">
-				<h4>by. ${postEntity.user.name }</h4>
+				<h4>by. ${postEntity.userEntity.name }</h4>
 				</p>
 
 				<hr>
@@ -121,7 +121,7 @@ h1 {
 				<div class="text-right">
 					<a class="btn btn-success pull-left" href="${pageContext.request.contextPath}/" style="padding:">목록보기</a>
 					<c:choose>
-						<c:when test="${sessionScope.authUser.id == postEntity.user.id }">
+						<c:when test="${sessionScope.authUser.id == postEntity.userEntity.id }">
 							<a class="btn btn-success" href="${pageContext.request.contextPath}/board/${postEntity.id }/modify">수정하기</a>
 							<a class="btn btn-success" href="${pageContext.request.contextPath}/board/${postEntity.id}/delete">삭제하기</a>
 						</c:when>
