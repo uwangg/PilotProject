@@ -56,14 +56,6 @@ h1 {
 					<hr>
 					<img class="img-responsive" src="${pageContext.request.contextPath }/upload/${postEntity.imagePath }"/>
 				</c:if>
-<%-- 				<c:choose>
-					<c:when test="${postVo.imagePath != null && postVo.imagePath != \"\"}">
-						<img class="img-responsive" src="upload/${postVo.imagePath }"></img>
-					</c:when>
-					<c:otherwise>
-						<img class="img-responsive" src="http://placehold.it/900x300" alt="">
-					</c:otherwise>
-				</c:choose> --%>
 
 
 				<!-- 글 내용 -->
@@ -72,16 +64,6 @@ h1 {
 					<label for="content">내용</label>
 					<p id="content"><BIG>${fn:replace(postEntity.content, crcn, br) }</BIG></p>
 				</c:if>
-				<%-- <label for="content">내용</label>
-				<c:choose>
-					<c:when test="${postVo.content == \"\" }">
-						<p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></p>
-					</c:when>
-					<c:otherwise>
-						<p id="content"><BIG>${fn:replace(postVo.content, crcn, br) }</BIG></p>
-					</c:otherwise>
-				</c:choose> --%>
-
 				<hr>
 				
 				<c:if test="${sessionScope.authUser != null }">
