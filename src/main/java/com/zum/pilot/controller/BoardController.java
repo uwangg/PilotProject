@@ -110,7 +110,7 @@ public class BoardController {
     Long totalComments = page.getTotalElements();
     Pagination<Comment> pagination = new Pagination<>(currentPage, totalComments, comments);
 
-    model.addAttribute("postVo", post);
+    model.addAttribute("postEntity", post);
     model.addAttribute("pagination", pagination);
 
     return "board/view";

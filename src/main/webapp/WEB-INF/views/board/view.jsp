@@ -36,25 +36,25 @@ h1 {
 			<div class="col-lg-8">
 
 				<!-- 글 제목 -->
-				<h1>${postVo.title }</h1>
+				<h1>${postEntity.title }</h1>
 
 				<!-- 작성자 -->
 				<p class="lead">
-				<h4>by. ${postVo.user.name }</h4>
+				<h4>by. ${postEntity.user.name }</h4>
 				</p>
 
 				<hr>
 
 				<!-- Date/Time -->
 				<p>
-					<span class="glyphicon glyphicon-time"></span> Posted on ${postVo.createTime }
+					<span class="glyphicon glyphicon-time"></span> Posted on ${postEntity.createTime }
 				</p>
 
 
 				<!-- 이미지 -->
-				<c:if test="${postVo.imagePath != null && postVo.imagePath != \"\"}">
+				<c:if test="${postEntity.imagePath != null && postEntity.imagePath != \"\"}">
 					<hr>
-					<img class="img-responsive" src="${pageContext.request.contextPath }/upload/${postVo.imagePath }"/>
+					<img class="img-responsive" src="${pageContext.request.contextPath }/upload/${postEntity.imagePath }"/>
 				</c:if>
 <%-- 				<c:choose>
 					<c:when test="${postVo.imagePath != null && postVo.imagePath != \"\"}">
@@ -68,9 +68,9 @@ h1 {
 
 				<!-- 글 내용 -->
 				<hr>
- 				<c:if test="${postVo.content != \"\"}">
+ 				<c:if test="${postEntity.content != \"\"}">
 					<label for="content">내용</label>
-					<p id="content"><BIG>${fn:replace(postVo.content, crcn, br) }</BIG></p>
+					<p id="content"><BIG>${fn:replace(postEntity.content, crcn, br) }</BIG></p>
 				</c:if>
 				<%-- <label for="content">내용</label>
 				<c:choose>
@@ -95,7 +95,7 @@ h1 {
 				<div class="text-center">
 						<ul class="pagination">
 							<c:if test="${pagination.begin > 1 }">
-								<li><a href="${pageContext.request.contextPath}/board/${postVo.id }?currentPage=${pagination.begin - 1}">&laquo;</a></li>
+								<li><a href="${pageContext.request.contextPath}/board/${postEntity.id }?currentPage=${pagination.begin - 1}">&laquo;</a></li>
 							</c:if>
 							
 							<c:forEach begin="${pagination.begin }" end="${pagination.end }" step="1" var="count" >
@@ -104,13 +104,13 @@ h1 {
 										<li class="active"><a>${count }</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="${pageContext.request.contextPath}/board/${postVo.id }
+										<li><a href="${pageContext.request.contextPath}/board/${postEntity.id }
 												?currentPage=${count}">${count }</a></li>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
 							<c:if test="${pagination.isEndPage eq 'false'}">
-								<li><a href="${pageContext.request.contextPath}/board/${postVo.id }?currentPage=${pagination.end + 1}">&raquo;</a></li>
+								<li><a href="${pageContext.request.contextPath}/board/${postEntity.id }?currentPage=${pagination.end + 1}">&raquo;</a></li>
 							</c:if>
 						</ul>
 					</div>
@@ -121,9 +121,9 @@ h1 {
 				<div class="text-right">
 					<a class="btn btn-success pull-left" href="${pageContext.request.contextPath}/" style="padding:">목록보기</a>
 					<c:choose>
-						<c:when test="${sessionScope.authUser.id == postVo.user.id }">
-							<a class="btn btn-success" href="${pageContext.request.contextPath}/board/${postVo.id }/modify">수정하기</a>
-							<a class="btn btn-success" href="${pageContext.request.contextPath}/board/${postVo.id}/delete">삭제하기</a>
+						<c:when test="${sessionScope.authUser.id == postEntity.user.id }">
+							<a class="btn btn-success" href="${pageContext.request.contextPath}/board/${postEntity.id }/modify">수정하기</a>
+							<a class="btn btn-success" href="${pageContext.request.contextPath}/board/${postEntity.id}/delete">삭제하기</a>
 						</c:when>
 					</c:choose>
 				</div>
