@@ -1,6 +1,6 @@
 package com.zum.pilot.config;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.*;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -11,7 +11,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 import java.util.Properties;
 
 // applicationContext.xml 설정을 대신한다
@@ -25,7 +24,7 @@ public class RootConfig {
   // 아직 구현하지 않음
   @Bean
   public DataSource dataSource() {
-    BasicDataSource dataSource = new BasicDataSource();
+    DataSource dataSource = new DataSource();
     dataSource.setDriverClassName("com.mysql.jdbc.Driver");
     dataSource.setUrl("jdbc:mysql://localhost:3306/pilot?useSSL=false");
     dataSource.setUsername("pilot");
@@ -38,7 +37,7 @@ public class RootConfig {
     LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
     entityManagerFactoryBean.setDataSource(dataSource);
     entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-    entityManagerFactoryBean.setPackagesToScan("com.zum.pilot");
+    entityManagerFactoryBean.setPackagesToScan("com.zum.pilot.entity");
     entityManagerFactoryBean.setJpaProperties(additionalProperties());
     return entityManagerFactoryBean;
   }
