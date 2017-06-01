@@ -1,7 +1,7 @@
 package com.zum.pilot.service.impl;
 
 import com.zum.pilot.repository.CommentRepository;
-import com.zum.pilot.entity.Comment;
+import com.zum.pilot.entity.CommentEntity;
 import com.zum.pilot.service.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +22,12 @@ public class CommentServiceImpl implements CommentService{
   private CommentRepository commentRepository;
 
   @Override
-  public Comment getComment(Long commentId) {
+  public CommentEntity getComment(Long commentId) {
     return commentRepository.findByIdAndDeleteFlag(commentId, false);
   }
 
   @Override
-  public Page<Comment> findAllCommentList(Long postId, PageRequest pageRequest) {
+  public Page<CommentEntity> findAllCommentList(Long postId, PageRequest pageRequest) {
     return commentRepository.findAllByPostEntityId(postId, pageRequest);
   }
 
@@ -42,47 +42,47 @@ public class CommentServiceImpl implements CommentService{
   @Override
   @Transactional
   public void updateThread(int begin, int end) {
-    List<Comment> comments = commentRepository.findAllByThreadLessThanAndThreadGreaterThan(begin, end);
-    for(Comment comment : comments) {
-      int thread = comment.getThread() - 1;
-      comment.setThread(thread);
-      commentRepository.save(comment);
+    List<CommentEntity> comments = commentRepository.findAllByThreadLessThanAndThreadGreaterThan(begin, end);
+    for(CommentEntity commentEntity : comments) {
+      int thread = commentEntity.getThread() - 1;
+      commentEntity.setThread(thread);
+      commentRepository.save(commentEntity);
     }
   }
 
   @Override
-  public void writeComment(Comment comment) {
-    commentRepository.save(comment);
+  public void writeComment(CommentEntity commentEntity) {
+    commentRepository.save(commentEntity);
   }
 
   @Override
-  public void modifyComment(Comment comment) {
-    commentRepository.save(comment);
+  public void modifyComment(CommentEntity commentEntity) {
+    commentRepository.save(commentEntity);
   }
 
   @Override
   @Transactional
   public void deleteComment(Long commentId) {
-    Comment comment = commentRepository.getOne(commentId);
-    comment.setDeleteFlag(true);
-    commentRepository.save(comment);
+    CommentEntity commentEntity = commentRepository.getOne(commentId);
+    commentEntity.setDeleteFlag(true);
+    commentRepository.save(commentEntity);
   }
 
   @Override
   public void deleteCommentByUserId(Long userId) {
-    List<Comment> comments = commentRepository.findAllByUserEntityIdAndDeleteFlag(userId);
-    for(Comment comment : comments) {
-      comment.setDeleteFlag(true);
-      commentRepository.save(comment);
+    List<CommentEntity> comments = commentRepository.findAllByUserEntityIdAndDeleteFlag(userId);
+    for(CommentEntity commentEntity : comments) {
+      commentEntity.setDeleteFlag(true);
+      commentRepository.save(commentEntity);
     }
   }
 
   @Override
   public void deleteCommentByPostId(Long postId) {
-    List<Comment> comments = commentRepository.findAllByUserEntityIdAndDeleteFlag(postId);
-    for(Comment comment : comments) {
-      comment.setDeleteFlag(true);
-      commentRepository.save(comment);
+    List<CommentEntity> comments = commentRepository.findAllByUserEntityIdAndDeleteFlag(postId);
+    for(CommentEntity commentEntity : comments) {
+      commentEntity.setDeleteFlag(true);
+      commentRepository.save(commentEntity);
     }
   }
 }

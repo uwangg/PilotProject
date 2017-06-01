@@ -105,10 +105,10 @@ public class BoardController {
 
       // 댓글 페이지네이션
     PageRequest pageRequest = new PageRequest(currentPage-1, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "thread");
-    Page<Comment> page = commentService.findAllCommentList(postId, pageRequest);
-    List<Comment> comments = page.getContent();
+    Page<CommentEntity> page = commentService.findAllCommentList(postId, pageRequest);
+    List<CommentEntity> comments = page.getContent();
     Long totalComments = page.getTotalElements();
-    Pagination<Comment> pagination = new Pagination<>(currentPage, totalComments, comments);
+    Pagination<CommentEntity> pagination = new Pagination<>(currentPage, totalComments, comments);
 
     model.addAttribute("postEntity", postEntity);
     model.addAttribute("pagination", pagination);
@@ -234,26 +234,26 @@ public class BoardController {
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
 
-    Comment comment = new Comment();
+    CommentEntity commentEntity = new CommentEntity();
     PostEntity postEntity = new PostEntity();
     postEntity.setId(postId);
     UserEntity userEntity = new UserEntity();
     userEntity.setId(userId);
-    comment.setContent(content);
-    comment.setDepth(depth);
-    comment.setPostEntity(postEntity);
-    comment.setUserEntity(userEntity);
+    commentEntity.setContent(content);
+    commentEntity.setDepth(depth);
+    commentEntity.setPostEntity(postEntity);
+    commentEntity.setUserEntity(userEntity);
 
     if (depth == 0) {    // 댓글을 다는 경우
       thread = commentService.getMaxThread(postId);
       thread = (thread / thrUnit) * thrUnit + thrUnit;
-      comment.setThread(thread);
+      commentEntity.setThread(thread);
     } else {    // 답글을 다는 경우
-      comment.setThread(thread);
+      commentEntity.setThread(thread);
       int preCommentThread = (thread / thrUnit) * thrUnit;
       commentService.updateThread(preCommentThread, thread + 1);
     }
-    commentService.writeComment(comment);
+    commentService.writeComment(commentEntity);
     return "redirect:/board/{postId}";
   }
 
@@ -267,10 +267,10 @@ public class BoardController {
     Long userId = authUser.getId();
 
 
-    Comment comment = commentService.getComment(commentId);
-    if(comment.getUserId() == userId) {
-      comment.setContent(content);
-      commentService.modifyComment(comment);
+    CommentEntity commentEntity = commentService.getComment(commentId);
+    if(commentEntity.getUserId() == userId) {
+      commentEntity.setContent(content);
+      commentService.modifyComment(commentEntity);
     }
     return "redirect:/board/{postId}";
   }
@@ -285,8 +285,8 @@ public class BoardController {
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
 
     Long userId = authUser.getId();
-    Comment comment = commentService.getComment(commentId);
-    if(comment.getUserId() == userId) {
+    CommentEntity commentEntity = commentService.getComment(commentId);
+    if(commentEntity.getUserId() == userId) {
       commentService.deleteComment(commentId);
     }
 
