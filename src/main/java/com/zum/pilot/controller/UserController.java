@@ -100,37 +100,27 @@ public class UserController {
 
   // 로그인 & 로그아웃
   @RequestMapping(value = "/" + UserConstant.LOGIN, method = RequestMethod.POST)
-  public String login(@RequestParam String email,
-                    @RequestParam String password,
-                    HttpSession session) {
+  public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
     logger.info(UserConstant.LOGIN);
-//    String email = request.getParameter("email");
-//    String password = SecurityUtil.encryptSHA256(request.getParameter("password"));
-
     password = SecurityUtil.encryptSHA256(password);
     // 유저정보 가져오기
     User authUser = userService.checkEmailAndPassword(email, password);
     // 로그인성공시
     if (authUser != null) {
       // 인증 성공 (로그인처리)
-      logger.info("authUser : ", authUser.toString());
-//      HttpSession session = request.getSession(true);
       session.setAttribute("authUser", authUser);
     }
-
-//    response.sendRedirect(request.getContextPath() + "/");
     return "redirect:/";
   }
 
   @RequestMapping(value = UserConstant.LOGOUT)
   public String logout(HttpSession session) {
     logger.info(UserConstant.LOGOUT);
-//    HttpSession session = request.getSession();
 
     //로그아웃 처리
     session.removeAttribute("authUser");    // 세션 삭제
     session.invalidate();    // 세션 종료
-//    response.sendRedirect(request.getContextPath() + "/");
+
     return "redirect:/";
   }
 
