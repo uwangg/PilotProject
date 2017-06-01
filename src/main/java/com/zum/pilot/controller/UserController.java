@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 @Controller
@@ -115,7 +114,7 @@ public class UserController {
     logger.info(UserConstant.MODIFY_FORM + "[GET]");
   }
 
-  @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.POST, produces = "text/html; charset=UTF-8")
+  @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.POST)
   public String modify(
           @ModelAttribute User userVo,
           @RequestParam(value = "changePasswd", defaultValue = "") String changePassword,
@@ -131,18 +130,13 @@ public class UserController {
       logger.info("새 비밀번호와 일치하지 않음");
       return "redirect:/user/modify";
     }
+
     if (!userService.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userVo.getPassword()))) {
-      try (PrintWriter out = response.getWriter()) {
-        logger.info("비밀번호가 틀렸습니다");
-        out.println("<script language=\"javascript\">");
-        out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user/modify\"");
-        out.println("</script>");
-        out.close();
-      } catch(IOException e){
-        e.printStackTrace();
-      }
+      String msg = "비밀번호가 틀렸습니다.";
+      String url = "/user/modify";
       return "redirect:/user/modify";
     }
+
     // 회원 수정
     authUser.setName(userVo.getName());
     authUser.setPassword(SecurityUtil.encryptSHA256(userVo.getPassword()));
@@ -165,7 +159,7 @@ public class UserController {
     logger.info(UserConstant.WITHDRAWAL_FORM);
   }
 
-  @RequestMapping(value = UserConstant.WITHDRAWAL, method = RequestMethod.POST, produces = "text/html; charset=UTF-8")
+  @RequestMapping(value = UserConstant.WITHDRAWAL, method = RequestMethod.POST)
   public void withdrawal(
           @RequestParam("password") String password,
           HttpSession session,
@@ -176,17 +170,12 @@ public class UserController {
     User userVo = (User) session.getAttribute("authUser");
     password = SecurityUtil.encryptSHA256(password);  // 패스워드 암호화
 
+    response.setContentType("text/html; charset=UTF-8");
     // id, password가 동일한지 체크
     if (!userService.checkPassword(userVo.getId(), password)) {
-      try (PrintWriter out = response.getWriter()) {
-        logger.info("비밀번호 틀림");
-        out.println("<script language=\"javascript\">");
-        out.println("alert('비밀번호가 틀렸습니다.'); location.href=\"/pilot-project/user/withdrawal\"");
-        out.println("</script>");
-        out.close();
-      } catch(IOException e){
-        e.printStackTrace();
-      }
+      String msg = "비밀번호가 틀렸습니다.";
+      String url = "/user/withdrawal";
+      alertScript(response, msg, url);
       return;
     }
 
@@ -197,11 +186,19 @@ public class UserController {
     session.removeAttribute("authUser");    // 세션 삭제
     session.invalidate();    // 세션 종료
 
+    String msg = "회원탈퇴가 완료되었습니다.";
+    String url = "/";
+    alertScript(response, msg, url);
+  }
+
+  private void alertScript(HttpServletResponse response, String msg, String url) {
+    response.setContentType("text/html; charset=UTF-8");
     try (PrintWriter out = response.getWriter()) {
       out.println("<script language=\"javascript\">");
-      out.println("alert('회원탈퇴가 완료되었습니다.'); location.href=\"/pilot-project/\"");
+      String alertMsg = "alert('" + msg + "'); location.href=\"" + url + "\"";
+      out.println(alertMsg);
       out.println("</script>");
-      out.close();
+//      out.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
