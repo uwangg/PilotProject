@@ -119,6 +119,14 @@
             <version>05Nov2002</version>
         </dependency>
 
+        <!-- Spring file upload -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
+
         <!-- logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
