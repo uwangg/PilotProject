@@ -28,6 +28,16 @@ public class CommentEntity {
   @JoinColumn(name = "post_id")
   private PostEntity postEntity;
 
+  public CommentEntity() {}
+
+  public CommentEntity(String content, int depth, Long postId, Long userId) {
+    this.postEntity = new PostEntity();
+    postEntity.setId(postId);
+    this.userEntity = new UserEntity();
+    userEntity.setId(userId);
+    this.content = content;
+    this.depth = depth;
+  }
 
   public Long getId() {
     return id;

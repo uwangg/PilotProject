@@ -232,15 +232,7 @@ public class BoardController {
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
 
-    CommentEntity commentEntity = new CommentEntity();
-    PostEntity postEntity = new PostEntity();
-    postEntity.setId(postId);
-    UserEntity userEntity = new UserEntity();
-    userEntity.setId(userId);
-    commentEntity.setContent(content);
-    commentEntity.setDepth(depth);
-    commentEntity.setPostEntity(postEntity);
-    commentEntity.setUserEntity(userEntity);
+    CommentEntity commentEntity = new CommentEntity(content, depth, postId, userId);
 
     commentService.writeComment(commentEntity, depth, thread);
     return "redirect:/board/{postId}";
