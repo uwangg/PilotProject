@@ -16,15 +16,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -39,6 +40,9 @@ public class BoardController {
 
   @Autowired
   private  ServletContext context;
+
+  @Resource(name = "uploadPath")
+  String uploadPath;
 
   private static final Logger logger =
           LoggerFactory.getLogger(BoardController.class);
@@ -56,39 +60,23 @@ public class BoardController {
 
   @RequestMapping(value = "/" + BoardConstant.WRITE, method = RequestMethod.POST)
   public String write(
-                    HttpSession session,
-                    HttpServletRequest request) {
+          HttpSession session,
+          MultipartFile file,
+          @ModelAttribute PostEntity postEntity) {
     logger.info(BoardConstant.WRITE);
 
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
 
-    // 업로드용 폴더 이름
-    MultipartRequest multi = null;
-    int maxSize = 5 * 1024 * 1024;    // 10M
-    String title = "";
-    String content = "";
-    String imagePath = "";
-    String fileName = "";
-
-    // 파일이 업로드될 실제 tomcat 폴더의 경로
-    String savePath = "D:\\test\\upload";
-    logger.info("savePath = " + savePath);
+    String saveName = file.getOriginalFilename();
+    File target = new File(uploadPath, saveName);
+    // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
     try {
-      multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
-      title = multi.getParameter("title");
-      content = multi.getParameter("content");
-      fileName = multi.getFilesystemName("imagePath");
-      imagePath = fileName;
-    } catch (Exception e) {
+      FileCopyUtils.copy(file.getBytes(), target);
+    } catch (IOException e) {
       e.printStackTrace();
     }
-
+    postEntity.setImagePath(saveName);
     // 게시글 입력
-    PostEntity postEntity = new PostEntity();
-    postEntity.setTitle(title);
-    postEntity.setContent(content);
-    postEntity.setImagePath(imagePath);
-    postEntity.setUserEntity(authUser);
     postService.create(postEntity);
     return "redirect:/board";
   }
