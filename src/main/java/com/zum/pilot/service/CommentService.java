@@ -8,9 +8,7 @@ public interface CommentService {
   Page<CommentEntity> findAllCommentList(Long postId, PageRequest pageRequest);
 
   CommentEntity getComment(Long commentId);
-  int getMaxThread(Long postId);
-  void updateThread(int begin, int end);
-  void writeComment(CommentEntity commentEntity);
+  void writeComment(CommentEntity commentEntity, int depth, int thread);
   void modifyComment(CommentEntity commentEntity);
   void deleteComment(Long commentId);
   void deleteCommentByUserId(Long userId);

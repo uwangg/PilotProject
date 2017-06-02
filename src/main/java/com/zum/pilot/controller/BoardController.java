@@ -227,9 +227,7 @@ public class BoardController {
                              @RequestParam("content") String content,
                              HttpSession session) {
     logger.info(BoardConstant.COMMENT_WRITE);
-    final int thrUnit = 1000;
 
-    logger.info("댓글 내용 : " + content);
     // 댓글 작성자 정보 가져오기
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
@@ -244,16 +242,7 @@ public class BoardController {
     commentEntity.setPostEntity(postEntity);
     commentEntity.setUserEntity(userEntity);
 
-    if (depth == 0) {    // 댓글을 다는 경우
-      thread = commentService.getMaxThread(postId);
-      thread = (thread / thrUnit) * thrUnit + thrUnit;
-      commentEntity.setThread(thread);
-    } else {    // 답글을 다는 경우
-      commentEntity.setThread(thread);
-      int preCommentThread = (thread / thrUnit) * thrUnit;
-      commentService.updateThread(preCommentThread, thread + 1);
-    }
-    commentService.writeComment(commentEntity);
+    commentService.writeComment(commentEntity, depth, thread);
     return "redirect:/board/{postId}";
   }
 

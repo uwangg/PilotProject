@@ -6,11 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface PostService {
-//  Pagination<PostVo> viewPage(int currentPage);
   Page<PostEntity> findAllPostList(Pageable pageable);  // 게시글 불러오기
 
   // 게시글 읽기
-  @Transactional
   PostEntity readPost(Long id);
 
   PostEntity getPost(Long id); // 게시글 번호에 맞는 게시물 정보 가져오기

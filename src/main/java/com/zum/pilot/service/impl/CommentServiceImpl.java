@@ -1,5 +1,7 @@
 package com.zum.pilot.service.impl;
 
+import com.zum.pilot.entity.PostEntity;
+import com.zum.pilot.entity.UserEntity;
 import com.zum.pilot.repository.CommentRepository;
 import com.zum.pilot.entity.CommentEntity;
 import com.zum.pilot.service.CommentService;
@@ -21,6 +23,9 @@ public class CommentServiceImpl implements CommentService{
   @Autowired
   private CommentRepository commentRepository;
 
+  @Autowired
+  private CommentService commentService;
+
   @Override
   public CommentEntity getComment(Long commentId) {
     return commentRepository.findByIdAndDeleteFlag(commentId, false);
@@ -32,27 +37,40 @@ public class CommentServiceImpl implements CommentService{
   }
 
   @Override
-  public int getMaxThread(Long postId) {
+  @Transactional
+  public void writeComment(CommentEntity commentEntity, int depth, int thread) {
+    final int thrUnit = 1000;
+    Long postId = commentEntity.getPostEntity().getId();
+
+    if (depth == 0) {    // 댓글을 다는 경우
+      thread = getMaxThread(postId);
+      thread = (thread / thrUnit) * thrUnit + thrUnit;
+      commentEntity.setThread(thread);
+    } else {    // 답글을 다는 경우
+      commentEntity.setThread(thread);
+      int preCommentThread = (thread / thrUnit) * thrUnit;
+      updateThread(preCommentThread, thread + 1);
+    }
+    logger.info("writeComment : " + postId + ", " + thread);
+    commentRepository.save(commentEntity);
+  }
+
+  private int getMaxThread(Long postId) {
     Integer maxThread = commentRepository.getMaxThread(postId);
     if(maxThread == null)
       maxThread = 0;
     return maxThread;
   }
 
-  @Override
-  @Transactional
-  public void updateThread(int begin, int end) {
-    List<CommentEntity> comments = commentRepository.findAllByThreadLessThanAndThreadGreaterThan(begin, end);
+  private void updateThread(int begin, int end) {
+    List<CommentEntity> comments = commentRepository.findAllByThreadGreaterThanAndThreadLessThan(begin, end);
+    logger.info("CommentEntityLength : " + comments.size() + ", begin :"  + begin + ", end : " + end);
     for(CommentEntity commentEntity : comments) {
       int thread = commentEntity.getThread() - 1;
+      logger.info("updateThread - thread : " + thread);
       commentEntity.setThread(thread);
       commentRepository.save(commentEntity);
     }
-  }
-
-  @Override
-  public void writeComment(CommentEntity commentEntity) {
-    commentRepository.save(commentEntity);
   }
 
   @Override
