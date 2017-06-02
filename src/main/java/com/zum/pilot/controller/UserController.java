@@ -4,6 +4,7 @@ package com.zum.pilot.controller;
 import com.zum.pilot.constant.UserConstant;
 import com.zum.pilot.entity.UserEntity;
 import com.zum.pilot.service.UserService;
+import com.zum.pilot.util.ScriptUtil;
 import com.zum.pilot.util.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 
 @Controller
 @RequestMapping("/user")
@@ -149,6 +149,7 @@ public class UserController {
     if (!userService.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userEntity.getPassword()))) {
       String msg = "비밀번호가 틀렸습니다.";
       String url = "/user/modify";
+      ScriptUtil.alert(response, msg, url);
       return "redirect:/user/modify";
     }
 
@@ -190,7 +191,7 @@ public class UserController {
     if (!userService.checkPassword(userEntity.getId(), password)) {
       String msg = "비밀번호가 틀렸습니다.";
       String url = "/user/withdrawal";
-      alertScript(response, msg, url);
+      ScriptUtil.alert(response, msg, url);
       return;
     }
 
@@ -203,19 +204,19 @@ public class UserController {
 
     String msg = "회원탈퇴가 완료되었습니다.";
     String url = "/";
-    alertScript(response, msg, url);
+    ScriptUtil.alert(response, msg, url);
   }
 
-  private void alertScript(HttpServletResponse response, String msg, String url) {
-    response.setContentType("text/html; charset=UTF-8");
-    try (PrintWriter out = response.getWriter()) {
-      out.println("<script language=\"javascript\">");
-      String alertMsg = "alert('" + msg + "'); location.href=\"" + url + "\"";
-      out.println(alertMsg);
-      out.println("</script>");
-//      out.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+//  private void alertScript(HttpServletResponse response, String msg, String url) {
+//    response.setContentType("text/html; charset=UTF-8");
+//    try (PrintWriter out = response.getWriter()) {
+//      out.println("<script language=\"javascript\">");
+//      String alertMsg = "alert('" + msg + "'); location.href=\"" + url + "\"";
+//      out.println(alertMsg);
+//      out.println("</script>");
+////      out.close();
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
+//  }
 }
