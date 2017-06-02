@@ -23,11 +23,7 @@ public class CommentServiceImpl implements CommentService{
   @Autowired
   private CommentRepository commentRepository;
 
-  @Autowired
-  private CommentService commentService;
-
-  @Override
-  public CommentEntity getComment(Long commentId) {
+  private CommentEntity getComment(Long commentId) {
     return commentRepository.findByIdAndDeleteFlag(commentId, false);
   }
 
@@ -74,16 +70,22 @@ public class CommentServiceImpl implements CommentService{
   }
 
   @Override
-  public void modifyComment(CommentEntity commentEntity) {
-    commentRepository.save(commentEntity);
+  public void modifyComment(Long commentId, Long userId, String content) {
+    CommentEntity commentEntity = getComment(commentId);
+    if (commentEntity.getUserId() == userId) {
+      commentEntity.setContent(content);
+      commentRepository.save(commentEntity);
+    }
   }
 
   @Override
   @Transactional
-  public void deleteComment(Long commentId) {
-    CommentEntity commentEntity = commentRepository.getOne(commentId);
-    commentEntity.setDeleteFlag(true);
-    commentRepository.save(commentEntity);
+  public void deleteComment(Long commentId, Long userId) {
+    CommentEntity commentEntity = getComment(commentId);
+    if(commentEntity.getUserId() == userId) {
+      commentEntity.setDeleteFlag(true);
+      commentRepository.save(commentEntity);
+    }
   }
 
   @Override

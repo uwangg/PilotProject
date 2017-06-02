@@ -233,7 +233,6 @@ public class BoardController {
     Long userId = authUser.getId();
 
     CommentEntity commentEntity = new CommentEntity(content, depth, postId, userId);
-
     commentService.writeComment(commentEntity, depth, thread);
     return "redirect:/board/{postId}";
   }
@@ -246,13 +245,7 @@ public class BoardController {
                             HttpSession session) {
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
-
-
-    CommentEntity commentEntity = commentService.getComment(commentId);
-    if(commentEntity.getUserId() == userId) {
-      commentEntity.setContent(content);
-      commentService.modifyComment(commentEntity);
-    }
+    commentService.modifyComment(commentId, userId, content);
     return "redirect:/board/{postId}";
   }
 
@@ -264,13 +257,8 @@ public class BoardController {
     logger.info(BoardConstant.COMMENT_DELETE);
 
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
-
     Long userId = authUser.getId();
-    CommentEntity commentEntity = commentService.getComment(commentId);
-    if(commentEntity.getUserId() == userId) {
-      commentService.deleteComment(commentId);
-    }
-
+    commentService.deleteComment(commentId, userId);
     return "redirect:/board/{postId}";
   }
 }

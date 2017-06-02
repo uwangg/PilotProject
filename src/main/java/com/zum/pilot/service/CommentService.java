@@ -6,11 +6,9 @@ import org.springframework.data.domain.PageRequest;
 
 public interface CommentService {
   Page<CommentEntity> findAllCommentList(Long postId, PageRequest pageRequest);
-
-  CommentEntity getComment(Long commentId);
   void writeComment(CommentEntity commentEntity, int depth, int thread);
-  void modifyComment(CommentEntity commentEntity);
-  void deleteComment(Long commentId);
+  void modifyComment(Long commentId, Long userId, String content);
+  void deleteComment(Long commentId, Long userId);
   void deleteCommentByUserId(Long userId);
   void deleteCommentByPostId(Long postId);
 }
