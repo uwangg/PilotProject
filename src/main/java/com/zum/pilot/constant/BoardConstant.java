@@ -7,7 +7,7 @@ public class BoardConstant {
   public final static String MODIFY_FORM = "modifyform";
   public final static String MODIFY = "modify";
   public final static String DELETE = "delete";
-  public final static String COMMENT_WRITE = "commentwrite";
-  public final static String COMMENT_MODIFY = "commentmodify";
-  public final static String COMMENT_DELETE = "commentdelete";
+  public final static String WRITE_COMMENT = "writecomment";
+  public final static String MODIFY_COMMENT = "modifycomment";
+  public final static String DELETE_COMMENT = "deletecomment";
 }

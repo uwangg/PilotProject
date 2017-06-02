@@ -39,8 +39,8 @@
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse${commentEntity.id }"> 답글 </a>
 						</c:if>
 						<c:if test="${sessionScope.authUser.id == commentEntity.userId }">
-						<a class="commentModify" id="${commentEntity.id }">수정</a>
-						<a href="${pageContext.request.contextPath}/board/${postEntity.id}/commentdelete/${commentEntity.id}">삭제</a>
+						<a class="modifyComment" id="${commentEntity.id }">수정</a>
+						<a href="${pageContext.request.contextPath}/board/${postEntity.id}/deletecomment/${commentEntity.id}">삭제</a>
 						
 						</c:if>
 					</small>
@@ -49,7 +49,7 @@
 					<c:if test="${commentEntity.depth>0 }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 					${commentEntity.content }</p>
 				<div class="modifyForm" id="modifyForm${commentEntity.id }">
-					<form role="form" style="margin: 10px" method="post" action="${pageContext.request.contextPath}/board/${postEntity.id}/commentmodify/${commentEntity.id}">
+					<form role="form" style="margin: 10px" method="post" action="${pageContext.request.contextPath}/board/${postEntity.id}/modifycomment/${commentEntity.id}">
 						<div class="form-group">
 							<textarea rows="2" class="form-control" ng-model="user.comment" name="content">${commentEntity.content }</textarea>
 						</div>
@@ -63,7 +63,7 @@
 			<div id="collapse${commentEntity.id }" class="comment-collapse collapse">
 				<hr/>
 				<div class="panel-body">
-					<form role="form" method="post" action="${pageContext.request.contextPath}/board/${postEntity.id}/commentwrite">
+					<form role="form" method="post" action="${pageContext.request.contextPath}/board/${postEntity.id}/writecomment">
 					<input type="hidden" name="depth" value="${commentEntity.depth+1 }">
 					<input type="hidden" name="thread" value="${commentEntity.thread-1 }">
 						<div class="form-group">
@@ -89,7 +89,7 @@
 	$(document).ready(function() {
 		$(".modifyForm").hide();
 		
-		$(".commentModify").click(function() {
+		$(".modifyComment").click(function() {
 			var no = $(this).attr("id");
 			var commentContent = "#commentContent" + no;
 			var modifyForm = "#modifyForm" + no;

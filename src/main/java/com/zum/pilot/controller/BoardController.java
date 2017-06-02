@@ -220,13 +220,13 @@ public class BoardController {
   }
 
   // 댓글 쓰기
-  @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_WRITE)
-  public String commentWrite(@PathVariable Long postId,
+  @RequestMapping(value = "/{postId}/" + BoardConstant.WRITE_COMMENT)
+  public String writeComment(@PathVariable Long postId,
                              @RequestParam("depth") int depth,
                              @RequestParam(value = "thread", defaultValue = "0") int thread,
                              @RequestParam("content") String content,
                              HttpSession session) {
-    logger.info(BoardConstant.COMMENT_WRITE);
+    logger.info(BoardConstant.WRITE_COMMENT);
 
     // 댓글 작성자 정보 가져오기
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
@@ -238,11 +238,11 @@ public class BoardController {
   }
 
   // 댓글 수정
-  @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_MODIFY + "/{commentId}")
-  public String commentModify(@PathVariable Long postId,
-                            @PathVariable Long commentId,
-                            @RequestParam("content") String content,
-                            HttpSession session) {
+  @RequestMapping(value = "/{postId}/" + BoardConstant.MODIFY_COMMENT + "/{commentId}")
+  public String modifyComment(@PathVariable Long postId,
+                              @PathVariable Long commentId,
+                              @RequestParam("content") String content,
+                              HttpSession session) {
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
     commentService.modifyComment(commentId, userId, content);
@@ -250,11 +250,11 @@ public class BoardController {
   }
 
   // 댓글 삭제
-  @RequestMapping(value = "/{postId}/" + BoardConstant.COMMENT_DELETE + "/{commentId}")
-  public String commentDelete(@PathVariable Long postId,
-                            @PathVariable Long commentId,
-                            HttpSession session) {
-    logger.info(BoardConstant.COMMENT_DELETE);
+  @RequestMapping(value = "/{postId}/" + BoardConstant.DELETE_COMMENT + "/{commentId}")
+  public String deleteComment(@PathVariable Long postId,
+                              @PathVariable Long commentId,
+                              HttpSession session) {
+    logger.info(BoardConstant.DELETE_COMMENT);
 
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
