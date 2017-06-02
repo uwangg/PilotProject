@@ -11,11 +11,13 @@ public class GlobalExceptionHandlerController {
 
   @ExceptionHandler(value = NoHandlerFoundException.class)
   public String handleNotFoundException(Exception e) {
+    e.printStackTrace();
     return "error/404";
   }
 
   @ExceptionHandler(value = NullPointerException.class)
   public String handleNullPointerException(Exception e) {
+    e.printStackTrace();
     return "error/errorNull";
   }
 }
