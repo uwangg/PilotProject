@@ -19,7 +19,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new AuthInterceptor())
             .addPathPatterns("/user/*", "/board/**")
-            .excludePathPatterns("/board/*", "/user/login", "/user/join", "/user/checkemail", "/user/checkname");
+            .excludePathPatterns("/board/*", "/user/login", "/user/join", "/user/checkemail", "/user/checkname", "/user/joinsuccess");
   }
 
   @Bean

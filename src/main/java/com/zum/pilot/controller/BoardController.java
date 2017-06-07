@@ -55,12 +55,12 @@ public class BoardController {
   }
 
   // 글 쓰기
-  @RequestMapping(value = "/" + BoardConstant.WRITE, method = RequestMethod.GET)
+  @RequestMapping(value = "/write", method = RequestMethod.GET)
   public void writeForm() {
     logger.info(BoardConstant.WRITE_FORM);
   }
 
-  @RequestMapping(value = "/" + BoardConstant.WRITE, method = RequestMethod.POST)
+  @RequestMapping(value = "/write", method = RequestMethod.POST)
   public String write(
           HttpSession session,
           MultipartFile file,
@@ -112,7 +112,7 @@ public class BoardController {
   }
 
   // 글 수정
-  @RequestMapping(value = "/{postId}/" + BoardConstant.MODIFY, method = RequestMethod.GET)
+  @RequestMapping(value = "/{postId}/modify", method = RequestMethod.GET)
   public String modifyForm(@PathVariable Long postId,
                            Model model,
                            HttpSession session) {
@@ -130,9 +130,9 @@ public class BoardController {
       return "redirect:/board";
     }
     model.addAttribute("postEntity", postEntity);
-    return "board/" + BoardConstant.MODIFY;
+    return "board/modify";
   }
-  @RequestMapping(value = "/{postId}/" + BoardConstant.MODIFY, method = RequestMethod.POST)
+  @RequestMapping(value = "/{postId}/modify", method = RequestMethod.POST)
   public String modify(@PathVariable Long postId,
                        MultipartFile file,
                        @RequestParam String title,
@@ -171,7 +171,7 @@ public class BoardController {
   }
 
   // 글 삭제
-  @RequestMapping(value = "/{postId}/" + BoardConstant.DELETE)
+  @RequestMapping(value = "/{postId}/delete")
   public String delete(
           @PathVariable Long postId,
           HttpSession session) {
@@ -200,7 +200,7 @@ public class BoardController {
   }
 
   // 댓글 쓰기
-  @RequestMapping(value = "/{postId}/" + BoardConstant.WRITE_COMMENT)
+  @RequestMapping(value = "/{postId}/writecomment")
   public String writeComment(@PathVariable Long postId,
                              @RequestParam("depth") int depth,
                              @RequestParam(value = "thread", defaultValue = "0") int thread,
@@ -218,7 +218,7 @@ public class BoardController {
   }
 
   // 댓글 수정
-  @RequestMapping(value = "/{postId}/" + BoardConstant.MODIFY_COMMENT + "/{commentId}")
+  @RequestMapping(value = "/{postId}/modifycomment/{commentId}")
   public String modifyComment(@PathVariable Long postId,
                               @PathVariable Long commentId,
                               @RequestParam("content") String content,
@@ -230,7 +230,7 @@ public class BoardController {
   }
 
   // 댓글 삭제
-  @RequestMapping(value = "/{postId}/" + BoardConstant.DELETE_COMMENT + "/{commentId}")
+  @RequestMapping(value = "/{postId}/deletecomment/{commentId}")
   public String deleteComment(@PathVariable Long postId,
                               @PathVariable Long commentId,
                               HttpSession session) {

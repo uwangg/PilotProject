@@ -32,12 +32,12 @@ public class UserController {
   }
 
   // 회원가입
-  @RequestMapping(value = "/"+ UserConstant.JOIN, method = RequestMethod.GET)
+  @RequestMapping(value = "/join", method = RequestMethod.GET)
   public void joinForm() {
     logger.info(UserConstant.JOIN_FORM);
   }
 
-  @RequestMapping(value = "/"+ UserConstant.JOIN, method = RequestMethod.POST)
+  @RequestMapping(value = "/join", method = RequestMethod.POST)
   public String join(@RequestParam(value = "confirm", defaultValue = "") String confirm, 
                      @ModelAttribute UserEntity userEntity, BindingResult result, Model model) {
     logger.info(UserConstant.JOIN);
@@ -50,17 +50,17 @@ public class UserController {
     logger.info("통과");
     userService.create(userEntity);
 
-    return "redirect:/user/"+UserConstant.JOIN_SUCCESS;
+    return "redirect:/user/joinsuccess";
   }
 
-  @RequestMapping(value = UserConstant.JOIN_SUCCESS)
+  @RequestMapping(value = "/joinsuccess")
   public String joinSuccess() {
     logger.info(UserConstant.JOIN_SUCCESS);
     return "user/" + UserConstant.JOIN_SUCCESS;
   }
 
   // 유효성 검사
-  @RequestMapping(value = UserConstant.CHECK_EMAIL)
+  @RequestMapping("/checkemail")
   @ResponseBody
   public boolean checkEmail(@RequestParam("email") String email) {
     logger.info(UserConstant.CHECK_EMAIL);
@@ -73,7 +73,7 @@ public class UserController {
     }
   }
 
-  @RequestMapping(value = UserConstant.CHECK_NAME)
+  @RequestMapping("/checkname")
   @ResponseBody
   public boolean checkName(@RequestParam("name") String name, HttpSession session) {
     logger.info(UserConstant.CHECK_NAME);
@@ -98,7 +98,7 @@ public class UserController {
   }
 
   // 로그인 & 로그아웃
-  @RequestMapping(value = "/" + UserConstant.LOGIN, method = RequestMethod.POST)
+  @RequestMapping(value = "/login", method = RequestMethod.POST)
   public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
     logger.info(UserConstant.LOGIN);
     password = SecurityUtil.encryptSHA256(password);
@@ -112,7 +112,7 @@ public class UserController {
     return "redirect:/";
   }
 
-  @RequestMapping(value = UserConstant.LOGOUT)
+  @RequestMapping("/logout")
   public String logout(HttpSession session) {
     logger.info(UserConstant.LOGOUT);
 
@@ -124,12 +124,12 @@ public class UserController {
   }
 
   // 회원 수정
-  @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.GET)
+  @RequestMapping(value = "/modify", method = RequestMethod.GET)
   public void modifyForm() {
     logger.info(UserConstant.MODIFY_FORM + "[GET]");
   }
 
-  @RequestMapping(value = UserConstant.MODIFY, method = RequestMethod.POST)
+  @RequestMapping(value = "/modify", method = RequestMethod.POST)
   public String modify(
           @ModelAttribute UserEntity userEntity,
           @RequestParam(value = "changePasswd", defaultValue = "") String changePassword,
@@ -170,12 +170,12 @@ public class UserController {
   }
 
   // 회원탈퇴
-  @RequestMapping(value = UserConstant.WITHDRAWAL, method = RequestMethod.GET)
+  @RequestMapping(value = "/withdrawal", method = RequestMethod.GET)
   public void withdrawalForm() {
     logger.info(UserConstant.WITHDRAWAL_FORM);
   }
 
-  @RequestMapping(value = UserConstant.WITHDRAWAL, method = RequestMethod.POST)
+  @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
   public void withdrawal(
           @RequestParam("password") String password,
           HttpSession session,
@@ -207,16 +207,4 @@ public class UserController {
     ScriptUtil.alert(response, msg, url);
   }
 
-//  private void alertScript(HttpServletResponse response, String msg, String url) {
-//    response.setContentType("text/html; charset=UTF-8");
-//    try (PrintWriter out = response.getWriter()) {
-//      out.println("<script language=\"javascript\">");
-//      String alertMsg = "alert('" + msg + "'); location.href=\"" + url + "\"";
-//      out.println(alertMsg);
-//      out.println("</script>");
-////      out.close();
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
-//  }
 }
