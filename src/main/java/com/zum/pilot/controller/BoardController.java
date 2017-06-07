@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -66,8 +68,13 @@ public class BoardController {
     logger.info(BoardConstant.WRITE);
 
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
+    Long userId = authUser.getId();
+    postEntity.getUserEntity().setId(userId);
 
-    String saveName = file.getOriginalFilename();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+    Date date = new Date();
+    // 이미지 등록
+    String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
     File target = new File(uploadPath, saveName);
     // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
     try {
@@ -125,56 +132,41 @@ public class BoardController {
     model.addAttribute("postEntity", postEntity);
     return "board/" + BoardConstant.MODIFY;
   }
-
   @RequestMapping(value = "/{postId}/" + BoardConstant.MODIFY, method = RequestMethod.POST)
   public String modify(@PathVariable Long postId,
-                     HttpServletRequest request) {
+                       MultipartFile file,
+                       @RequestParam String title,
+                       @RequestParam String content,
+                       HttpSession session) {
     logger.info(BoardConstant.MODIFY);
 
-    // 업로드용 폴더 이름
-    MultipartRequest multi = null;
-    int maxSize = 5 * 1024 * 1024;    // 10M
-//    Long id = -1L;
-    String title = "";
-    String content = "";
-    String oldPath = "";
-    String imagePath = "";
-    Long userId = -1L;
+    PostEntity postEntity = postService.getPost(postId);
+    postEntity.setTitle(title);
+    postEntity.setContent(content);
+    String oldImgPath = postEntity.getImagePath();
 
-    // 파일이 업로드될 실제 tomcat 폴더의 경로
-    String savePath = "D:\\test\\upload";
-    boolean changedImage = false;
+    if(!file.isEmpty()) {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+      Date date = new Date();
+      // 이미지 등록
+      String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
+      File target = new File(uploadPath, saveName);
 
-    try {
-      multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
-      title = multi.getParameter("title");
-      content = multi.getParameter("content");
-      oldPath = multi.getParameter("oldImgPath");
-      imagePath = multi.getFilesystemName("imagePath");
-      if ("".equals(imagePath) || imagePath == null)
-        imagePath = oldPath;
-      else {
-        changedImage = true;
+      // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
+      try {
+        FileCopyUtils.copy(file.getBytes(), target);
+      } catch (IOException e) {
+        e.printStackTrace();
       }
-      userId = Long.parseLong(multi.getParameter("userId"));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    HttpSession session = request.getSession();
-    UserEntity authUser = (UserEntity) session.getAttribute("authUser");
-    // 작성자만 수정 가능
-    if (authUser.getId() == userId) {
-      // 이미지가 변경되었다면 이전 이미지는 서버에서 삭제
-      if (changedImage) {
-        PostEntity prePost = postService.getPost(postId);
-        String uploadFileName = "D:\\test\\upload";
-        File uploadFile = new File(uploadFileName + "/" + prePost.getImagePath());
+      postEntity.setImagePath(saveName);
+      if(oldImgPath != null) {
+        // 원래 이미지 삭제
+        File uploadFile = new File(uploadPath + "/" + oldImgPath);
         if (uploadFile.exists() && uploadFile.isFile())
           uploadFile.delete();
       }
-      postService.modifyPost(postId, title, content, imagePath);
     }
+    postService.modifyPost(postEntity);
     return "redirect:/board/{postId}";
   }
 

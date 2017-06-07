@@ -16,6 +16,7 @@ public interface PostService {
   void create(PostEntity vo); // 게시글 등록
 
   void modifyPost(Long postId, String title, String content, String imagePath); // 게시글 수정
+  void modifyPost(PostEntity postEntity);
 
   void deletePost(Long postId); // 게시글 삭제
 

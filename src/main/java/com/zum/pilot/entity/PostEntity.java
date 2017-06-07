@@ -30,7 +30,9 @@ public class PostEntity {
   @JoinColumn(name = "user_id", updatable=false)
   private UserEntity userEntity;
 
-  public PostEntity() {}
+  public PostEntity() {
+    this.userEntity = new UserEntity();
+  }
 
   public Long getId() {
     return id;
@@ -112,5 +114,20 @@ public class PostEntity {
 
   public void setDeleteFlag(boolean deleteFlag) {
     this.deleteFlag = deleteFlag;
+  }
+
+  @Override
+  public String toString() {
+    return "PostEntity{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", imagePath='" + imagePath + '\'' +
+            ", createTime=" + createTime +
+            ", updateTime=" + updateTime +
+            ", hit=" + hit +
+            ", deleteFlag=" + deleteFlag +
+            ", userEntity=" + userEntity +
+            '}';
   }
 }

@@ -61,6 +61,10 @@ public class PostServiceImpl implements PostService {
     postRepository.save(postEntity);
   }
 
+  public void modifyPost(PostEntity postEntity) {
+    postRepository.save(postEntity);
+  }
+
   @Override
   @Transactional
   public void deletePost(Long postId) {

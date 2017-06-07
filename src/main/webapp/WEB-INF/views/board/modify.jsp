@@ -19,7 +19,7 @@
 			style="margin-top:6%;margin-left: 5%; margin-right: 5%">
 <!-- 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;"> -->
 		<input type="hidden" name="id" value="${postEntity.id }">
-		<input type="hidden" name="userId" value="${postEntity.userId }">
+		<%--<input type="hidden" name="userEntity" value="${postEntity.userEntity }">--%>
 		<input type="hidden" name="oldImgPath" value="${postEntity.imagePath }">
 		<div class="panel-title text-center" style="padding: 10px;">
 			<h2 class="title">글수정하기</h2>
@@ -36,7 +36,7 @@
 		<div class="form-group">
 			<label for="exampleInputFile">이미지 첨부</label> <input type="file"
 				class="form-control-file" id="exampleInputFile"
-				aria-describedby="fileHelp" name="imagePath">
+				aria-describedby="fileHelp" name="file">
 		</div>
 
 		<div class="text-center">
