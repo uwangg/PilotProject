@@ -110,7 +110,8 @@ public class UserController {
 
   @RequestMapping(value = "/modify", method = RequestMethod.POST)
   public String modify(
-          @ModelAttribute UserEntity userEntity,
+          String name,
+          String password,
           @RequestParam(value = "changePasswd", defaultValue = "") String changePassword,
           @RequestParam(value = "changeConfirm", defaultValue = "") String changeConfirm,
           HttpSession session,
@@ -118,33 +119,26 @@ public class UserController {
     logger.debug(UserConstant.MODIFY + "[POST]");
 
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
+    password = SecurityUtil.encryptSHA256(password);
 
     // 새 비밀번호 != 비밀번호 확인
     if (!changePassword.equals(changeConfirm)) {
       logger.debug("새 비밀번호와 일치하지 않음");
       return "redirect:/user/modify";
     }
-
-    if (!userService.checkPassword(authUser.getId(), SecurityUtil.encryptSHA256(userEntity.getPassword()))) {
-      String msg = "비밀번호가 틀렸습니다.";
+    if (!changePassword.equals("")) {
+      changePassword = SecurityUtil.encryptSHA256(changePassword);
+    }
+    
+    authUser = userService.modifyUser(authUser.getId(), name, password, changePassword);
+    if(authUser == null) {
+      String msg = "비밀번호가 올바르지않습니다.";
       String url = "/user/modify";
       ScriptUtil.alert(response, msg, url);
       return "redirect:/user/modify";
     }
-
-    // 회원 수정
-    authUser.setName(userEntity.getName());
-    authUser.setPassword(SecurityUtil.encryptSHA256(userEntity.getPassword()));
-
-    if (!changePassword.equals("")) {
-      authUser.setPassword(SecurityUtil.encryptSHA256(changePassword));
-    }
-    userService.update(authUser);
-
     // 세션 정보 변경
-    authUser.setPassword("");
     session.setAttribute("authUser", authUser);
-
     return "redirect:/";
   }
 

@@ -9,5 +9,6 @@ public interface UserService {
   boolean checkName(String name, UserEntity authUser);
   boolean checkPassword(Long id, String password);
   void update(UserEntity userEntity);
+  UserEntity modifyUser(Long id, String name, String password, String changePassword);
   void delete(Long id, String password);
 }

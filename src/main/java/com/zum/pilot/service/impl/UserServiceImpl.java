@@ -70,6 +70,20 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public UserEntity modifyUser(Long id, String name, String password, String changePassword) {
+    UserEntity userEntity = userRepository.findByIdAndPasswordAndDeleteFlag(id, password, false);
+    if(userEntity == null) {
+      return null;
+    }
+    userEntity.setName(name);
+    if(!"".equals(changePassword)) {
+      userEntity.setPassword(changePassword);
+    }
+    userRepository.save(userEntity);
+    return userEntity;
+  }
+
+  @Override
   @Transactional
   public void delete(Long id, String password) {
     UserEntity userEntity = userRepository.findByIdAndPasswordAndDeleteFlag(id, password, false);
