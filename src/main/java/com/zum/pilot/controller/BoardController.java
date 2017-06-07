@@ -71,18 +71,20 @@ public class BoardController {
     Long userId = authUser.getId();
     postEntity.getUserEntity().setId(userId);
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-    Date date = new Date();
-    // 이미지 등록
-    String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
-    File target = new File(uploadPath, saveName);
-    // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
-    try {
-      FileCopyUtils.copy(file.getBytes(), target);
-    } catch (IOException e) {
-      e.printStackTrace();
+    if(!file.isEmpty()) {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+      Date date = new Date();
+      // 이미지 등록
+      String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
+      File target = new File(uploadPath, saveName);
+      // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
+      try {
+        FileCopyUtils.copy(file.getBytes(), target);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      postEntity.setImagePath(saveName);
     }
-    postEntity.setImagePath(saveName);
     // 게시글 입력
     postService.create(postEntity);
     return "redirect:/board";
