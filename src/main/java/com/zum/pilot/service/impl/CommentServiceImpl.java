@@ -47,7 +47,6 @@ public class CommentServiceImpl implements CommentService{
       int preCommentThread = (thread / thrUnit) * thrUnit;
       updateThread(preCommentThread, thread + 1);
     }
-    logger.info("writeComment : " + postId + ", " + thread);
     commentRepository.save(commentEntity);
   }
 
@@ -60,10 +59,8 @@ public class CommentServiceImpl implements CommentService{
 
   private void updateThread(int begin, int end) {
     List<CommentEntity> comments = commentRepository.findAllByThreadGreaterThanAndThreadLessThan(begin, end);
-    logger.info("CommentEntityLength : " + comments.size() + ", begin :"  + begin + ", end : " + end);
     for(CommentEntity commentEntity : comments) {
       int thread = commentEntity.getThread() - 1;
-      logger.info("updateThread - thread : " + thread);
       commentEntity.setThread(thread);
       commentRepository.save(commentEntity);
     }

@@ -15,7 +15,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    logger.info("AuthInterceptor...................");
+    logger.debug("AuthInterceptor...................");
     HttpSession session = request.getSession();
     if(session.getAttribute("authUser") == null) {
       String msg = "로그인한 사용자가 아닙니다. 로그인 해주세요. \\nHome으로 돌아갑니다";

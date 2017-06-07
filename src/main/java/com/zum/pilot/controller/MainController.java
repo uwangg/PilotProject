@@ -22,10 +22,6 @@ import java.util.List;
 @RequestMapping("/")
 public class MainController {
 
-  private final static Logger logger =
-          LoggerFactory.getLogger(MainController.class);
-
-
   @Autowired
   private PostService postService;
 

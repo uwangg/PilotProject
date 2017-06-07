@@ -57,7 +57,7 @@ public class BoardController {
   // 글 쓰기
   @RequestMapping(value = "/write", method = RequestMethod.GET)
   public void writeForm() {
-    logger.info(BoardConstant.WRITE_FORM);
+    logger.debug(BoardConstant.WRITE_FORM);
   }
 
   @RequestMapping(value = "/write", method = RequestMethod.POST)
@@ -65,7 +65,7 @@ public class BoardController {
           HttpSession session,
           MultipartFile file,
           @ModelAttribute PostEntity postEntity) {
-    logger.info(BoardConstant.WRITE);
+    logger.debug(BoardConstant.WRITE);
 
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
@@ -96,7 +96,7 @@ public class BoardController {
           @PathVariable Long postId,  // 게시글 id
           @RequestParam(value = "currentPage", defaultValue = "1") int currentPage, // 현재 눌린 페이지 번호
           Model model) {
-    logger.info(BoardConstant.VIEW);
+    logger.debug(BoardConstant.VIEW);
     // 게시글 id를 이용해 게시물 불러오기
       PostEntity postEntity = postService.readPost(postId);
 
@@ -118,7 +118,7 @@ public class BoardController {
   public String modifyForm(@PathVariable Long postId,
                            Model model,
                            HttpSession session) {
-    logger.info(BoardConstant.MODIFY_FORM);
+    logger.debug(BoardConstant.MODIFY_FORM);
 
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     PostEntity postEntity = postService.getPost(postId);
@@ -140,7 +140,7 @@ public class BoardController {
                        @RequestParam String title,
                        @RequestParam String content,
                        HttpSession session) {
-    logger.info(BoardConstant.MODIFY);
+    logger.debug(BoardConstant.MODIFY);
 
     PostEntity postEntity = postService.getPost(postId);
     postEntity.setTitle(title);
@@ -177,7 +177,7 @@ public class BoardController {
   public String delete(
           @PathVariable Long postId,
           HttpSession session) {
-    logger.info(BoardConstant.DELETE);
+    logger.debug(BoardConstant.DELETE);
 
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long authId = authUser.getId();    // 글을 확인하는 사람
@@ -189,7 +189,7 @@ public class BoardController {
       // 이미지가 있다면 삭제
       if (postEntity.getImagePath() != null && !postEntity.getImagePath().equals("")) {
         String uploadFileName = "D:\\test\\upload";
-        logger.info("file path = " + uploadFileName);
+        logger.debug("file path = " + uploadFileName);
         File uploadFile = new File(uploadFileName + "/" + postEntity.getImagePath());
 
         if (uploadFile.exists() && uploadFile.isFile())
@@ -208,7 +208,7 @@ public class BoardController {
                              @RequestParam(value = "thread", defaultValue = "0") int thread,
                              @RequestParam("content") String content,
                              HttpSession session) {
-    logger.info(BoardConstant.WRITE_COMMENT);
+    logger.debug(BoardConstant.WRITE_COMMENT);
 
     // 댓글 작성자 정보 가져오기
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
@@ -236,7 +236,7 @@ public class BoardController {
   public String deleteComment(@PathVariable Long postId,
                               @PathVariable Long commentId,
                               HttpSession session) {
-    logger.info(BoardConstant.DELETE_COMMENT);
+    logger.debug(BoardConstant.DELETE_COMMENT);
 
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
