@@ -62,38 +62,18 @@ public class UserController {
   @RequestMapping("/checkemail")
   @ResponseBody
   public boolean checkEmail(@RequestParam("email") String email) {
-    logger.debug(UserConstant.CHECK_EMAIL);
-
+    logger.debug("checkemail");
     // 이메일 중복체크
-    if(userService.checkEmail(email)) {
-      return false;
-    } else {
-      return true;
-    }
+     return userService.checkEmail(email);
   }
 
   @RequestMapping("/checkname")
   @ResponseBody
   public boolean checkName(@RequestParam("name") String name, HttpSession session) {
-    logger.debug(UserConstant.CHECK_NAME);
-
-    // 회원 수정시 닉네임 중복체크
+    logger.debug("checkname");
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
-    if (authUser != null) {
-      if (authUser.getName().equals(name)) {
-        logger.debug("현재 유저명과 같음");
-        return true;
-      }
-    }
-
     // 회원 가입시 닉네임 중복체크
-    if (userService.checkName(name)) {
-      logger.debug("닉네임 중복입니다.");
-      return false; // id 중복
-    } else {
-      logger.debug("가능한 닉네임");
-      return true;
-    }
+    return userService.checkName(name, authUser);
   }
 
   // 로그인 & 로그아웃

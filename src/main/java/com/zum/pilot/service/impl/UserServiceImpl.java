@@ -35,18 +35,24 @@ public class UserServiceImpl implements UserService {
   public boolean checkEmail(String email) {
     UserEntity userEntity = userRepository.findByEmailAndDeleteFlag(email, false);
     if(userEntity == null)
-      return false;
-    else
       return true;
+    else
+      return false;
   }
 
   @Override
-  public boolean checkName(String name) {
+  public boolean checkName(String name, UserEntity authUser) {
+    // 회원 수정시 닉네임 중복체크
+    if (authUser != null) {
+      if (authUser.getName().equals(name)) {
+        return true;
+      }
+    }
     UserEntity userEntity = userRepository.findUserEntityByNameAndDeleteFlag(name, false);
-    if(userEntity == null)
-      return false;
-    else
+    if(userEntity == null)  // 중복된 유저가없으므로 true
       return true;
+    else
+      return false;
   }
 
   @Override

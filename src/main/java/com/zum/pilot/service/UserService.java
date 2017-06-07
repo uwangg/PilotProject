@@ -6,7 +6,7 @@ public interface UserService {
   UserEntity checkEmailAndPassword(String email, String password); // 로그인
   void create(UserEntity userEntity); // 회원 생성
   boolean checkEmail(String email); // 이메일 체크
-  boolean checkName(String name);
+  boolean checkName(String name, UserEntity authUser);
   boolean checkPassword(Long id, String password);
   void update(UserEntity userEntity);
   void delete(Long id, String password);
