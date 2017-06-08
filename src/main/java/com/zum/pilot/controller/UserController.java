@@ -47,7 +47,7 @@ public class UserController {
     }
 
     userEntity.setPassword(SecurityUtil.encryptSHA256(userEntity.getPassword()));
-    userService.create(userEntity);
+    userService.createUser(userEntity);
 
     return "redirect:/user/joinsuccess";
   }

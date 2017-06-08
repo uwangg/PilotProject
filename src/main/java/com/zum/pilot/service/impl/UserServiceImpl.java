@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void create(UserEntity userEntity) {
+  public void createUser(UserEntity userEntity) {
     userRepository.save(userEntity);
   }
 
@@ -53,15 +53,6 @@ public class UserServiceImpl implements UserService {
       return true;
     else
       return false;
-  }
-
-  @Override
-  public boolean checkPassword(Long id, String password) {
-    UserEntity userEntity = userRepository.findByIdAndPasswordAndDeleteFlag(id, password, false);
-    if(userEntity == null)
-      return false;
-    else
-      return true;
   }
 
   @Override
