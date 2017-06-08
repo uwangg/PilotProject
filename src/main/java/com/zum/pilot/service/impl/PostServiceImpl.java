@@ -39,12 +39,10 @@ public class PostServiceImpl implements PostService {
 
   @Override
   @Transactional
-  public PostEntity readPost(Long id) {;
+  public PostEntity readPost(Long id) {
     // 게시글 불러오기
     PostEntity postEntity = postRepository.findOne(id);
-    // 게시글 조회수 증가
-    Long hit = postEntity.getHit() + 1;
-    postEntity.setHit(hit);
+    postEntity.increaseHit();
     // 게시글 업데이트
     return postRepository.save(postEntity);
   }
@@ -56,27 +54,29 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public void createPost(String title, String content, MultipartFile file, Long userId) {
-    PostEntity postEntity = new PostEntity();
-    postEntity.setTitle(title);
-    postEntity.setContent(content);
-    postEntity.getUserEntity().setId(userId);
+    PostEntity postEntity = new PostEntity(title, content, userId);
 
     if(!file.isEmpty()) {
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-      Date date = new Date();
-      // 이미지 등록
-      String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
-      File target = new File(uploadPath, saveName);
-      // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
-      try {
-        FileCopyUtils.copy(file.getBytes(), target);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      String saveName = fileUpload(file);
       postEntity.setImagePath(saveName);
     }
     // 게시글 입력
     postRepository.save(postEntity);
+  }
+
+  private String fileUpload(MultipartFile file) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+    Date date = new Date();
+    // 이미지 등록
+    String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
+    File target = new File(uploadPath, saveName);
+    // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
+    try {
+      FileCopyUtils.copy(file.getBytes(), target);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return saveName;
   }
 
   @Override
@@ -88,18 +88,7 @@ public class PostServiceImpl implements PostService {
     String oldImgPath = postEntity.getImagePath();
 
     if(!file.isEmpty()) {
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-      Date date = new Date();
-      // 이미지 등록
-      String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
-      File target = new File(uploadPath, saveName);
-
-      // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
-      try {
-        FileCopyUtils.copy(file.getBytes(), target);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      String saveName = fileUpload(file);
       postEntity.setImagePath(saveName);
       if(oldImgPath != null) {
         // 원래 이미지 삭제

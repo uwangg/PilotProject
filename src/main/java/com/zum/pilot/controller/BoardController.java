@@ -141,7 +141,6 @@ public class BoardController {
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
-    // 이미지가 있다면 삭제
     postService.deletePost(postId, authId);
     return "redirect:/board";
   }

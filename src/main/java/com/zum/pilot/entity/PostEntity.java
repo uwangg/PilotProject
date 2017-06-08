@@ -30,6 +30,13 @@ public class PostEntity {
   @JoinColumn(name = "user_id", updatable=false)
   private UserEntity userEntity;
 
+  public PostEntity(String title, String content, Long userId) {
+    this.title = title;
+    this.content = content;
+    this.userEntity = new UserEntity();
+    this.userEntity.setId(userId);
+  }
+
   public PostEntity() {
     this.userEntity = new UserEntity();
   }
@@ -114,6 +121,10 @@ public class PostEntity {
 
   public void setDeleteFlag(boolean deleteFlag) {
     this.deleteFlag = deleteFlag;
+  }
+
+  public void increaseHit() {
+    this.hit++;
   }
 
   @Override
