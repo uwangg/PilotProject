@@ -65,11 +65,6 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void update(UserEntity userEntity) {
-    userRepository.save(userEntity);
-  }
-
-  @Override
   public UserEntity modifyUser(Long id, String name, String password, String changePassword) {
     UserEntity userEntity = userRepository.findByIdAndPasswordAndDeleteFlag(id, password, false);
     if(userEntity == null) {
@@ -85,13 +80,15 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public void delete(Long id, String password) {
+  public boolean deleteUser(Long id, String password) {
     UserEntity userEntity = userRepository.findByIdAndPasswordAndDeleteFlag(id, password, false);
-    if(userEntity != null) {
-      userEntity.setDeleteFlag(true);
-      userRepository.save(userEntity);
-      postService.deleteByUserId(id);
-      commentService.deleteCommentByUserId(id);
+    if(userEntity == null) {
+      return false;
     }
+    userEntity.setDeleteFlag(true);
+    userRepository.save(userEntity);
+    postService.deleteByUserId(id);
+    commentService.deleteCommentByUserId(id);
+    return true;
   }
 }

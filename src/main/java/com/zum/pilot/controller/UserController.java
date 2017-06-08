@@ -129,7 +129,7 @@ public class UserController {
     if (!changePassword.equals("")) {
       changePassword = SecurityUtil.encryptSHA256(changePassword);
     }
-    
+
     authUser = userService.modifyUser(authUser.getId(), name, password, changePassword);
     if(authUser == null) {
       String msg = "비밀번호가 올바르지않습니다.";
@@ -150,7 +150,7 @@ public class UserController {
 
   @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
   public void withdrawal(
-          @RequestParam("password") String password,
+          String password,
           HttpSession session,
           HttpServletResponse response) {
     logger.debug(UserConstant.WITHDRAWAL);
@@ -159,25 +159,19 @@ public class UserController {
     UserEntity userEntity = (UserEntity) session.getAttribute("authUser");
     password = SecurityUtil.encryptSHA256(password);  // 패스워드 암호화
 
-    response.setContentType("text/html; charset=UTF-8");
-    // id, password가 동일한지 체크
-    if (!userService.checkPassword(userEntity.getId(), password)) {
-      String msg = "비밀번호가 틀렸습니다.";
-      String url = "/user/withdrawal";
+    String msg;
+    String url;
+    if(userService.deleteUser(userEntity.getId(), password)) {
+      //로그아웃 처리
+      session.removeAttribute("authUser");    // 세션 삭제
+      session.invalidate();    // 세션 종료
+      msg = "회원탈퇴가 완료되었습니다.";
+      url = "/";
       ScriptUtil.alert(response, msg, url);
-      return;
+    } else {
+      msg = "비밀번호가 틀렸습니다.";
+      url = "/user/withdrawal";
+      ScriptUtil.alert(response, msg, url);
     }
-
-    // 동일하다면 삭제
-    userService.delete(userEntity.getId(), password);
-
-    //로그아웃 처리
-    session.removeAttribute("authUser");    // 세션 삭제
-    session.invalidate();    // 세션 종료
-
-    String msg = "회원탈퇴가 완료되었습니다.";
-    String url = "/";
-    ScriptUtil.alert(response, msg, url);
   }
-
 }
