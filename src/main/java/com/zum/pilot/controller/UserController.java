@@ -42,8 +42,11 @@ public class UserController {
                      @ModelAttribute UserEntity userEntity, BindingResult result, Model model) {
     logger.debug(UserConstant.JOIN);
 
+    if(userEntity.getPassword().length() < 6 || confirm.length() < 6) {
+      return "redirect:/user/join";
+    }
     if (!userEntity.getPassword().equals(confirm)) {
-      return "redirect:/user/" + UserConstant.JOIN;
+      return "redirect:/user/join";
     }
 
     userEntity.setPassword(SecurityUtil.encryptSHA256(userEntity.getPassword()));
@@ -123,13 +126,15 @@ public class UserController {
 
     // 새 비밀번호 != 비밀번호 확인
     if (!changePassword.equals(changeConfirm)) {
-      logger.debug("새 비밀번호와 일치하지 않음");
       return "redirect:/user/modify";
     }
     if (!changePassword.equals("")) {
+      if(changePassword.length() < 6 && changeConfirm.length() < 6) {
+        return "redirect:/user/modify";
+      }
       changePassword = SecurityUtil.encryptSHA256(changePassword);
     }
-
+    
     authUser = userService.modifyUser(authUser.getId(), name, password, changePassword);
     if(authUser == null) {
       String msg = "비밀번호가 올바르지않습니다.";
