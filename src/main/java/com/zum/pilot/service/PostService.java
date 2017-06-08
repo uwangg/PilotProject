@@ -4,6 +4,7 @@ import com.zum.pilot.entity.PostEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface PostService {
   Page<PostEntity> findAllPostList(Pageable pageable);  // 게시글 불러오기
@@ -13,10 +14,9 @@ public interface PostService {
 
   PostEntity getPost(Long id); // 게시글 번호에 맞는 게시물 정보 가져오기
 
-  void create(PostEntity vo); // 게시글 등록
+  void createPost(String title, String content, MultipartFile file, Long userId);
 
-  void modifyPost(Long postId, String title, String content, String imagePath); // 게시글 수정
-  void modifyPost(PostEntity postEntity);
+  void modifyPost(Long postId, String title, String content, MultipartFile file); // 게시글 수정
 
   void deletePost(Long postId); // 게시글 삭제
 

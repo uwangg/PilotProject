@@ -64,29 +64,14 @@ public class BoardController {
   public String write(
           HttpSession session,
           MultipartFile file,
-          @ModelAttribute PostEntity postEntity) {
+          String title,
+          String content) {
     logger.debug(BoardConstant.WRITE);
 
     UserEntity authUser = (UserEntity) session.getAttribute("authUser");
     Long userId = authUser.getId();
-    postEntity.getUserEntity().setId(userId);
 
-    if(!file.isEmpty()) {
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-      Date date = new Date();
-      // 이미지 등록
-      String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
-      File target = new File(uploadPath, saveName);
-      // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
-      try {
-        FileCopyUtils.copy(file.getBytes(), target);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      postEntity.setImagePath(saveName);
-    }
-    // 게시글 입력
-    postService.create(postEntity);
+    postService.createPost(title, content, file, userId);
     return "redirect:/board";
   }
 
@@ -134,6 +119,7 @@ public class BoardController {
     model.addAttribute("postEntity", postEntity);
     return "board/modify";
   }
+  
   @RequestMapping(value = "/{postId}/modify", method = RequestMethod.POST)
   public String modify(@PathVariable Long postId,
                        MultipartFile file,
@@ -141,34 +127,7 @@ public class BoardController {
                        @RequestParam String content,
                        HttpSession session) {
     logger.debug(BoardConstant.MODIFY);
-
-    PostEntity postEntity = postService.getPost(postId);
-    postEntity.setTitle(title);
-    postEntity.setContent(content);
-    String oldImgPath = postEntity.getImagePath();
-
-    if(!file.isEmpty()) {
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-      Date date = new Date();
-      // 이미지 등록
-      String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
-      File target = new File(uploadPath, saveName);
-
-      // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
-      try {
-        FileCopyUtils.copy(file.getBytes(), target);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      postEntity.setImagePath(saveName);
-      if(oldImgPath != null) {
-        // 원래 이미지 삭제
-        File uploadFile = new File(uploadPath + "/" + oldImgPath);
-        if (uploadFile.exists() && uploadFile.isFile())
-          uploadFile.delete();
-      }
-    }
-    postService.modifyPost(postEntity);
+    postService.modifyPost(postId, title, content, file);
     return "redirect:/board/{postId}";
   }
 
@@ -188,9 +147,9 @@ public class BoardController {
     if (postEntity.getUserId() == authId) {
       // 이미지가 있다면 삭제
       if (postEntity.getImagePath() != null && !postEntity.getImagePath().equals("")) {
-        String uploadFileName = "D:\\test\\upload";
-        logger.debug("file path = " + uploadFileName);
-        File uploadFile = new File(uploadFileName + "/" + postEntity.getImagePath());
+//        String uploadFileName = "D:\\test\\upload";
+//        logger.debug("file path = " + uploadFileName);
+        File uploadFile = new File(uploadPath + "/" + postEntity.getImagePath());
 
         if (uploadFile.exists() && uploadFile.isFile())
           uploadFile.delete();

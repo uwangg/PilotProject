@@ -9,7 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,6 +26,9 @@ public class PostServiceImpl implements PostService {
 
   @Autowired
   private CommentService commentService;
+
+  @Resource(name = "uploadPath")
+  String uploadPath;
 
   // 게시글 페이지네이션
   @Override
@@ -45,23 +55,60 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public void create(PostEntity vo) {
-    postRepository.save(vo);
+  public void createPost(String title, String content, MultipartFile file, Long userId) {
+    PostEntity postEntity = new PostEntity();
+    postEntity.setTitle(title);
+    postEntity.setContent(content);
+    postEntity.getUserEntity().setId(userId);
+
+    if(!file.isEmpty()) {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+      Date date = new Date();
+      // 이미지 등록
+      String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
+      File target = new File(uploadPath, saveName);
+      // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
+      try {
+        FileCopyUtils.copy(file.getBytes(), target);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      postEntity.setImagePath(saveName);
+    }
+    // 게시글 입력
+    postRepository.save(postEntity);
   }
 
   @Override
   @Transactional
-  public void modifyPost(Long postId, String title, String content, String imagePath) {
+  public void modifyPost(Long postId, String title, String content, MultipartFile file) {
+//    PostEntity postEntity = postService.getPost(postId);
     PostEntity postEntity = postRepository.findByIdAndDeleteFlag(postId, false);
     postEntity.setTitle(title);
     postEntity.setContent(content);
-    if(imagePath == null)
-      imagePath = "";
-    postEntity.setImagePath(imagePath);
-    postRepository.save(postEntity);
-  }
+    String oldImgPath = postEntity.getImagePath();
 
-  public void modifyPost(PostEntity postEntity) {
+    if(!file.isEmpty()) {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+      Date date = new Date();
+      // 이미지 등록
+      String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
+      File target = new File(uploadPath, saveName);
+
+      // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
+      try {
+        FileCopyUtils.copy(file.getBytes(), target);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      postEntity.setImagePath(saveName);
+      if(oldImgPath != null) {
+        // 원래 이미지 삭제
+        File uploadFile = new File(uploadPath + "/" + oldImgPath);
+        if (uploadFile.exists() && uploadFile.isFile())
+          uploadFile.delete();
+      }
+    }
     postRepository.save(postEntity);
   }
 
