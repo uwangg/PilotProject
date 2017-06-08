@@ -119,7 +119,7 @@ public class BoardController {
     model.addAttribute("postEntity", postEntity);
     return "board/modify";
   }
-  
+
   @RequestMapping(value = "/{postId}/modify", method = RequestMethod.POST)
   public String modify(@PathVariable Long postId,
                        MultipartFile file,
@@ -142,21 +142,7 @@ public class BoardController {
     Long authId = authUser.getId();    // 글을 확인하는 사람
 
     // 이미지가 있다면 삭제
-    PostEntity postEntity = postService.getPost(postId);
-
-    if (postEntity.getUserId() == authId) {
-      // 이미지가 있다면 삭제
-      if (postEntity.getImagePath() != null && !postEntity.getImagePath().equals("")) {
-//        String uploadFileName = "D:\\test\\upload";
-//        logger.debug("file path = " + uploadFileName);
-        File uploadFile = new File(uploadPath + "/" + postEntity.getImagePath());
-
-        if (uploadFile.exists() && uploadFile.isFile())
-          uploadFile.delete();
-      }
-      // 게시글 삭제
-      postService.deletePost(postId);
-    }
+    postService.deletePost(postId, authId);
     return "redirect:/board";
   }
 

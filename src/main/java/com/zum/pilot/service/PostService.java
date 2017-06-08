@@ -18,7 +18,7 @@ public interface PostService {
 
   void modifyPost(Long postId, String title, String content, MultipartFile file); // 게시글 수정
 
-  void deletePost(Long postId); // 게시글 삭제
+  void deletePost(Long postId, Long authId);  // 게시글 삭제
 
   void deleteByUserId(Long userId); // 유저 번호에 맞는 게시글들 삭제
 }

@@ -82,7 +82,6 @@ public class PostServiceImpl implements PostService {
   @Override
   @Transactional
   public void modifyPost(Long postId, String title, String content, MultipartFile file) {
-//    PostEntity postEntity = postService.getPost(postId);
     PostEntity postEntity = postRepository.findByIdAndDeleteFlag(postId, false);
     postEntity.setTitle(title);
     postEntity.setContent(content);
@@ -114,10 +113,19 @@ public class PostServiceImpl implements PostService {
 
   @Override
   @Transactional
-  public void deletePost(Long postId) {
+  public void deletePost(Long postId, Long authId) {
     PostEntity postEntity = postRepository.findByIdAndDeleteFlag(postId, false);
-    postEntity.setDeleteFlag(true);
+    if (postEntity.getUserId() != authId) {
+      return;
+    }
+    // 이미지가 있다면 삭제
+    if (!"".equals(postEntity.getImagePath())) {
+      File uploadFile = new File(uploadPath + "/" + postEntity.getImagePath());
+      if (uploadFile.exists() && uploadFile.isFile())
+        uploadFile.delete();
+    }
     // 게시글 삭제
+    postEntity.setDeleteFlag(true);
     postRepository.save(postEntity);
     commentService.deleteCommentByPostId(postId);
   }

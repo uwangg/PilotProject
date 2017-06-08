@@ -96,7 +96,7 @@ public class CommentServiceImpl implements CommentService{
 
   @Override
   public void deleteCommentByPostId(Long postId) {
-    List<CommentEntity> comments = commentRepository.findAllByUserEntityIdAndDeleteFlag(postId);
+    List<CommentEntity> comments = commentRepository.findAllByPostEntityIdAndDeleteFlag(postId, false);
     for(CommentEntity commentEntity : comments) {
       commentEntity.setDeleteFlag(true);
       commentRepository.save(commentEntity);
