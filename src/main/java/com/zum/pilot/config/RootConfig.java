@@ -1,7 +1,9 @@
 package com.zum.pilot.config;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -16,19 +18,27 @@ import java.util.Properties;
 // applicationContext.xml 설정을 대신한다
 @Configuration
 //@Import(value = {PersistenceJPAConfig.class})
+@PropertySource("classpath:application.properties")
 @ComponentScan(basePackages = {"com.zum.pilot"})
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.zum.pilot.repository")
 public class RootConfig {
   // jdbc에서 jpa로 변경 후 transaction 처리 할 예정
   // 아직 구현하지 않음
+  @Autowired
+  Environment env;
+
   @Bean
   public DataSource dataSource() {
     DataSource dataSource = new DataSource();
-    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-    dataSource.setUrl("jdbc:mysql://localhost:3306/pilot?useSSL=false");
-    dataSource.setUsername("pilot");
-    dataSource.setPassword("pilot");
+//    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//    dataSource.setUrl("jdbc:mysql://localhost:3306/pilot?useSSL=false");
+//    dataSource.setUsername("pilot");
+//    dataSource.setPassword("pilot");
+    dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
+    dataSource.setUrl(env.getProperty("jdbc.url"));
+    dataSource.setUsername(env.getProperty("jdbc.username"));
+    dataSource.setPassword(env.getProperty("jdbc.password"));
     return dataSource;
   }
 
@@ -55,16 +65,23 @@ public class RootConfig {
   }
 
 
-  Properties additionalProperties() {
+  private Properties additionalProperties() {
     Properties properties = new Properties();
-    properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-    properties.setProperty("hibernate.hbm2ddl.auto", "validate");
-//    properties.setProperty("hibernate.hbm2ddl.auto", "create");
-    properties.setProperty("hibernate.show_sql", "true");
-    properties.setProperty("hibernate.format_sql", "true");
-    properties.setProperty("hibernate.use_sql_comments", "true");
-    properties.setProperty("hibernate.id.new_generator_mappings", "true");
-    properties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
+//    properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+//    properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+////    properties.setProperty("hibernate.hbm2ddl.auto", "create");
+//    properties.setProperty("hibernate.show_sql", "true");
+//    properties.setProperty("hibernate.format_sql", "true");
+//    properties.setProperty("hibernate.use_sql_comments", "true");
+//    properties.setProperty("hibernate.id.new_generator_mappings", "true");
+//    properties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
+    properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+    properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+    properties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+    properties.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+    properties.setProperty("hibernate.use_sql_comments", env.getProperty("hibernate.use_sql_comments"));
+    properties.setProperty("hibernate.id.new_generator_mappings", env.getProperty("hibernate.id.new_generator_mappings"));
+    properties.setProperty("hibernate.enable_lazy_load_no_trans", env.getProperty("hibernate.enable_lazy_load_no_trans"));
 
     return properties;
   }
