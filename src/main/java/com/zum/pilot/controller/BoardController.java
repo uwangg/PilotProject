@@ -43,9 +43,6 @@ public class BoardController {
   @Autowired
   private  ServletContext context;
 
-  @Resource(name = "uploadPath")
-  String uploadPath;
-
   private static final Logger logger =
           LoggerFactory.getLogger(BoardController.class);
 

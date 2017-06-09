@@ -18,7 +18,7 @@ import java.util.Properties;
 // applicationContext.xml 설정을 대신한다
 @Configuration
 //@Import(value = {PersistenceJPAConfig.class})
-@PropertySource("classpath:application.properties")
+@PropertySource(value = {"classpath:hibernate.properties", "classpath:datasource.properties"})
 @ComponentScan(basePackages = {"com.zum.pilot"})
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.zum.pilot.repository")
@@ -31,10 +31,6 @@ public class RootConfig {
   @Bean
   public DataSource dataSource() {
     DataSource dataSource = new DataSource();
-//    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-//    dataSource.setUrl("jdbc:mysql://localhost:3306/pilot?useSSL=false");
-//    dataSource.setUsername("pilot");
-//    dataSource.setPassword("pilot");
     dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
     dataSource.setUrl(env.getProperty("jdbc.url"));
     dataSource.setUsername(env.getProperty("jdbc.username"));
@@ -67,14 +63,6 @@ public class RootConfig {
 
   private Properties additionalProperties() {
     Properties properties = new Properties();
-//    properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-//    properties.setProperty("hibernate.hbm2ddl.auto", "validate");
-////    properties.setProperty("hibernate.hbm2ddl.auto", "create");
-//    properties.setProperty("hibernate.show_sql", "true");
-//    properties.setProperty("hibernate.format_sql", "true");
-//    properties.setProperty("hibernate.use_sql_comments", "true");
-//    properties.setProperty("hibernate.id.new_generator_mappings", "true");
-//    properties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
     properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
     properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
     properties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));

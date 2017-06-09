@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc // <mvc:annotation-driven/>
 @ComponentScan(basePackages = {"com.zum.pilot"}) //  <context:component-scan base-package="com.zum.pilot" />
-@PropertySource("classpath:application.properties")
+@PropertySource(value = {"classpath:application.properties", "classpath:file.properties"})
 public class WebConfig extends WebMvcConfigurerAdapter{
 
   @Autowired
@@ -41,8 +41,8 @@ public class WebConfig extends WebMvcConfigurerAdapter{
   @Bean
   public CommonsMultipartResolver multipartResolver() {
     CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-    multipartResolver.setMaxUploadSize(Long.parseLong(env.getProperty("multipart.maxUploadSize"))); // 파일 업로드 용량
-    multipartResolver.setDefaultEncoding(env.getProperty("multipart.defaultEncoding"));
+    multipartResolver.setMaxUploadSize(Long.parseLong(env.getProperty("file.maxUploadSize"))); // 파일 업로드 용량
+    multipartResolver.setDefaultEncoding(env.getProperty("file.defaultEncoding"));
     return multipartResolver;
   }
 
