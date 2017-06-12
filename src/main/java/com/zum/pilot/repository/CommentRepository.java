@@ -20,9 +20,6 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
   Integer getMaxThread(@Param("postId") Long postId);
 
   List<CommentEntity> findAllByThreadGreaterThanAndThreadLessThan(int begin, int end);
-
-  @Query("select c from CommentEntity c where c.userEntity.id=:userId and c.deleteFlag=0")
-  List<CommentEntity> findAllByUserEntityIdAndDeleteFlag(@Param("userId") Long userId);
-//  @Query("select c from CommentEntity c where c.postEntity.id=:postId and c.deleteFlag=0")
+  List<CommentEntity> findAllByUserEntityIdAndDeleteFlag(Long userId, boolean deleteFlag);
   List<CommentEntity> findAllByPostEntityIdAndDeleteFlag(Long postId, boolean deleteFlag);
 }

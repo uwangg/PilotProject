@@ -16,7 +16,5 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
   Page<PostEntity> findAllByDeleteFlag(boolean deleteFlag, Pageable pageable);
   PostEntity findByIdAndDeleteFlag(Long id, boolean deleteFlag);
-
-  @Query("select p from PostEntity p where p.userEntity.id=:userId and p.deleteFlag=0")
-  List<PostEntity> findAllByUserEntityIdAndDeleteFlag(@Param("userId") Long userId);
+  List<PostEntity> findAllByUserEntityIdAndDeleteFlag(Long userId, boolean deleteFlag);
 }

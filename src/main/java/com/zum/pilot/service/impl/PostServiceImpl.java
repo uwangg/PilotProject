@@ -122,7 +122,7 @@ public class PostServiceImpl implements PostService {
   @Override
   @Transactional
   public void deleteByUserId(Long userId) {
-    List<PostEntity> posts = postRepository.findAllByUserEntityIdAndDeleteFlag(userId);
+    List<PostEntity> posts = postRepository.findAllByUserEntityIdAndDeleteFlag(userId, false);
     for(PostEntity postEntity : posts) {
       postEntity.setDeleteFlag(true);
       postRepository.save(postEntity);
