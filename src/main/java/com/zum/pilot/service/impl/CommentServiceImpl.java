@@ -76,7 +76,6 @@ public class CommentServiceImpl implements CommentService{
   }
 
   @Override
-  @Transactional
   public void deleteComment(Long commentId, Long userId) {
     CommentEntity commentEntity = getComment(commentId);
     if(commentEntity.getUserId() == userId) {
@@ -86,20 +85,20 @@ public class CommentServiceImpl implements CommentService{
   }
 
   @Override
+  @Transactional
   public void deleteCommentByUserId(Long userId) {
     List<CommentEntity> comments = commentRepository.findAllByUserEntityIdAndDeleteFlag(userId, false);
     for(CommentEntity commentEntity : comments) {
       commentEntity.setDeleteFlag(true);
-      commentRepository.save(commentEntity);
     }
   }
 
   @Override
+  @Transactional
   public void deleteCommentByPostId(Long postId) {
     List<CommentEntity> comments = commentRepository.findAllByPostEntityIdAndDeleteFlag(postId, false);
     for(CommentEntity commentEntity : comments) {
       commentEntity.setDeleteFlag(true);
-      commentRepository.save(commentEntity);
     }
   }
 }

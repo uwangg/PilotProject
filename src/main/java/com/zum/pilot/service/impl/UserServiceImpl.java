@@ -77,7 +77,6 @@ public class UserServiceImpl implements UserService {
       return false;
     }
     userEntity.setDeleteFlag(true);
-    userRepository.save(userEntity);
     postService.deleteByUserId(id);
     commentService.deleteCommentByUserId(id);
     return true;

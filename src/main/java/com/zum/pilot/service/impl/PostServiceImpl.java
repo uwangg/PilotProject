@@ -44,7 +44,8 @@ public class PostServiceImpl implements PostService {
     PostEntity postEntity = postRepository.findOne(id);
     postEntity.increaseHit();
     // 게시글 업데이트
-    return postRepository.save(postEntity);
+//    return postRepository.save(postEntity);
+    return postEntity;
   }
 
   @Override
@@ -97,7 +98,6 @@ public class PostServiceImpl implements PostService {
           uploadFile.delete();
       }
     }
-    postRepository.save(postEntity);
   }
 
   @Override
@@ -115,7 +115,6 @@ public class PostServiceImpl implements PostService {
     }
     // 게시글 삭제
     postEntity.setDeleteFlag(true);
-    postRepository.save(postEntity);
     commentService.deleteCommentByPostId(postId);
   }
 
@@ -125,7 +124,6 @@ public class PostServiceImpl implements PostService {
     List<PostEntity> posts = postRepository.findAllByUserEntityIdAndDeleteFlag(userId, false);
     for(PostEntity postEntity : posts) {
       postEntity.setDeleteFlag(true);
-      postRepository.save(postEntity);
     }
   }
 }
