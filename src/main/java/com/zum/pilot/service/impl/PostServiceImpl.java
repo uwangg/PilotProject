@@ -93,11 +93,14 @@ public class PostServiceImpl implements PostService {
       postEntity.setImagePath(saveName);
       if(oldImgPath != null) {
         // 원래 이미지 삭제
-        File uploadFile = new File(uploadPath + "/" + oldImgPath);
-        if (uploadFile.exists() && uploadFile.isFile())
-          uploadFile.delete();
+        fileDelete(oldImgPath);
       }
     }
+  }
+  private void fileDelete(String filePath) {
+    File uploadFile = new File(uploadPath + "/" + filePath);
+    if (uploadFile.exists() && uploadFile.isFile())
+      uploadFile.delete();
   }
 
   @Override
