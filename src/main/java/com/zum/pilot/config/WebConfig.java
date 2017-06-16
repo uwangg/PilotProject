@@ -45,10 +45,4 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     multipartResolver.setDefaultEncoding(env.getProperty("file.defaultEncoding"));
     return multipartResolver;
   }
-
-  // 파일 업로드 경로
-  @Bean
-  public String uploadPath() {
-    return env.getProperty("file.uploadPath");
-  }
 }

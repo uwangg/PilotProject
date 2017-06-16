@@ -5,6 +5,7 @@ import com.zum.pilot.entity.PostEntity;
 import com.zum.pilot.service.CommentService;
 import com.zum.pilot.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,8 @@ public class PostServiceImpl implements PostService {
 
   @Autowired
   private CommentService commentService;
-
-  @Resource(name = "uploadPath")
+  
+  @Value("${file.uploadPath}")
   String uploadPath;
 
   // 게시글 페이지네이션
@@ -43,8 +44,6 @@ public class PostServiceImpl implements PostService {
     // 게시글 불러오기
     PostEntity postEntity = postRepository.findOne(id);
     postEntity.increaseHit();
-    // 게시글 업데이트
-//    return postRepository.save(postEntity);
     return postEntity;
   }
 
