@@ -27,7 +27,7 @@ public class PostServiceImpl implements PostService {
 
   @Autowired
   private CommentService commentService;
-  
+
   @Value("${file.uploadPath}")
   String uploadPath;
 
@@ -109,15 +109,13 @@ public class PostServiceImpl implements PostService {
     if (postEntity.getUserId() != authId) {
       return;
     }
-    // 이미지가 있다면 삭제
-    if (!"".equals(postEntity.getImagePath())) {
-      File uploadFile = new File(uploadPath + "/" + postEntity.getImagePath());
-      if (uploadFile.exists() && uploadFile.isFile())
-        uploadFile.delete();
-    }
     // 게시글 삭제
     postEntity.setDeleteFlag(true);
     commentService.deleteCommentByPostId(postId);
+    // 이미지가 있다면 삭제
+    if (!"".equals(postEntity.getImagePath())) {
+      fileDelete(postEntity.getImagePath());
+    }
   }
 
   @Override
