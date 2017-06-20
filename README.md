@@ -5,5 +5,9 @@ Zum Internet Pilot Project
 2017.03.30 ~ 2017.06.16
 
 # 개발순서
-1. JSP & Servlet으로 개발
-2. Spring으로 Migration
+1. 1차 개발
+- JSP & Servlet 사용
+- JDBC 사용
+2. 2차 개발 (Spring으로 Migration)
+- JSP & Servlet -> Spring로 변경
+- JDBC -> JPA로 변경
