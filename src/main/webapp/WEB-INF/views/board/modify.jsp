@@ -15,34 +15,34 @@
 	<div class="row">
 	<div class="col-lg-2"></div>
 	<div class="col-lg-8">
-	<form action="${pageContext.request.contextPath}/board/${vo.id}/modify" method="post" enctype="multipart/form-data" id="modifyForm"
+	<form action="${pageContext.request.contextPath}/board/${postEntity.id}/modify" method="post" enctype="multipart/form-data" id="modifyForm"
 			style="margin-top:6%;margin-left: 5%; margin-right: 5%">
 <!-- 		style="width: 650px; margin: auto; margin-top: 80px; border: 1px double; border-radius: 10px; border-color: #dcdcdc; padding: 30px;"> -->
-		<input type="hidden" name="id" value="${vo.id }">
-		<input type="hidden" name="userId" value="${vo.userId }">
-		<input type="hidden" name="oldImgPath" value="${vo.imagePath }">
+		<input type="hidden" name="id" value="${postEntity.id }">
+		<%--<input type="hidden" name="userEntity" value="${postEntity.userEntity }">--%>
+		<input type="hidden" name="oldImgPath" value="${postEntity.imagePath }">
 		<div class="panel-title text-center" style="padding: 10px;">
 			<h2 class="title">글수정하기</h2>
 			<hr />
 		</div>
 		<div class="form-group">
 			<label for="exampleTextarea">제목</label> <input class="form-control"
-				type="text" id="title" name="title" value="${vo.title}">
+				type="text" id="title" name="title" value="${postEntity.title}">
 		</div>
 		<div class="form-group">
 			<label for="exampleTextarea">내용</label>
-			<textarea class="form-control" id="content" rows="15" name="content">${vo.content}</textarea>
+			<textarea class="form-control" id="content" rows="15" name="content">${postEntity.content}</textarea>
 		</div>
 		<div class="form-group">
 			<label for="exampleInputFile">이미지 첨부</label> <input type="file"
 				class="form-control-file" id="exampleInputFile"
-				aria-describedby="fileHelp" name="imagePath">
+				aria-describedby="fileHelp" name="file">
 		</div>
 
 		<div class="text-center">
 			<button type="submit" class="btn btn-success"
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">확인</button>
-			<a href="${pageContext.request.contextPath}/board/${vo.id }" class="btn btn-success"
+			<a href="${pageContext.request.contextPath}/board/${postEntity.id }" class="btn btn-success"
 				style="padding-left: 30px; padding-right: 30px; margin: 5px">취소</a>
 		</div>
 	</form>

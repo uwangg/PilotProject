@@ -1,5 +1,6 @@
 package com.zum.pilot.interceptor;
 
+import com.zum.pilot.util.ScriptUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -14,11 +15,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    logger.info("AuthInterceptor...................");
+    logger.debug("AuthInterceptor...................");
     HttpSession session = request.getSession();
     if(session.getAttribute("authUser") == null) {
-      logger.info("로그인한 사용자가 아닙니다.");
-      response.sendRedirect(request.getContextPath() + "/");
+      String msg = "로그인한 사용자가 아닙니다. 로그인 해주세요. \\nHome으로 돌아갑니다";
+      String url = "/";
+      ScriptUtil.alert(response, msg, url);
       return false;
     }
     return true;

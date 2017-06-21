@@ -1,7 +1,7 @@
 package com.zum.pilot.controller;
 
 
-import com.zum.pilot.entity.Post;
+import com.zum.pilot.entity.PostEntity;
 import com.zum.pilot.service.PostService;
 import com.zum.pilot.util.PageConstant;
 import com.zum.pilot.util.Pagination;
@@ -15,17 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/")
 public class MainController {
-
-  private final static Logger logger =
-          LoggerFactory.getLogger(MainController.class);
-
 
   @Autowired
   private PostService postService;
@@ -38,10 +33,10 @@ public class MainController {
     // 게시글 불러오기
 
     PageRequest pageRequest = new PageRequest(currentPage-1, PageConstant.ELEMENT_UNIT, Sort.Direction.DESC, "id");
-    Page<Post> page = postService.findAllPostList(pageRequest);
-    List<Post> posts = page.getContent();
+    Page<PostEntity> page = postService.findAllPostList(pageRequest);
+    List<PostEntity> posts = page.getContent();
     Long totalPosts = page.getTotalElements();
-    Pagination<Post> pagination = new Pagination<>(currentPage, totalPosts, posts);
+    Pagination<PostEntity> pagination = new Pagination<>(currentPage, totalPosts, posts);
 
     model.addAttribute("pagination", pagination);
     return "forward:/WEB-INF/views/main/index.jsp";

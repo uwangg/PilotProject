@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "comment")
-public class Comment {
+public class CommentEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;    // id
@@ -22,12 +22,22 @@ public class Comment {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  private User user;
+  private UserEntity userEntity;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "post_id")
-  private Post post;
+  private PostEntity postEntity;
 
+  public CommentEntity() {}
+
+  public CommentEntity(String content, int depth, Long postId, Long userId) {
+    this.postEntity = new PostEntity();
+    postEntity.setId(postId);
+    this.userEntity = new UserEntity();
+    userEntity.setId(userId);
+    this.content = content;
+    this.depth = depth;
+  }
 
   public Long getId() {
     return id;
@@ -69,20 +79,20 @@ public class Comment {
     this.deleteFlag = deleteFlag;
   }
 
-  public User getUser() {
-    return user;
+  public UserEntity getUserEntity() {
+    return userEntity;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void setUserEntity(UserEntity userEntity) {
+    this.userEntity = userEntity;
   }
 
-  public Post getPost() {
-    return post;
+  public PostEntity getPostEntity() {
+    return postEntity;
   }
 
-  public void setPost(Post post) {
-    this.post = post;
+  public void setPostEntity(PostEntity postEntity) {
+    this.postEntity = postEntity;
   }
 
   @PrePersist
@@ -106,9 +116,9 @@ public class Comment {
   }
 
   public String getUserName() {
-    return this.user.getName();
+    return this.userEntity.getName();
   }
   public Long getUserId() {
-    return this.user.getId();
+    return this.userEntity.getId();
   }
 }

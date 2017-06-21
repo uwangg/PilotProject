@@ -1,7 +1,7 @@
 package com.zum.pilot.repository;
 
 
-import com.zum.pilot.entity.Post;
+import com.zum.pilot.entity.PostEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,10 +13,8 @@ import java.util.List;
 
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
-  Page<Post> findAllByDeleteFlag(boolean deleteFlag, Pageable pageable);
-  Post findByIdAndDeleteFlag(Long id, boolean deleteFlag);
-
-  @Query("select p from Post p where p.user.id=:userId and p.deleteFlag=0")
-  List<Post> findAllByUserIdAndDeleteFlag(@Param("userId") Long userId);
+public interface PostRepository extends JpaRepository<PostEntity, Long> {
+  Page<PostEntity> findAllByDeleteFlag(boolean deleteFlag, Pageable pageable);
+  PostEntity findByIdAndDeleteFlag(Long id, boolean deleteFlag);
+  List<PostEntity> findAllByUserEntityIdAndDeleteFlag(Long userId, boolean deleteFlag);
 }

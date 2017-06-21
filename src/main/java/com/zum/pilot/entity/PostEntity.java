@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "post")
-public class Post {
+public class PostEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;    // 게시글 id
@@ -26,11 +26,20 @@ public class Post {
   @Column(name = "delete_flag")
   private boolean deleteFlag = false;
 
-  @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+  @ManyToOne(targetEntity = UserEntity.class, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", updatable=false)
-  private User user;
+  private UserEntity userEntity;
 
-  public Post() {}
+  public PostEntity(String title, String content, Long userId) {
+    this.title = title;
+    this.content = content;
+    this.userEntity = new UserEntity();
+    this.userEntity.setId(userId);
+  }
+
+  public PostEntity() {
+    this.userEntity = new UserEntity();
+  }
 
   public Long getId() {
     return id;
@@ -72,12 +81,12 @@ public class Post {
     this.hit = hit;
   }
 
-  public User getUser() {
-    return user;
+  public UserEntity getUserEntity() {
+    return userEntity;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void setUserEntity(UserEntity userEntity) {
+    this.userEntity = userEntity;
   }
 
   @PrePersist
@@ -103,8 +112,8 @@ public class Post {
     return updateTime;
   }
 
-  public Long getUserId() { return user.getId(); }
-  public String getUserName() {return user.getName();}
+  public Long getUserId() { return userEntity.getId(); }
+  public String getUserName() {return userEntity.getName();}
 
   public boolean isDeleteFlag() {
     return deleteFlag;
@@ -112,5 +121,24 @@ public class Post {
 
   public void setDeleteFlag(boolean deleteFlag) {
     this.deleteFlag = deleteFlag;
+  }
+
+  public void increaseHit() {
+    this.hit++;
+  }
+
+  @Override
+  public String toString() {
+    return "PostEntity{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", imagePath='" + imagePath + '\'' +
+            ", createTime=" + createTime +
+            ", updateTime=" + updateTime +
+            ", hit=" + hit +
+            ", deleteFlag=" + deleteFlag +
+            ", userEntity=" + userEntity +
+            '}';
   }
 }

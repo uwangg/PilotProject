@@ -31,16 +31,16 @@
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${pagination.elemList }" var="vo" varStatus="status">
+		<c:forEach items="${pagination.elemList }" var="postEntity" varStatus="status">
 			<tr>
-				<td class="text-center">${vo.id}</td>
+				<td class="text-center">${postEntity.id}</td>
 				<td class="text-center">
 					<%-- <a href="${pageContext.request.contextPath }/board?action=view&id=${entity.id}&currentPageNum=${currentPageNum }&begin=${begin}"> --%>
-					<a href="${pageContext.request.contextPath }/board/${vo.id}">
-							${vo.title }</a></td>
-				<td class="text-center">${vo.user.name}</td>
-				<td class="text-center">${vo.createTime}</td>
-				<td class="text-center">${vo.hit}</td>
+					<a href="${pageContext.request.contextPath }/board/${postEntity.id}">
+							${postEntity.title }</a></td>
+				<td class="text-center">${postEntity.userEntity.name}</td>
+				<td class="text-center">${postEntity.createTime}</td>
+				<td class="text-center">${postEntity.hit}</td>
 			</tr>
 		</c:forEach>
 		</tbody>

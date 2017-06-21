@@ -1,15 +1,23 @@
 package com.zum.pilot.service.impl;
 
 import com.zum.pilot.repository.PostRepository;
-import com.zum.pilot.entity.Post;
+import com.zum.pilot.entity.PostEntity;
 import com.zum.pilot.service.CommentService;
 import com.zum.pilot.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,64 +28,102 @@ public class PostServiceImpl implements PostService {
   @Autowired
   private CommentService commentService;
 
+  @Value("${file.uploadPath}")
+  String uploadPath;
+
   // 게시글 페이지네이션
   @Override
-  public Page<Post> findAllPostList(Pageable pageable) {
-    Page<Post> posts = postRepository.findAllByDeleteFlag(false, pageable);
+  public Page<PostEntity> findAllPostList(Pageable pageable) {
+    Page<PostEntity> posts = postRepository.findAllByDeleteFlag(false, pageable);
     return posts;
   }
 
   @Override
   @Transactional
-  public Post readPost(Long id) {;
+  public PostEntity readPost(Long id) {
     // 게시글 불러오기
-    Post post = postRepository.findOne(id);
-    // 게시글 조회수 증가
-    Long hit = post.getHit() + 1;
-    post.setHit(hit);
-    // 게시글 업데이트
-    return postRepository.save(post);
+    PostEntity postEntity = postRepository.findOne(id);
+    postEntity.increaseHit();
+    return postEntity;
   }
 
   @Override
-  public Post getPost(Long id) {
+  public PostEntity getPost(Long id) {
     return postRepository.findByIdAndDeleteFlag(id, false);
   }
 
   @Override
-  public void create(Post vo) {
-    postRepository.save(vo);
+  public void createPost(String title, String content, MultipartFile file, Long userId) {
+    PostEntity postEntity = new PostEntity(title, content, userId);
+
+    if(!file.isEmpty()) {
+      String saveName = fileUpload(file);
+      postEntity.setImagePath(saveName);
+    }
+    // 게시글 입력
+    postRepository.save(postEntity);
+  }
+
+  private String fileUpload(MultipartFile file) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+    Date date = new Date();
+    // 이미지 등록
+    String saveName = sdf.format(date) + "_" + file.getOriginalFilename();
+    File target = new File(uploadPath, saveName);
+    // 임시 디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
+    try {
+      FileCopyUtils.copy(file.getBytes(), target);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return saveName;
   }
 
   @Override
   @Transactional
-  public void modifyPost(Long postId, String title, String content, String imagePath) {
-    Post post = postRepository.findByIdAndDeleteFlag(postId, false);
-    post.setTitle(title);
-    post.setContent(content);
-    if(imagePath == null)
-      imagePath = "";
-    post.setImagePath(imagePath);
-    postRepository.save(post);
+  public void modifyPost(Long postId, String title, String content, MultipartFile file) {
+    PostEntity postEntity = postRepository.findByIdAndDeleteFlag(postId, false);
+    postEntity.setTitle(title);
+    postEntity.setContent(content);
+    String oldImgPath = postEntity.getImagePath();
+
+    if(!file.isEmpty()) {
+      String saveName = fileUpload(file);
+      postEntity.setImagePath(saveName);
+      if(oldImgPath != null) {
+        // 원래 이미지 삭제
+        fileDelete(oldImgPath);
+      }
+    }
+  }
+  private void fileDelete(String filePath) {
+    File uploadFile = new File(uploadPath + "/" + filePath);
+    if (uploadFile.exists() && uploadFile.isFile())
+      uploadFile.delete();
   }
 
   @Override
   @Transactional
-  public void deletePost(Long postId) {
-    Post post = postRepository.findByIdAndDeleteFlag(postId, false);
-    post.setDeleteFlag(true);
+  public void deletePost(Long postId, Long authId) {
+    PostEntity postEntity = postRepository.findByIdAndDeleteFlag(postId, false);
+    if (postEntity.getUserId() != authId) {
+      return;
+    }
     // 게시글 삭제
-    postRepository.save(post);
+    postEntity.setDeleteFlag(true);
     commentService.deleteCommentByPostId(postId);
+    // 이미지가 있다면 삭제
+    if (!"".equals(postEntity.getImagePath())) {
+      fileDelete(postEntity.getImagePath());
+    }
   }
 
   @Override
   @Transactional
   public void deleteByUserId(Long userId) {
-    List<Post> posts = postRepository.findAllByUserIdAndDeleteFlag(userId);
-    for(Post post : posts) {
-      post.setDeleteFlag(true);
-      postRepository.save(post);
+    List<PostEntity> posts = postRepository.findAllByUserEntityIdAndDeleteFlag(userId, false);
+    for(PostEntity postEntity : posts) {
+      postEntity.setDeleteFlag(true);
     }
   }
 }

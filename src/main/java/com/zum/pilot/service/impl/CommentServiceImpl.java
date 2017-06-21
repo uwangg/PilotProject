@@ -1,7 +1,9 @@
 package com.zum.pilot.service.impl;
 
+import com.zum.pilot.entity.PostEntity;
+import com.zum.pilot.entity.UserEntity;
 import com.zum.pilot.repository.CommentRepository;
-import com.zum.pilot.entity.Comment;
+import com.zum.pilot.entity.CommentEntity;
 import com.zum.pilot.service.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,68 +23,82 @@ public class CommentServiceImpl implements CommentService{
   @Autowired
   private CommentRepository commentRepository;
 
-  @Override
-  public Comment getComment(Long commentId) {
+  private CommentEntity getComment(Long commentId) {
     return commentRepository.findByIdAndDeleteFlag(commentId, false);
   }
 
   @Override
-  public Page<Comment> findAllCommentList(Long postId, PageRequest pageRequest) {
-    return commentRepository.findAllByPostId(postId, pageRequest);
+  public Page<CommentEntity> findAllCommentList(Long postId, PageRequest pageRequest) {
+    return commentRepository.findAllByPostEntityId(postId, pageRequest);
   }
 
   @Override
-  public int getMaxThread(Long postId) {
+  @Transactional
+  public void writeComment(CommentEntity commentEntity, int depth, int thread) {
+    final int thrUnit = 1000;
+    Long postId = commentEntity.getPostEntity().getId();
+
+    if (depth == 0) {    // 댓글을 다는 경우
+      thread = getMaxThread(postId);
+      thread = (thread / thrUnit) * thrUnit + thrUnit;
+      commentEntity.setThread(thread);
+    } else {    // 답글을 다는 경우
+      commentEntity.setThread(thread);
+      int preCommentThread = (thread / thrUnit) * thrUnit;
+      updateThread(preCommentThread, thread + 1);
+    }
+    commentRepository.save(commentEntity);
+  }
+
+  private int getMaxThread(Long postId) {
     Integer maxThread = commentRepository.getMaxThread(postId);
     if(maxThread == null)
       maxThread = 0;
     return maxThread;
   }
 
-  @Override
-  @Transactional
-  public void updateThread(int begin, int end) {
-    List<Comment> comments = commentRepository.findAllByThreadLessThanAndThreadGreaterThan(begin, end);
-    for(Comment comment : comments) {
-      int thread = comment.getThread() - 1;
-      comment.setThread(thread);
-      commentRepository.save(comment);
+  private void updateThread(int begin, int end) {
+    List<CommentEntity> comments = commentRepository.findAllByThreadGreaterThanAndThreadLessThan(begin, end);
+    for(CommentEntity commentEntity : comments) {
+      int thread = commentEntity.getThread() - 1;
+      commentEntity.setThread(thread);
+      commentRepository.save(commentEntity);
     }
   }
 
   @Override
-  public void writeComment(Comment comment) {
-    commentRepository.save(comment);
+  public void modifyComment(Long commentId, Long userId, String content) {
+    CommentEntity commentEntity = getComment(commentId);
+    if (commentEntity.getUserId() == userId) {
+      commentEntity.setContent(content);
+      commentRepository.save(commentEntity);
+    }
   }
 
   @Override
-  public void modifyComment(Comment comment) {
-    commentRepository.save(comment);
+  public void deleteComment(Long commentId, Long userId) {
+    CommentEntity commentEntity = getComment(commentId);
+    if(commentEntity.getUserId() == userId) {
+      commentEntity.setDeleteFlag(true);
+      commentRepository.save(commentEntity);
+    }
   }
 
   @Override
   @Transactional
-  public void deleteComment(Long commentId) {
-    Comment comment = commentRepository.getOne(commentId);
-    comment.setDeleteFlag(true);
-    commentRepository.save(comment);
-  }
-
-  @Override
   public void deleteCommentByUserId(Long userId) {
-    List<Comment> comments = commentRepository.findAllByUserIdAndDeleteFlag(userId);
-    for(Comment comment : comments) {
-      comment.setDeleteFlag(true);
-      commentRepository.save(comment);
+    List<CommentEntity> comments = commentRepository.findAllByUserEntityIdAndDeleteFlag(userId, false);
+    for(CommentEntity commentEntity : comments) {
+      commentEntity.setDeleteFlag(true);
     }
   }
 
   @Override
+  @Transactional
   public void deleteCommentByPostId(Long postId) {
-    List<Comment> comments = commentRepository.findAllByUserIdAndDeleteFlag(postId);
-    for(Comment comment : comments) {
-      comment.setDeleteFlag(true);
-      commentRepository.save(comment);
+    List<CommentEntity> comments = commentRepository.findAllByPostEntityIdAndDeleteFlag(postId, false);
+    for(CommentEntity commentEntity : comments) {
+      commentEntity.setDeleteFlag(true);
     }
   }
 }
